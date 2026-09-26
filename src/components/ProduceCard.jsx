@@ -20,9 +20,11 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
   return (
     <article
       className={`ff-produce-card${variant === 'browse' ? ' browse' : ''}`}
+      data-cat={p.category}
       onClick={(e) => { if (!e.target.closest('button, a')) handleSelect(); }}
     >
       <div className="produce-img-wrap">
+        <span className="tape produce-tape tape-lime" aria-hidden="true" />
         {showImage ? (
           <img
             src={p.image}
@@ -36,7 +38,6 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
             <span>{p.emoji}</span>
           </div>
         )}
-        <div className="produce-img-shade" aria-hidden="true" />
         <button
           type="button"
           className="image-details-overlay"
@@ -48,11 +49,11 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
         <div className="heart-abs">
           <SaveButton size="sm" item={{ id: `produce-${p.id}`, type: 'produce', name: p.name, category: p.category }} />
         </div>
+        <span className="produce-cat-chip">{p.category}</span>
       </div>
       <div className="produce-card-body">
         <div className="produce-card-head-row">
-          <h3 className="produce-card-title">{p.name}</h3>
-          <span className="produce-card-cat">{p.category}</span>
+          <h3 className="produce-card-title"><span aria-hidden="true">{p.emoji}</span> {p.name}</h3>
         </div>
         <p className="produce-card-desc">{p.description}</p>
         {marketCount > 0 && (
@@ -60,6 +61,9 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
             <Icon name="pin" size={12} /> Available at {marketCount} market{marketCount > 1 ? 's' : ''}
           </p>
         )}
+        <span className="produce-card-cta" aria-hidden="true">
+          peek inside <Icon name="chevron" size={13} />
+        </span>
       </div>
     </article>
   );

@@ -302,8 +302,8 @@ export default function ChatWidget() {
               />
             </div>
             <div>
-              <div style={{ fontWeight: 600, fontSize: 13, lineHeight: 1.2 }}>FreshFind Assistant</div>
-              <div style={{ fontSize: 10, color: '#bbf7d0', lineHeight: 1.2 }}>
+              <div style={{ fontWeight: 800, fontSize: 13.5, lineHeight: 1.2 }}>FreshFind Assistant</div>
+              <div style={{ fontSize: 10.5, color: '#d3f26a', lineHeight: 1.3, fontWeight: 600 }}>
                 {typing ? 'typing…' : `Online · knows all ${marketsData.length} markets`}
               </div>
             </div>

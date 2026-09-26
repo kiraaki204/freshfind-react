@@ -535,7 +535,7 @@ export default function HomeJournalSection() {
   const leafTo = turning && turning.dir === 'next' ? -165 : 0;
 
   return (
-    <section id="journal" className="home-journal" aria-labelledby="journal-heading" ref={sectionRef} onKeyDown={onSectionKey}>
+    <section id="journal" className="home-journal band" aria-labelledby="journal-heading" ref={sectionRef} onKeyDown={onSectionKey}>
       <span className="visually-hidden fj-live" aria-live="polite" />
       <div className="fj-deco fj-deco--sprig" aria-hidden="true"><Sprig width={92} height={92} /></div>
       <div className="fj-deco fj-deco--swirl" aria-hidden="true"><SwirlDoodle width={110} height={110} color="#caa25b" /></div>

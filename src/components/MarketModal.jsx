@@ -76,6 +76,7 @@ export default function MarketModal({ marketId, onClose }) {
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="mm-dialog" role="dialog" aria-modal="true" aria-labelledby="mm-title" ref={dialogRef}>
+        <span className="tape mm-tape" aria-hidden="true" />
         <header className="mm-head">
           <div>
             <StatusBadge market={m} />

@@ -30,15 +30,22 @@ export default function HomeContactSection() {
   };
 
   return (
-    <section id="contact" className="contact-section" aria-labelledby="contact-heading">
+    <section id="contact" className="contact-section band" aria-labelledby="contact-heading">
+      <div className="contact-deco contact-deco--tr" aria-hidden="true">
+        <FlowerDoodle size={84} />
+      </div>
+      <div className="contact-deco contact-deco--bl" aria-hidden="true">
+        <LeafSprig size={100} />
+      </div>
       <div className="container" style={{ maxWidth: '80rem' }}>
         {/* heading */}
         <div className="contact-head">
           <div className="contact-eyebrow">
             <span className="contact-eyebrow-dot" aria-hidden="true" />
-            Get in touch
+            Get in touch ~
           </div>
-          <h2 id="contact-heading" className="contact-title">Let&apos;s Talk Fresh.</h2>
+          <h2 id="contact-heading" className="contact-title">Let&rsquo;s Talk <span className="hl hl-butter">Fresh.</span></h2>
+          <Squiggle width={180} height={13} />
           <p className="contact-subtitle">
             Have a question, an idea, or a local market to recommend? We&apos;d love to hear from you.
           </p>

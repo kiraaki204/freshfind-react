@@ -81,19 +81,16 @@ export default function HomeProduceSection() {
           <div className="produce-journal-head">
             <div className="produce-journal-label">
               <span className="produce-journal-line" aria-hidden="true" />
-              <span>FreshFind market journal — No. 04</span>
+              <span>fresh from the stalls ~ No. 04</span>
               <span className="produce-journal-line" aria-hidden="true" />
             </div>
             <div className="produce-title-wrap">
               <h2 id="produce-heading" className="produce-title">
-                <span className="produce-title-script">What’s fresh</span>
-                <span className="produce-title-main">near you</span>
+                <span className="produce-title-script">mmm, what&rsquo;s fresh</span>
+                <span className="produce-title-main">near <span className="hl">you</span></span>
               </h2>
               <div className="produce-title-underline" aria-hidden="true">
-                <svg viewBox="0 0 320 18" width="320" height="18" fill="none">
-                  <path d="M4 12 Q80 2 160 10 T316 8" stroke="#16a34a" strokeWidth="1.6" strokeLinecap="round" opacity="0.28" />
-                  <path d="M18 14 Q90 6 162 13" stroke="#d97706" strokeWidth="1" strokeLinecap="round" opacity="0.18" />
-                </svg>
+                <Squiggle width={220} height={16} />
               </div>
               <p className="produce-subtitle">
                 A small, curated selection from this week’s growers — not the whole catalogue, just the standouts we’d put on the market table.
