@@ -133,7 +133,7 @@ export default function SavedItemsModal({ open, onClose }) {
           <button className="btn-green me-2" onClick={() => closeThen(() => navigate('/markets'))}>
             <Icon name="store" size={16} /> Browse Markets
           </button>
-          <button className="btn-outline-green" onClick={() => closeThen(() => navigate('/produce'))}>
+          <button className="btn-outline-green" onClick={() => closeThen(() => navigate('/#produce'))}>
             <Icon name="carrot" size={16} /> Explore Produce
           </button>
         </div>

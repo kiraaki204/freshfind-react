@@ -14,7 +14,6 @@ import DirectoryPage from './pages/DirectoryPage.jsx';
 import { MarketModalProvider, MarketModalHost } from './hooks/useMarketModal.jsx';
 import { ProduceDetailModalProvider } from './hooks/useProduceDetailModal.jsx';
 import { SupportModalProvider } from './hooks/useSupportModal.jsx';
-import ProducePage from './pages/ProducePage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 
 function ScrollHandler() {
@@ -56,12 +55,12 @@ export default function App() {
                     <Routes>
                       <Route path="/" element={<HomePage visitorCount={visitorCount} />} />
                       <Route path="/markets" element={<DirectoryPage />} />
-                      <Route path="/produce" element={<ProducePage />} />
-                      {/* Produce details open as a modal over the current
-                          page — deep links land on the Produce Guide */}
-                      <Route path="/produce/:produceId" element={<Navigate to="/produce" replace />} />
-                      {/* About Us now lives on the homepage (#about) */}
-                      <Route path="/about" element={<Navigate to="/#about" replace />} />
+                      {/* No standalone produce page — produce details open as
+                          modals and the guide lives on the homepage (#produce) */}
+                      <Route path="/produce" element={<Navigate to="/#produce" replace />} />
+                      <Route path="/produce/:produceId" element={<Navigate to="/#produce" replace />} />
+                      {/* About Us lives in the homepage Field Journal (#journal) */}
+                      <Route path="/about" element={<Navigate to="/#journal" replace />} />
                       {/* Saved Items open as a modal over the current page */}
                       <Route path="/saved" element={<Navigate to="/" replace />} />
                       {/* FAQ, Help Center, Terms and Privacy open as modals

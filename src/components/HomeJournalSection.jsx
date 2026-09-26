@@ -245,21 +245,23 @@ function MarketEntry({ m }) {
 }
 
 function MarketsLeft() {
+  const half = Math.ceil(markets.length / 2);
   return (
     <>
-      <JournalHead eyebrow="meet your local markets" title="The eight stalls of FreshFind" />
+      <JournalHead eyebrow="meet your local markets" title={`The ${markets.length} stalls of FreshFind`} />
       <div className="fj-market-list">
-        {markets.slice(0, 4).map((m) => <MarketEntry key={m.id} m={m} />)}
+        {markets.slice(0, half).map((m) => <MarketEntry key={m.id} m={m} />)}
       </div>
     </>
   );
 }
 
 function MarketsRight() {
+  const half = Math.ceil(markets.length / 2);
   return (
     <>
       <div className="fj-market-list fj-market-list--top-pad">
-        {markets.slice(4).map((m) => <MarketEntry key={m.id} m={m} />)}
+        {markets.slice(half).map((m) => <MarketEntry key={m.id} m={m} />)}
       </div>
       <p className="fj-script fj-hint-line">
         sample data — pins mark demo areas, not verified businesses
@@ -356,8 +358,8 @@ function GuideRight({ onCloseBook }) {
         <button className="fj-stamp-btn fj-stamp-btn--big" onClick={() => navigate('/markets')}>
           <Icon name="store" size={16} /> Browse the Market Directory
         </button>
-        <button className="fj-stamp-btn fj-stamp-btn--big fj-stamp-btn--alt" onClick={() => navigate('/produce')}>
-          <Icon name="carrot" size={16} /> Explore the Produce Guide
+        <button className="fj-stamp-btn fj-stamp-btn--big fj-stamp-btn--alt" onClick={() => navigate('/#produce')}>
+          <Icon name="basket" size={16} /> Explore the Produce Guide
         </button>
       </div>
       <div className="fj-end-mark" aria-hidden="true">

@@ -181,22 +181,27 @@ button:disabled { cursor: not-allowed; }
 .header-search .form-control { border-radius: 999px; }
 
 @media (max-width: 991.98px) {
-  /* not enough inline room on small screens: pop the pill over the header,
-     anchored right next to the search icon */
+  /* on small screens the search opens as a full-width strip directly
+     BELOW the navbar, so the logo and site name stay visible */
   .header-search {
     position: absolute;
-    top: 50%;
-    left: 12px;
-    right: 138px;
+    top: 100%;
+    left: 0;
+    right: 0;
     width: auto;
-    transform: translateY(-50%) scaleX(.6);
-    transform-origin: right center;
-    transition: transform .22s ease, opacity .18s ease, visibility 0s linear .22s;
+    padding: 10px 14px 12px;
+    background: #fff;
+    border-bottom: 1px solid var(--gray-100);
+    box-shadow: 0 12px 18px rgba(0, 0, 0, .08);
+    transform: scaleY(.5);
+    transform-origin: top center;
+    transition: transform .2s ease, opacity .18s ease, visibility 0s linear .2s;
   }
   .header-search.open {
-    transform: translateY(-50%) scaleX(1);
-    transition: transform .22s ease, opacity .18s ease;
+    transform: scaleY(1);
+    transition: transform .2s ease, opacity .18s ease;
   }
+  .header-search .form-control { border-radius: 12px; }
 }
 
 .mobile-menu {
@@ -857,7 +862,7 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
 /* ---------- toasts / modal ---------- */
 .toast-stack {
   position: fixed;
-  bottom: 96px;
+  top: calc(var(--header-h, 64px) + 10px);
   right: 16px;
   z-index: 100;
   display: flex;
@@ -1334,6 +1339,25 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
   .browse-body { padding: 20px 24px 24px; }
   .browse-title { font-size: 1.65rem; }
 }
+@media (max-width: 767.98px) {
+  /* compact the chrome so the cards get most of the dialog height */
+  .product-browse-dialog { width: calc(100% - 16px); max-height: 94dvh; border-radius: 16px; }
+  .browse-head { padding: 12px 14px 9px; gap: 10px; }
+  .browse-eyebrow { display: none; }
+  .browse-title { font-size: 1.2rem; }
+  .browse-intro { display: none; }
+  .browse-toolbar { padding: 10px 14px; gap: 8px; }
+  .browse-search .form-control { height: 40px; }
+  .browse-filters { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+  .browse-filters::-webkit-scrollbar { display: none; }
+  .browse-filters .produce-tab { flex-shrink: 0; }
+  .browse-count { font-size: 11.5px; }
+  .browse-body { padding: 12px 14px 16px; min-height: 160px; }
+}
+
+/* produce card heading: name + plain-text category (no overlay badges) */
+.produce-card-head-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.produce-card-cat { font-size: 11px; font-weight: 600; letter-spacing: .04em; color: var(--green-600); white-space: nowrap; }
 
 /* ---------- produce detail modal ---------- */
 .produce-detail-backdrop { z-index: 1060; }
@@ -2482,4 +2506,86 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
   .fj-cover--overlay.flip-out, .fj-cover--overlay.flip-in,
   .fj-book--mobile .fj-sheet { animation: none; }
   .fj-leaf { display: none; }
+}
+
+/* ---------- chat voice interaction ---------- */
+.chat-mic {
+  width: 38px; height: 38px; flex-shrink: 0;
+  border-radius: 50%;
+  border: 1.5px solid var(--gray-200, #e5e7eb);
+  background: #fff;
+  color: var(--green-600);
+  display: flex; align-items: center; justify-content: center;
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+.chat-mic:hover:not(:disabled) { background: var(--green-50); border-color: #bbf7d0; }
+.chat-mic:disabled { opacity: .4; }
+.chat-mic:focus-visible { outline: 2px solid var(--green-600); outline-offset: 2px; }
+.chat-mic.on {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, .22);
+  animation: chat-mic-pulse 1.4s ease-out infinite;
+}
+@keyframes chat-mic-pulse {
+  0% { box-shadow: 0 0 0 3px rgba(220, 38, 38, .3); }
+  70% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+  100% { box-shadow: 0 0 0 8px rgba(220, 38, 38, 0); }
+}
+
+.voice-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  margin: 0 12px 8px;
+  border-radius: 10px;
+  font-size: 11.5px;
+  line-height: 1.3;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+.voice-status.listening { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+.voice-status.has-error { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+.voice-status-x, .voice-status-stop {
+  border: none; background: none; padding: 3px 6px;
+  font-size: 11px; font-weight: 600; color: inherit;
+  display: inline-flex; align-items: center; gap: 4px;
+  border-radius: 6px; flex-shrink: 0;
+}
+.voice-status-x:hover, .voice-status-stop:hover { background: rgba(0, 0, 0, .06); }
+.voice-pulse {
+  width: 9px; height: 9px; flex-shrink: 0;
+  border-radius: 50%;
+  background: #dc2626;
+  animation: voice-pulse 1s ease-in-out infinite;
+}
+@keyframes voice-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(.6); opacity: .55; } }
+.voice-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.voice-bars i {
+  width: 3px; background: var(--green-600); border-radius: 2px;
+  animation: voice-bar .9s ease-in-out infinite;
+}
+.voice-bars i:nth-child(1) { height: 5px; animation-delay: 0s; }
+.voice-bars i:nth-child(2) { height: 11px; animation-delay: .18s; }
+.voice-bars i:nth-child(3) { height: 7px; animation-delay: .36s; }
+@keyframes voice-bar { 0%, 100% { transform: scaleY(.5); } 50% { transform: scaleY(1); } }
+
+.msg-speak {
+  border: none; background: none; padding: 1px 4px;
+  font-size: 9px; font-weight: 600; line-height: 1;
+  color: #9ca3af;
+  display: inline-flex; align-items: center; gap: 3px;
+  border-radius: 6px;
+}
+.msg-speak:hover, .msg-speak.playing { color: var(--green-700); background: var(--green-50); }
+.msg-speak:focus-visible, .voice-status-x:focus-visible, .voice-status-stop:focus-visible {
+  outline: 2px solid var(--green-600); outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-mic.on, .voice-pulse, .voice-bars i { animation: none; }
+  .chat-mic.on { box-shadow: 0 0 0 4px rgba(220, 38, 38, .22); }
 }

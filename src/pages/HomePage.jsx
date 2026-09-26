@@ -8,14 +8,13 @@ import Icon from '../components/Icon.jsx';
 import LiveClock from '../components/LiveClock.jsx';
 import MarketCard from '../components/MarketCard.jsx';
 import HomeProduceSection from '../components/HomeProduceSection.jsx';
-import HomeAboutSection from '../components/HomeAboutSection.jsx';
 import HomeJournalSection from '../components/HomeJournalSection.jsx';
 import HomeContactSection from '../components/HomeContactSection.jsx';
 
 const QUICK_ACTIONS = [
   { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: '#16a34a' },
   { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: '#059669' },
-  { ico: 'leaf', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: '#0d9488' },
+  { ico: 'basket', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: '#0d9488' },
   { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: '#15803d' },
 ];
 
@@ -24,12 +23,6 @@ const SEASONS = [
   { name: 'Summer', ico: 'sun', color: '#fffbeb', border: '#fde68a', accent: '#d97706', items: ['Tomatoes', 'Berries', 'Corn', 'Cucumbers', 'Peppers'], desc: 'Peak season for vibrant summer produce and stone fruits.' },
   { name: 'Autumn', ico: 'leaf', color: '#fff7ed', border: '#fed7aa', accent: '#ea580c', items: ['Pumpkins', 'Apples', 'Squash', 'Root Vegetables'], desc: 'Warm, hearty autumn harvest of roots and orchard fruits.' },
   { name: 'Winter', ico: 'snow', color: '#eff6ff', border: '#bfdbfe', accent: '#2563eb', items: ['Citrus', 'Root Vegetables', 'Broccoli', 'Winter Greens'], desc: 'Citrus, brassicas and stored roots for the cool months.' },
-];
-
-const STEPS = [
-  { n: '01', ico: 'search', t: 'Search', d: 'Find markets near you by name, location, area or produce type.' },
-  { n: '02', ico: 'leaf', t: 'Explore', d: 'View market details, produce lists, schedules and location maps.' },
-  { n: '03', ico: 'clock', t: 'Plan Your Visit', d: 'Check opening times, current status and plan your market trip.' },
 ];
 
 const WHY = [
@@ -227,34 +220,10 @@ export default function HomePage({ visitorCount }) {
                       <li key={it} className="mb-1"><span className="pulse-dot me-1" />{it}</li>
                     ))}
                   </ul>
-                  <button className="btn btn-link p-0 text-decoration-none small" style={{ color: s.accent }} onClick={() => navigate('/produce')}>
+                  <button className="btn btn-link p-0 text-decoration-none small" style={{ color: s.accent }} onClick={() => navigate('/#produce')}>
                     Explore {s.name} Produce <Icon name="chevron" size={14} />
                   </button>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-5" style={{ background: '#f0fdf4' }}>
-        <div className="container text-center" style={{ maxWidth: '80rem' }}>
-          <h2 className="h4 mb-1">How FreshFind Works</h2>
-          <p className="text-muted mb-5">Three simple steps to your nearest farmers' market</p>
-          <div className="row g-4">
-            {STEPS.map((s) => (
-              <div key={s.n} className="col-sm-4">
-                <div className="position-relative d-inline-block mb-3">
-                  <div
-                    className="bg-white rounded-4 shadow-sm d-flex align-items-center justify-content-center"
-                    style={{ width: 64, height: 64, color: '#16a34a' }}
-                  >
-                    <Icon name={s.ico} size={26} />
-                  </div>
-                  <span className="step-num">{s.n}</span>
-                </div>
-                <h3 className="h5">{s.t}</h3>
-                <p className="small text-muted">{s.d}</p>
               </div>
             ))}
           </div>
@@ -281,8 +250,7 @@ export default function HomePage({ visitorCount }) {
         </div>
       </section>
 
-      {/* About Us — illustrated intro with feature hotspots (#about anchor) */}
-      <HomeAboutSection />
+      {/* About Us now lives inside the Field Journal spread below */}
 
       {/* The FreshFind Field Journal — interactive scrapbook (#journal) */}
       <HomeJournalSection />
@@ -296,8 +264,8 @@ export default function HomePage({ visitorCount }) {
           <button className="btn-green" style={{ background: '#fff', color: '#15803d' }} onClick={() => navigate('/markets')}>
             <Icon name="store" size={18} /> Find a Market
           </button>
-          <button className="btn-green" style={{ background: '#16a34a', border: '2px solid rgba(255,255,255,.3)' }} onClick={() => navigate('/produce')}>
-            <Icon name="carrot" size={18} /> Explore Produce
+          <button className="btn-green" style={{ background: '#16a34a', border: '2px solid rgba(255,255,255,.3)' }} onClick={() => navigate('/#produce')}>
+            <Icon name="basket" size={18} /> Explore Produce
           </button>
         </div>
       </section>

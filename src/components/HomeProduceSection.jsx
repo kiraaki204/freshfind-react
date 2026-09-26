@@ -120,7 +120,7 @@ export default function HomeProduceSection() {
 
           <div className="row g-3 g-md-4 produce-grid">
             {items.map((p) => (
-              <div key={p.id} className="col-6 col-md-4 col-lg-3">
+              <div key={p.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
                 <ProduceCard produce={p} onSelect={handleSelect} />
               </div>
             ))}
@@ -145,7 +145,7 @@ export default function HomeProduceSection() {
               onClick={openBrowse}
               aria-haspopup="dialog"
             >
-              <span className="produce-explore-icon"><Icon name="sprout" size={18} /></span>
+              <span className="produce-explore-icon"><Icon name="basket" size={18} /></span>
               Explore More Products
               <Icon name="chevron" size={16} />
             </button>

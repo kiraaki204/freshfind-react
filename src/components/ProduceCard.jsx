@@ -2,7 +2,6 @@ import { useState } from 'react';
 import markets from '../data/markets.json';
 import Icon from './Icon.jsx';
 import SaveButton from './SaveButton.jsx';
-import { hasMeaningfulSeason } from '../utils/produce.js';
 import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
 
 export default function ProduceCard({ produce, onSelect, variant = 'default' }) {
@@ -49,18 +48,15 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
           </div>
         )}
         <div className="produce-img-shade" aria-hidden="true" />
-        <span className="produce-cat-chip">{p.category}</span>
         <div className="heart-abs">
           <SaveButton size="sm" item={{ id: `produce-${p.id}`, type: 'produce', name: p.name, category: p.category }} />
         </div>
-        {hasMeaningfulSeason(p) && p.season.length <= 2 && (
-          <div className="produce-season-dot" aria-hidden="true" title={p.season.join(', ')}>
-            <Icon name={p.season[0] === 'Spring' ? 'flower' : p.season[0] === 'Summer' ? 'sun' : p.season[0] === 'Autumn' ? 'leaf' : 'snow'} size={12} />
-          </div>
-        )}
       </div>
       <div className="produce-card-body">
-        <h3 className="produce-card-title">{p.name}</h3>
+        <div className="produce-card-head-row">
+          <h3 className="produce-card-title">{p.name}</h3>
+          <span className="produce-card-cat">{p.category}</span>
+        </div>
         <p className="produce-card-desc">{p.description}</p>
         {marketCount > 0 && (
           <p className="produce-card-meta">

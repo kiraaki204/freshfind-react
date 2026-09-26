@@ -9,7 +9,7 @@ const QUICK_LINKS = [
   { label: 'Find a Market', to: '/markets' },
   { label: 'Produce Guide', to: '/#produce' },
   { label: 'Saved Items', modal: 'saved' },
-  { label: 'About Us', to: '/#about' },
+  { label: 'About Us', to: '/#journal' },
   { label: 'Contact Us', to: '/#contact' },
 ];
 

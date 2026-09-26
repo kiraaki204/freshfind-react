@@ -13,17 +13,20 @@ import { useProduceFilters } from '../hooks/useProduceFilters.jsx';
 import { useMarketModal } from '../hooks/useMarketModal.jsx';
 import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
 import { useSupportModal } from '../hooks/useSupportModal.jsx';
+import useVoiceAssistant from '../hooks/useVoiceAssistant.js';
 import Icon from './Icon.jsx';
 
 const CHAT_KEY = 'freshfind_chat';
 const HINT_KEY = 'freshfind_chat_hint';
 
-/* saved items are a modal ('saved'), not a route — handled specially below */
+/* saved items are a modal ('saved'), not a route — handled specially below.
+   The About story lives in the homepage Field Journal and the produce guide
+   in the homepage produce section — no standalone pages exist for either. */
 const PAGE_ROUTES = {
   home: '/',
   directory: '/markets',
-  produce: '/produce',
-  about: '/#about',
+  produce: '/#produce',
+  about: '/#journal',
   contact: '/#contact',
 };
 
@@ -55,6 +58,22 @@ export default function ChatWidget() {
   const { openProduce: openProduceModal } = useProduceDetailModal();
   const { openSupport } = useSupportModal();
 
+  /* voice interaction — native Web Speech APIs, gracefully degrading */
+  const {
+    micSupported, ttsSupported,
+    micState, micError, clearMicError, startMic, cancelMic,
+    speakingId, toggleSpeak, speak, stopSpeak, stopAll,
+  } = useVoiceAssistant();
+  const [autoSpeak, setAutoSpeak] = useState(false);
+  const autoSpeakRef = useRef(false);
+  const speakRef = useRef(speak);
+  speakRef.current = speak;
+
+  useEffect(() => {
+    autoSpeakRef.current = autoSpeak;
+    if (!autoSpeak) stopSpeak();
+  }, [autoSpeak, stopSpeak]);
+
   const [msgs, setMsgs] = useState(loadMessages);
   const [typing, setTyping] = useState(false);
   const [ctx, setCtx] = useState(emptyContext);
@@ -84,7 +103,7 @@ export default function ChatWidget() {
       openProduce: (p) => openProduceModal(p.id),
       openProduceGuide: (opts = {}) => {
         prod.replace(opts);
-        navigate('/produce');
+        navigate('/#produce');
       },
       openDirectory: (search) => {
         dir.update({ area: '', day: '', produce: '', search: search || '' });
@@ -165,11 +184,12 @@ export default function ChatWidget() {
     return () => document.removeEventListener('keydown', onKey);
   }, [open, openChat]);
 
-  /* keep the newest message in view */
+  /* closing the panel always releases the mic and stops playback */
   useEffect(() => {
-    const box = msgsBoxRef.current;
-    if (box) box.scrollTop = box.scrollHeight;
-  }, [msgs, typing]);
+    if (!open) stopAll();
+  }, [open, stopAll]);
+
+  /* no auto-scroll: the reader stays in control of the message list */
 
   const sendChat = (raw) => {
     const text = (raw || '').trim();
@@ -184,11 +204,12 @@ export default function ChatWidget() {
     setTimeout(() => {
       const out = getReply(text, ctxAtSend, buildAgent());
       const apply = (o) => {
+        const botId = uid();
         setCtx(o.ctx);
         setMsgs((m) => [
           ...m,
           {
-            id: uid(),
+            id: botId,
             sender: 'bot',
             text: o.reply.text,
             cards: o.reply.cards,
@@ -198,10 +219,36 @@ export default function ChatWidget() {
           },
         ]);
         setTyping(false);
+        // voice output is user-controlled: replies are only auto-spoken
+        // while the "read replies aloud" toggle is on
+        if (autoSpeakRef.current) speakRef.current(botId, o.reply.text);
       };
       if (out && typeof out.then === 'function') out.then(apply);
       else apply(out);
     }, think);
+  };
+
+  /* mic button: start listening, cancel, or report unsupported browsers */
+  const onMic = () => {
+    if (!micSupported) {
+      clearMicError();
+      return;
+    }
+    if (micState === 'listening') {
+      cancelMic();
+      return;
+    }
+    clearMicError();
+    stopSpeak(); // never talk over the user's own question
+    startMic({
+      onInterim: (t) => setInput(t), // recognized speech appears in the input
+      onFinal: (t) => {
+        setInput('');
+        if (inputRef.current) inputRef.current.style.height = 'auto';
+        // the recognized text goes through the same chatbot pipeline as typing
+        sendChat(t);
+      },
+    });
   };
 
   const clearChat = () => {
@@ -254,7 +301,19 @@ export default function ChatWidget() {
               </div>
             </div>
           </div>
-          <div>
+          <div className="d-flex align-items-center">
+            {ttsSupported && (
+              <button
+                className="icon-btn text-white"
+                aria-label={autoSpeak ? 'Turn off read-aloud for new replies' : 'Turn on read-aloud for new replies'}
+                aria-pressed={autoSpeak}
+                title="Read new replies aloud"
+                style={autoSpeak ? { background: 'rgba(255,255,255,.25)', borderRadius: 8 } : undefined}
+                onClick={() => setAutoSpeak((s) => !s)}
+              >
+                <Icon name={autoSpeak ? 'volume' : 'volumeOff'} size={14} />
+              </button>
+            )}
             <button className="icon-btn text-white" aria-label="Clear conversation" onClick={clearChat}>
               <Icon name="trash" size={14} />
             </button>
@@ -327,10 +386,21 @@ export default function ChatWidget() {
                   )}
 
                   <div
-                    className="text-muted"
+                    className="text-muted d-flex align-items-center gap-1"
                     style={{ fontSize: 9, ...(msg.sender === 'user' ? { textAlign: 'right' } : {}) }}
                   >
                     {timeLabel(msg.timestamp)}
+                    {msg.sender === 'bot' && ttsSupported && (
+                      <button
+                        type="button"
+                        className={`msg-speak${speakingId === msg.id ? ' playing' : ''}`}
+                        aria-label={speakingId === msg.id ? 'Stop reading this reply' : `Listen to the reply: ${msg.text.slice(0, 60)}`}
+                        onClick={() => toggleSpeak(msg.id, msg.text)}
+                      >
+                        <Icon name={speakingId === msg.id ? 'stop' : 'volume'} size={11} />
+                        {speakingId === msg.id ? 'Stop' : 'Listen'}
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -355,6 +425,38 @@ export default function ChatWidget() {
           </button>
         </div>
 
+        {(micState === 'listening' || micError || speakingId) && (
+          <div
+            className={`voice-status${micState === 'listening' ? ' listening' : ''}${micError ? ' has-error' : ''}`}
+            role="status"
+            aria-live="polite"
+          >
+            {micState === 'listening' && (
+              <>
+                <span className="voice-pulse" aria-hidden="true" />
+                <span className="flex-grow-1 text-truncate">Listening… tap the mic to cancel</span>
+              </>
+            )}
+            {micError && (
+              <>
+                <span className="flex-grow-1">{micError}</span>
+                <button type="button" className="voice-status-x" aria-label="Dismiss voice message" onClick={clearMicError}>
+                  <Icon name="x" size={11} />
+                </button>
+              </>
+            )}
+            {!micError && speakingId && (
+              <>
+                <span className="voice-bars" aria-hidden="true"><i /><i /><i /></span>
+                <span className="flex-grow-1">Speaking…</span>
+                <button type="button" className="voice-status-stop" onClick={stopSpeak}>
+                  <Icon name="stop" size={11} /> Stop
+                </button>
+              </>
+            )}
+          </div>
+        )}
+
         <form
           className="chat-input-row"
           onSubmit={(e) => {
@@ -365,7 +467,7 @@ export default function ChatWidget() {
           <textarea
             ref={inputRef}
             rows={1}
-            placeholder="Ask about markets, times or produce…"
+            placeholder={micState === 'listening' ? 'Listening…' : 'Ask about markets, times or produce…'}
             aria-label="Message FreshFind Assistant"
             value={input}
             onChange={autoResize}
@@ -376,6 +478,18 @@ export default function ChatWidget() {
               }
             }}
           />
+          {micSupported && (
+            <button
+              type="button"
+              className={`chat-mic${micState === 'listening' ? ' on' : ''}`}
+              aria-label={micState === 'listening' ? 'Stop voice input' : 'Speak your question'}
+              aria-pressed={micState === 'listening'}
+              onClick={onMic}
+              disabled={typing}
+            >
+              <Icon name={micState === 'listening' ? 'micOff' : 'mic'} size={15} />
+            </button>
+          )}
           <button
             type="submit"
             className="chat-send"

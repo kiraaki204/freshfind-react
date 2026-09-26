@@ -53,6 +53,12 @@ const ICONS = {
   ig: <svg viewBox="0 0 24 24" {...S}><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none" /></svg>,
   xtw: <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 3.5h3.9l4.2 5.6 4.6-5.6h2.4l-5.9 7.1 6.3 8.9h-3.9l-4.5-6-4.9 6H3.5l6.2-7.5L4 3.5z" /></svg>,
   yt: <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2c-.2-1.1-.9-1.9-2-2.1C17.7 4.8 12 4.8 12 4.8s-5.7 0-7.6.3c-1.1.2-1.8 1-2 2.1-.3 1.9-.3 4.8-.3 4.8s0 2.9.3 4.8c.2 1.1.9 1.9 2 2.1 1.9.3 7.6.3 7.6.3s5.7 0 7.6-.3c1.1-.2 1.8-1 2-2.1.3-1.9.3-4.8.3-4.8s0-2.9-.3-4.8zM10.2 15.4V8.6l5.8 3.4-5.8 3.4z" /></svg>,
+  basket: <svg viewBox="0 0 24 24" {...S}><path d="m5 11 4-7" /><path d="m19 11-4-7" /><path d="M2 11h20" /><path d="m3.5 11 1.6 7.4a2 2 0 0 0 2 1.6h9.8a2 2 0 0 0 2-1.6l1.6-7.4" /><path d="M9 11v7" /><path d="M15 11v7" /></svg>,
+  mic: <svg viewBox="0 0 24 24" {...S}><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" /><path d="M19 10v2a7 7 0 0 1-14 0v-2" /><path d="M12 19v3" /><path d="M8 22h8" /></svg>,
+  micOff: <svg viewBox="0 0 24 24" {...S}><path d="m2 2 20 20" /><path d="M18.9 10.9A5 5 0 0 0 19 10v-2M5 10v2a7 7 0 0 0 12 4.9" /><path d="M15 5.7V5a3 3 0 0 0-5.7-1.3" /><path d="M9 9v3a3 3 0 0 0 5.1 2.1" /><path d="M12 19v3" /><path d="M8 22h8" /></svg>,
+  volume: <svg viewBox="0 0 24 24" {...S}><path d="M11 5 6 9H2v6h4l5 4V5Z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 5.5a9.4 9.4 0 0 1 0 13" /></svg>,
+  volumeOff: <svg viewBox="0 0 24 24" {...S}><path d="M11 5 6 9H2v6h4l5 4V5Z" /><path d="m22 9-6 6" /><path d="m16 9 6 6" /></svg>,
+  stop: <svg viewBox="0 0 24 24" {...S}><rect x="5" y="5" width="14" height="14" rx="2" /></svg>,
 };
 
 export default function Icon({ name, size = 16, className }) {

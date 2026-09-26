@@ -22,9 +22,10 @@ export function imgPath(p) {
     to the Produce Guide with that category pre-selected via URL parameter;
     Organic is a market attribute rather than a produce category, so it opens
     the Produce Guide without a filter. */
-export function tagDestination(tag) {
-  if (tag === 'Organic') return '/produce';
-  return `/produce?category=${encodeURIComponent(tag)}`;
+export function tagDestination() {
+  /* there is no standalone produce page — the guide lives in the
+     homepage produce section (#produce) */
+  return '/#produce';
 }
 
 /** Directory filtering + sorting. `geo` is the shared geolocation state;

@@ -7,16 +7,41 @@
     "address": "123 Riverside Park Drive, Greenfield",
     "lat": 40.7128,
     "lng": -74.006,
-    "days": ["Saturday"],
+    "days": [
+      "Saturday"
+    ],
     "openingTime": "08:00",
     "closingTime": "13:00",
     "description": "One of the oldest and most beloved farmers' markets in the region, Riverside Farmers Market has been connecting local growers with the community since 1998. Set against the beautiful backdrop of Riverside Park, this market features over 40 vendors selling everything from organic vegetables to handcrafted preserves.",
     "shortDescription": "A beloved riverside market with over 40 local vendors offering fresh organic produce every Saturday morning.",
     "image": "/images/market-riverside.jpg",
-    "gallery": ["/images/market-riverside.jpg", "/images/seasonal-produce.jpg", "/images/hero-market.jpg"],
-    "produce": ["tomatoes", "carrots", "leafy-greens", "strawberries", "peppers", "cucumbers", "eggs", "honey"],
-    "produceTypes": ["Vegetables", "Fruits", "Dairy", "Other"],
-    "tags": ["Organic", "Vegetables", "Fruits", "Dairy"],
+    "gallery": [
+      "/images/market-riverside.jpg",
+      "/images/seasonal-produce.jpg",
+      "/images/hero-market.jpg"
+    ],
+    "produce": [
+      "tomatoes",
+      "carrots",
+      "leafy-greens",
+      "strawberries",
+      "peppers",
+      "cucumbers",
+      "eggs",
+      "honey"
+    ],
+    "produceTypes": [
+      "Vegetables",
+      "Fruits",
+      "Dairy",
+      "Other"
+    ],
+    "tags": [
+      "Organic",
+      "Vegetables",
+      "Fruits",
+      "Dairy"
+    ],
     "featured": true,
     "rating": 4.8,
     "vendors": 42,
@@ -36,16 +61,40 @@
     "address": "45 Lakeview Promenade, Lakeview",
     "lat": 40.7589,
     "lng": -73.9851,
-    "days": ["Sunday"],
+    "days": [
+      "Sunday"
+    ],
     "openingTime": "09:00",
     "closingTime": "14:00",
     "description": "Nestled along the picturesque lakeside promenade, the Lakeside Community Market is a Sunday morning tradition for families and food lovers alike. With stunning water views and over 30 local vendors, this market specializes in organic dairy, artisan baked goods, and freshly caught fish.",
     "shortDescription": "A Sunday community favourite with stunning lake views, organic dairy, artisan breads and fresh catch.",
     "image": "/images/market-lakeside.jpg",
-    "gallery": ["/images/market-lakeside.jpg", "/images/seasonal-produce.jpg"],
-    "produce": ["dairy", "bread", "fish", "apples", "pumpkins", "herbs", "flowers"],
-    "produceTypes": ["Dairy", "Baked Goods", "Fruits", "Herbs", "Flowers"],
-    "tags": ["Organic", "Dairy", "Baked Goods", "Flowers"],
+    "gallery": [
+      "/images/market-lakeside.jpg",
+      "/images/seasonal-produce.jpg"
+    ],
+    "produce": [
+      "dairy",
+      "bread",
+      "fish",
+      "apples",
+      "pumpkins",
+      "herbs",
+      "flowers"
+    ],
+    "produceTypes": [
+      "Dairy",
+      "Baked Goods",
+      "Fruits",
+      "Herbs",
+      "Flowers"
+    ],
+    "tags": [
+      "Organic",
+      "Dairy",
+      "Baked Goods",
+      "Flowers"
+    ],
     "featured": true,
     "rating": 4.7,
     "vendors": 31,
@@ -64,16 +113,37 @@
     "address": "78 Maple Street, Northside",
     "lat": 40.7282,
     "lng": -73.7949,
-    "days": ["Wednesday", "Saturday"],
+    "days": [
+      "Wednesday",
+      "Saturday"
+    ],
     "openingTime": "07:00",
     "closingTime": "12:00",
     "description": "The Maple Street Market is a mid-week and weekend staple for Northside residents. Operating every Wednesday and Saturday, this compact but well-stocked market features locally grown herbs, specialty vegetables, handmade jams, and seasonal fruit preserves from family farms.",
     "shortDescription": "A mid-week and weekend market specializing in fresh herbs, specialty vegetables and handmade preserves.",
     "image": "/images/market-maple.jpg",
-    "gallery": ["/images/market-maple.jpg", "/images/hero-market.jpg"],
-    "produce": ["herbs", "specialty-veg", "jam", "radishes", "asparagus", "leafy-greens"],
-    "produceTypes": ["Vegetables", "Herbs", "Other"],
-    "tags": ["Herbs", "Vegetables", "Baked Goods"],
+    "gallery": [
+      "/images/market-maple.jpg",
+      "/images/hero-market.jpg"
+    ],
+    "produce": [
+      "herbs",
+      "specialty-veg",
+      "jam",
+      "radishes",
+      "asparagus",
+      "leafy-greens"
+    ],
+    "produceTypes": [
+      "Vegetables",
+      "Herbs",
+      "Other"
+    ],
+    "tags": [
+      "Herbs",
+      "Vegetables",
+      "Baked Goods"
+    ],
     "featured": true,
     "rating": 4.5,
     "vendors": 18,
@@ -92,16 +162,47 @@
     "address": "1 City Hall Plaza, Downtown",
     "lat": 40.7127,
     "lng": -74.0059,
-    "days": ["Tuesday", "Thursday", "Saturday"],
+    "days": [
+      "Tuesday",
+      "Thursday",
+      "Saturday"
+    ],
     "openingTime": "07:30",
     "closingTime": "14:30",
     "description": "At the heart of the city, the Central City Farmers Market is the largest and most diverse market in the region. Operating three days a week, it brings together over 60 vendors including organic farmers, specialty food producers, and artisan craftspeople.",
     "shortDescription": "The city's largest market at City Hall Plaza with 60+ vendors operating three days a week.",
     "image": "/images/market-central.jpg",
-    "gallery": ["/images/market-central.jpg", "/images/seasonal-produce.jpg", "/images/hero-market.jpg"],
-    "produce": ["tomatoes", "peppers", "corn", "berries", "potatoes", "apples", "meat", "eggs", "dairy", "bread"],
-    "produceTypes": ["Vegetables", "Fruits", "Meat", "Dairy", "Baked Goods"],
-    "tags": ["Organic", "Vegetables", "Fruits", "Meat", "Dairy"],
+    "gallery": [
+      "/images/market-central.jpg",
+      "/images/seasonal-produce.jpg",
+      "/images/hero-market.jpg"
+    ],
+    "produce": [
+      "tomatoes",
+      "peppers",
+      "corn",
+      "berries",
+      "potatoes",
+      "apples",
+      "meat",
+      "eggs",
+      "dairy",
+      "bread"
+    ],
+    "produceTypes": [
+      "Vegetables",
+      "Fruits",
+      "Meat",
+      "Dairy",
+      "Baked Goods"
+    ],
+    "tags": [
+      "Organic",
+      "Vegetables",
+      "Fruits",
+      "Meat",
+      "Dairy"
+    ],
     "featured": true,
     "rating": 4.9,
     "vendors": 63,
@@ -120,16 +221,39 @@
     "address": "200 Valley Road, Eastside",
     "lat": 40.6892,
     "lng": -73.9442,
-    "days": ["Friday", "Sunday"],
+    "days": [
+      "Friday",
+      "Sunday"
+    ],
     "openingTime": "08:00",
     "closingTime": "13:30",
     "description": "Set in the rolling hills of the Eastside valley, Green Valley Market is an entirely organic-certified market. Every vendor must meet strict organic growing standards, making this the go-to destination for health-conscious shoppers seeking pesticide-free produce.",
-    "shortDescription": "An entirely organic-certified market in the Eastside valley — pesticide-free and community-grown.",
+    "shortDescription": "An entirely organic-certified market in the Eastside valley \u2014 pesticide-free and community-grown.",
     "image": "/images/market-valley.jpg",
-    "gallery": ["/images/market-valley.jpg", "/images/seasonal-produce.jpg"],
-    "produce": ["leafy-greens", "cucumbers", "zucchini", "berries", "citrus", "root-veg", "herbs"],
-    "produceTypes": ["Vegetables", "Fruits", "Herbs"],
-    "tags": ["Organic", "Vegetables", "Herbs", "Fruits"],
+    "gallery": [
+      "/images/market-valley.jpg",
+      "/images/seasonal-produce.jpg"
+    ],
+    "produce": [
+      "leafy-greens",
+      "cucumbers",
+      "zucchini",
+      "berries",
+      "citrus",
+      "root-veg",
+      "herbs"
+    ],
+    "produceTypes": [
+      "Vegetables",
+      "Fruits",
+      "Herbs"
+    ],
+    "tags": [
+      "Organic",
+      "Vegetables",
+      "Herbs",
+      "Fruits"
+    ],
     "featured": true,
     "rating": 4.6,
     "vendors": 24,
@@ -148,16 +272,40 @@
     "address": "555 Fairground Road, Westside",
     "lat": 40.7488,
     "lng": -74.0445,
-    "days": ["Saturday", "Sunday"],
+    "days": [
+      "Saturday",
+      "Sunday"
+    ],
     "openingTime": "06:00",
     "closingTime": "12:00",
     "description": "The Sunnyside Farm Market is the earliest-rising market in the city, opening at 6 AM every weekend. Known for its exceptional variety of farm-fresh eggs, raw honey, and seasonal stone fruits, this market has a loyal following among early-bird shoppers.",
     "shortDescription": "The city's earliest market opening at 6 AM, famous for farm eggs, raw honey and seasonal stone fruits.",
     "image": "/images/hero-market.jpg",
-    "gallery": ["/images/hero-market.jpg", "/images/market-riverside.jpg"],
-    "produce": ["eggs", "honey", "stone-fruit", "squash", "corn", "broccoli", "flowers"],
-    "produceTypes": ["Fruits", "Dairy", "Vegetables", "Flowers"],
-    "tags": ["Fruits", "Dairy", "Flowers", "Other"],
+    "gallery": [
+      "/images/hero-market.jpg",
+      "/images/market-riverside.jpg"
+    ],
+    "produce": [
+      "eggs",
+      "honey",
+      "stone-fruit",
+      "squash",
+      "corn",
+      "broccoli",
+      "flowers"
+    ],
+    "produceTypes": [
+      "Fruits",
+      "Dairy",
+      "Vegetables",
+      "Flowers"
+    ],
+    "tags": [
+      "Fruits",
+      "Dairy",
+      "Flowers",
+      "Other"
+    ],
     "featured": true,
     "rating": 4.7,
     "vendors": 28,
@@ -176,16 +324,39 @@
     "address": "10 Harbour Front Walk, Southside",
     "lat": 40.6981,
     "lng": -74.0186,
-    "days": ["Thursday", "Sunday"],
+    "days": [
+      "Thursday",
+      "Sunday"
+    ],
     "openingTime": "09:00",
     "closingTime": "15:00",
     "description": "With breathtaking harbour views and a relaxed waterfront atmosphere, Harbour View Market offers a premium shopping experience. Specializing in seafood, artisan cheeses and gourmet produce, this market attracts both local residents and tourists.",
     "shortDescription": "A premium waterfront market with harbour views, fresh seafood, artisan cheeses and gourmet produce.",
     "image": "/images/market-central.jpg",
-    "gallery": ["/images/market-central.jpg", "/images/hero-market.jpg"],
-    "produce": ["fish", "cheese", "bread", "olives", "citrus", "berries", "flowers"],
-    "produceTypes": ["Dairy", "Baked Goods", "Fruits", "Other"],
-    "tags": ["Dairy", "Baked Goods", "Fruits"],
+    "gallery": [
+      "/images/market-central.jpg",
+      "/images/hero-market.jpg"
+    ],
+    "produce": [
+      "fish",
+      "cheese",
+      "bread",
+      "olives",
+      "citrus",
+      "berries",
+      "flowers"
+    ],
+    "produceTypes": [
+      "Dairy",
+      "Baked Goods",
+      "Fruits",
+      "Other"
+    ],
+    "tags": [
+      "Dairy",
+      "Baked Goods",
+      "Fruits"
+    ],
     "featured": false,
     "rating": 4.5,
     "vendors": 35,
@@ -202,24 +373,350 @@
     "location": "Meadow Lane Park",
     "area": "Northside",
     "address": "88 Meadow Lane, Northside",
-    "lat": 40.7380,
+    "lat": 40.738,
     "lng": -73.8221,
-    "days": ["Monday", "Friday"],
+    "days": [
+      "Monday",
+      "Friday"
+    ],
     "openingTime": "10:00",
     "closingTime": "16:00",
     "description": "Meadow Lane Organic Market is a newer addition to the local market scene, catering to working professionals with weekday operating hours. Featuring certified organic produce, cold-pressed juices, and vegan bakery items, it has quickly become a lunchtime favourite.",
-    "shortDescription": "A weekday organic market perfect for working professionals — organic produce, juices and vegan baked goods.",
+    "shortDescription": "A weekday organic market perfect for working professionals \u2014 organic produce, juices and vegan baked goods.",
     "image": "/images/market-valley.jpg",
-    "gallery": ["/images/market-valley.jpg", "/images/market-maple.jpg"],
-    "produce": ["leafy-greens", "herbs", "berries", "root-veg", "bread", "flowers"],
-    "produceTypes": ["Vegetables", "Herbs", "Baked Goods", "Flowers"],
-    "tags": ["Organic", "Vegetables", "Herbs", "Baked Goods"],
+    "gallery": [
+      "/images/market-valley.jpg",
+      "/images/market-maple.jpg"
+    ],
+    "produce": [
+      "leafy-greens",
+      "herbs",
+      "berries",
+      "root-veg",
+      "bread",
+      "flowers"
+    ],
+    "produceTypes": [
+      "Vegetables",
+      "Herbs",
+      "Baked Goods",
+      "Flowers"
+    ],
+    "tags": [
+      "Organic",
+      "Vegetables",
+      "Herbs",
+      "Baked Goods"
+    ],
     "featured": false,
     "rating": 4.4,
     "vendors": 16,
     "established": 2019,
     "contact": "meadow@freshfind.com",
     "phone": "+1 555-0108",
+    "parkingAvailable": false,
+    "petFriendly": true,
+    "wheelchairAccessible": true
+  },
+  {
+    "id": 9,
+    "name": "Brookside Corner Market",
+    "location": "Brookside Commons",
+    "area": "Greenfield",
+    "address": "27 Brookside Commons, Greenfield",
+    "lat": 40.7262,
+    "lng": -74.0189,
+    "days": [
+      "Wednesday",
+      "Sunday"
+    ],
+    "openingTime": "09:00",
+    "closingTime": "14:00",
+    "description": "Brookside Corner Market is Greenfield's second weekly gathering, set in the leafy commons just off the old brook. Smaller and quieter than Riverside, it focuses on weekday lunch-hour shopping with fresh salads, farm cheeses and warm bread.",
+    "shortDescription": "A smaller Wednesday-and-Sunday market in the Brookside commons \u2014 salads, cheeses and warm bread.",
+    "image": "/images/market-valley.jpg",
+    "gallery": [
+      "/images/market-valley.jpg",
+      "/images/seasonal-produce.jpg"
+    ],
+    "produce": [
+      "leafy-greens",
+      "dairy",
+      "bread",
+      "herbs",
+      "radishes",
+      "eggs"
+    ],
+    "produceTypes": [
+      "Vegetables",
+      "Dairy",
+      "Baked Goods",
+      "Herbs"
+    ],
+    "tags": [
+      "Organic",
+      "Dairy",
+      "Baked Goods",
+      "Vegetables"
+    ],
+    "featured": false,
+    "rating": 4.4,
+    "vendors": 15,
+    "established": 2016,
+    "contact": "brookside@freshfind.com",
+    "phone": "+1 555-0109",
+    "parkingAvailable": true,
+    "petFriendly": false,
+    "wheelchairAccessible": true
+  },
+  {
+    "id": 10,
+    "name": "Sunset Pier Market",
+    "location": "Lakeview West Pier",
+    "area": "Lakeview",
+    "address": "9 West Pier Walk, Lakeview",
+    "lat": 40.7643,
+    "lng": -73.971,
+    "days": [
+      "Friday"
+    ],
+    "openingTime": "15:00",
+    "closingTime": "20:00",
+    "description": "Sunset Pier Market is Lakeview's Friday-evening tradition, running along the west pier as the light fades over the water. It pairs the week's produce with food stalls and a relaxed end-of-week crowd.",
+    "shortDescription": "A Friday-evening pier market with produce stalls, food vendors and sunset lake views.",
+    "image": "/images/market-lakeside.jpg",
+    "gallery": [
+      "/images/market-lakeside.jpg",
+      "/images/hero-market.jpg"
+    ],
+    "produce": [
+      "berries",
+      "corn",
+      "flowers",
+      "honey",
+      "bread",
+      "citrus"
+    ],
+    "produceTypes": [
+      "Fruits",
+      "Vegetables",
+      "Flowers",
+      "Other",
+      "Baked Goods"
+    ],
+    "tags": [
+      "Fruits",
+      "Flowers",
+      "Baked Goods",
+      "Other"
+    ],
+    "featured": false,
+    "rating": 4.3,
+    "vendors": 19,
+    "established": 2018,
+    "contact": "sunsetpier@freshfind.com",
+    "phone": "+1 555-0110",
+    "parkingAvailable": true,
+    "petFriendly": true,
+    "wheelchairAccessible": true
+  },
+  {
+    "id": 11,
+    "name": "Old Mill Night Market",
+    "location": "Mill District Square",
+    "area": "Downtown",
+    "address": "33 Mill District Square, Downtown",
+    "lat": 40.7062,
+    "lng": -73.9982,
+    "days": [
+      "Thursday"
+    ],
+    "openingTime": "17:00",
+    "closingTime": "22:00",
+    "description": "The Old Mill Night Market brings downtown's mill square to life every Thursday evening. Office workers and residents browse late-opening stalls selling prepared foods, baked goods and end-of-day produce deals.",
+    "shortDescription": "A Thursday night market in the historic mill district \u2014 prepared food, baked goods and late produce deals.",
+    "image": "/images/market-central.jpg",
+    "gallery": [
+      "/images/market-central.jpg",
+      "/images/hero-market.jpg"
+    ],
+    "produce": [
+      "bread",
+      "meat",
+      "potatoes",
+      "apples",
+      "honey",
+      "flowers"
+    ],
+    "produceTypes": [
+      "Baked Goods",
+      "Meat",
+      "Fruits",
+      "Vegetables",
+      "Other"
+    ],
+    "tags": [
+      "Baked Goods",
+      "Meat",
+      "Fruits",
+      "Other"
+    ],
+    "featured": false,
+    "rating": 4.6,
+    "vendors": 34,
+    "established": 2014,
+    "contact": "oldmill@freshfind.com",
+    "phone": "+1 555-0111",
+    "parkingAvailable": false,
+    "petFriendly": false,
+    "wheelchairAccessible": true
+  },
+  {
+    "id": 12,
+    "name": "Valley Sunrise Market",
+    "location": "Eastside Orchard Road",
+    "area": "Eastside",
+    "address": "410 Orchard Road, Eastside",
+    "lat": 40.6801,
+    "lng": -73.9305,
+    "days": [
+      "Saturday"
+    ],
+    "openingTime": "07:00",
+    "closingTime": "12:00",
+    "description": "Valley Sunrise Market opens before dawn along Eastside's orchard road, serving early-rising families with orchard fruits, greenhouse vegetables and fresh eggs straight from nearby farms.",
+    "shortDescription": "An early-Saturday orchard-road market \u2014 orchard fruits, greenhouse vegetables and farm eggs.",
+    "image": "/images/seasonal-produce.jpg",
+    "gallery": [
+      "/images/seasonal-produce.jpg",
+      "/images/market-valley.jpg"
+    ],
+    "produce": [
+      "apples",
+      "berries",
+      "tomatoes",
+      "eggs",
+      "zucchini",
+      "stone-fruit"
+    ],
+    "produceTypes": [
+      "Fruits",
+      "Vegetables",
+      "Dairy"
+    ],
+    "tags": [
+      "Organic",
+      "Fruits",
+      "Vegetables",
+      "Dairy"
+    ],
+    "featured": false,
+    "rating": 4.5,
+    "vendors": 21,
+    "established": 2017,
+    "contact": "valleysunrise@freshfind.com",
+    "phone": "+1 555-0112",
+    "parkingAvailable": true,
+    "petFriendly": true,
+    "wheelchairAccessible": false
+  },
+  {
+    "id": 13,
+    "name": "Hillcrest Community Market",
+    "location": "Hillcrest Park Pavilion",
+    "area": "Westside",
+    "address": "66 Hillcrest Park Drive, Westside",
+    "lat": 40.7598,
+    "lng": -74.0336,
+    "days": [
+      "Tuesday",
+      "Saturday"
+    ],
+    "openingTime": "08:30",
+    "closingTime": "13:00",
+    "description": "Hillcrest Community Market gathers under the park pavilion twice a week, offering Westside residents a neighbourly spin on the farmers' market with homegrown vegetables, preserves and seasonal flowers.",
+    "shortDescription": "A twice-weekly pavilion market with homegrown vegetables, preserves and seasonal flowers.",
+    "image": "/images/hero-market.jpg",
+    "gallery": [
+      "/images/hero-market.jpg",
+      "/images/seasonal-produce.jpg"
+    ],
+    "produce": [
+      "peppers",
+      "broccoli",
+      "jam",
+      "flowers",
+      "carrots",
+      "cucumbers"
+    ],
+    "produceTypes": [
+      "Vegetables",
+      "Other",
+      "Flowers"
+    ],
+    "tags": [
+      "Vegetables",
+      "Organic",
+      "Flowers",
+      "Other"
+    ],
+    "featured": false,
+    "rating": 4.4,
+    "vendors": 17,
+    "established": 2020,
+    "contact": "hillcrest@freshfind.com",
+    "phone": "+1 555-0113",
+    "parkingAvailable": true,
+    "petFriendly": true,
+    "wheelchairAccessible": true
+  },
+  {
+    "id": 14,
+    "name": "Canal Walk Farmers Market",
+    "location": "Canal Walk Promenade",
+    "area": "Southside",
+    "address": "5 Canal Walk, Southside",
+    "lat": 40.6891,
+    "lng": -74.0301,
+    "days": [
+      "Monday",
+      "Wednesday"
+    ],
+    "openingTime": "10:00",
+    "closingTime": "15:00",
+    "description": "Canal Walk Farmers Market lines the south canal promenade on weekday mornings, a favourite lunch-hour stop for fresh fruit, cheeses and crusty bread beside the water.",
+    "shortDescription": "A weekday-morning canal-side market \u2014 fresh fruit, cheeses and crusty bread by the water.",
+    "image": "/images/market-maple.jpg",
+    "gallery": [
+      "/images/market-maple.jpg",
+      "/images/hero-market.jpg"
+    ],
+    "produce": [
+      "cheese",
+      "bread",
+      "apples",
+      "citrus",
+      "olives",
+      "herbs"
+    ],
+    "produceTypes": [
+      "Dairy",
+      "Baked Goods",
+      "Fruits",
+      "Herbs",
+      "Other"
+    ],
+    "tags": [
+      "Dairy",
+      "Baked Goods",
+      "Fruits"
+    ],
+    "featured": false,
+    "rating": 4.2,
+    "vendors": 13,
+    "established": 2021,
+    "contact": "canalwalk@freshfind.com",
+    "phone": "+1 555-0114",
     "parkingAvailable": false,
     "petFriendly": true,
     "wheelchairAccessible": true

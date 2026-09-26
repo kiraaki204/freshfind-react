@@ -12,7 +12,8 @@
     "storageHint": "Store at room temperature away from sunlight. Do not refrigerate.",
     "markets": [
       1,
-      4
+      4,
+      12
     ],
     "image": "/images/produce-tomatoes.jpg",
     "featured": true
@@ -32,7 +33,8 @@
     "storageHint": "Refrigerate in a sealed bag for up to 3 weeks.",
     "markets": [
       1,
-      4
+      4,
+      13
     ],
     "image": "https://images.unsplash.com/photo-1447175008436-054170c2e979?w=600&h=600&fit=crop&auto=format",
     "featured": false
@@ -54,7 +56,8 @@
       1,
       3,
       5,
-      8
+      8,
+      9
     ],
     "image": "/images/produce-leafy-greens.jpg",
     "featured": true
@@ -93,7 +96,9 @@
       2,
       4,
       5,
-      7
+      7,
+      10,
+      12
     ],
     "image": "https://images.unsplash.com/photo-1498557850523-fd3d118b962e?w=600&h=600&fit=crop&auto=format",
     "featured": false
@@ -111,7 +116,8 @@
     "storageHint": "Consume the same day for best sweetness. Refrigerate with husks on.",
     "markets": [
       4,
-      6
+      6,
+      10
     ],
     "image": "https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=600&h=600&fit=crop&auto=format",
     "featured": false
@@ -129,7 +135,8 @@
     "storageHint": "Refrigerate for up to one week.",
     "markets": [
       1,
-      5
+      5,
+      13
     ],
     "image": "https://images.unsplash.com/photo-1589621316382-008455b857cd?w=600&h=600&fit=crop&auto=format",
     "featured": false
@@ -147,7 +154,8 @@
     "storageHint": "Refrigerate for up to 1-2 weeks.",
     "markets": [
       1,
-      4
+      4,
+      13
     ],
     "image": "https://images.unsplash.com/photo-1563565375-f94bff7b7afd?w=600&h=600&fit=crop&auto=format",
     "featured": false
@@ -184,7 +192,10 @@
     "storageHint": "Store in the refrigerator for up to 6 weeks.",
     "markets": [
       2,
-      4
+      4,
+      11,
+      12,
+      14
     ],
     "image": "/images/produce-apples.jpg",
     "featured": true
@@ -221,7 +232,9 @@
     "storageHint": "Store at room temperature for up to a week or refrigerate for longer.",
     "markets": [
       5,
-      7
+      7,
+      10,
+      14
     ],
     "image": "/images/produce-citrus.jpg",
     "featured": true
@@ -242,7 +255,9 @@
     "markets": [
       3,
       5,
-      8
+      8,
+      9,
+      14
     ],
     "image": "/images/produce-herbs.jpg",
     "featured": true
@@ -264,7 +279,9 @@
     "markets": [
       1,
       4,
-      6
+      6,
+      9,
+      12
     ],
     "image": "/images/produce-eggs.jpg",
     "featured": true
@@ -285,7 +302,9 @@
     "storageHint": "Store at room temperature in an airtight container indefinitely.",
     "markets": [
       1,
-      6
+      6,
+      10,
+      11
     ],
     "image": "https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=600&h=600&fit=crop&auto=format",
     "featured": false
@@ -308,7 +327,11 @@
       2,
       4,
       7,
-      8
+      8,
+      9,
+      10,
+      11,
+      14
     ],
     "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&h=600&fit=crop&auto=format",
     "featured": false
@@ -328,7 +351,10 @@
     "markets": [
       2,
       6,
-      8
+      8,
+      10,
+      11,
+      13
     ],
     "image": "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=600&h=600&fit=crop&auto=format",
     "featured": false
@@ -350,7 +376,8 @@
     "markets": [
       2,
       4,
-      7
+      7,
+      9
     ],
     "image": "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&h=600&fit=crop&auto=format",
     "featured": false
@@ -367,7 +394,8 @@
     "nutritionHighlights": "Good source of Vitamin C, folate and fibre",
     "storageHint": "Remove tops and refrigerate. Consume within a week.",
     "markets": [
-      3
+      3,
+      9
     ],
     "image": "https://images.unsplash.com/photo-1587044733375-6588f44887d0?w=600&h=600&fit=crop&auto=format",
     "featured": false
@@ -404,7 +432,8 @@
     "nutritionHighlights": "High-quality protein, iron, zinc and B12",
     "storageHint": "Refrigerate and consume within 2-3 days or freeze immediately.",
     "markets": [
-      4
+      4,
+      11
     ],
     "image": "https://images.unsplash.com/photo-1546964124-0c56318d6fc4?w=600&h=600&fit=crop&auto=format",
     "featured": false
@@ -422,7 +451,8 @@
     "nutritionHighlights": "Exceptional source of Vitamin C, K and sulforaphane",
     "storageHint": "Refrigerate unwashed in a loose bag for up to 5 days.",
     "markets": [
-      6
+      6,
+      13
     ],
     "image": "https://images.unsplash.com/photo-1459411621457-3b039ccd1cd8?w=600&h=600&fit=crop&auto=format",
     "featured": false

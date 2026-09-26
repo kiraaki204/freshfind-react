@@ -80,7 +80,7 @@ export default function HelpCenterModal({ open, onClose }) {
           <button className="btn-green" onClick={() => closeAndGo('/markets')}>
             <Icon name="store" size={16} /> Find a Market
           </button>
-          <button className="btn-outline-green" onClick={() => closeAndGo('/produce')}>
+          <button className="btn-outline-green" onClick={() => closeAndGo('/#produce')}>
             <Icon name="carrot" size={16} /> Produce Guide
           </button>
         </div>
