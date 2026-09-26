@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useChat } from '../hooks/useChat.jsx';
 import Icon from './Icon.jsx';
 import SocialRow from './SocialRow.jsx';
@@ -6,10 +6,10 @@ import SocialRow from './SocialRow.jsx';
 const QUICK_LINKS = [
   { label: 'Home', to: '/' },
   { label: 'Find a Market', to: '/markets' },
-  { label: 'Produce Guide', to: '/produce' },
+  { label: 'Produce Guide', to: '/#produce' },
   { label: 'Saved Items', to: '/saved' },
   { label: 'About Us', to: '/about' },
-  { label: 'Contact Us', to: '/contact' },
+  { label: 'Contact Us', to: '/#contact' },
 ];
 
 const SUPPORT_LINKS = [
@@ -21,7 +21,31 @@ const SUPPORT_LINKS = [
 
 export default function Footer({ visitorCount }) {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { openChat } = useChat();
+
+  const handleNav = (to) => {
+    const base = to.split('#')[0] || '/';
+    const h = to.split('#')[1] ? `#${to.split('#')[1]}` : '';
+    if (h) {
+      if (pathname !== base) navigate(`${base}${h}`);
+      else {
+        const el = document.getElementById(h.slice(1));
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        else window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.history.replaceState(null, '', `${base}${h}`);
+      }
+      return;
+    }
+    if (to === '/') {
+      if (pathname === '/') {
+        window.history.replaceState(null, '', '/');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else navigate('/');
+      return;
+    }
+    navigate(to);
+  };
 
   return (
     <footer className="site-footer">
@@ -39,7 +63,7 @@ export default function Footer({ visitorCount }) {
       <div className="container py-5" style={{ maxWidth: '80rem' }}>
         <div className="row g-4">
           <div className="col-sm-6 col-lg-3">
-            <button className="logo-btn mb-3" onClick={() => navigate('/')}>
+            <button className="logo-btn mb-3" onClick={() => handleNav('/')}>
               <span className="logo-mark"><Icon name="leaf" size={18} /></span>
               <span className="text-start">
                 <span className="d-block text-white fw-bold" style={{ fontSize: '1.2rem' }}>FreshFind</span>
@@ -58,7 +82,7 @@ export default function Footer({ visitorCount }) {
             <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
               {QUICK_LINKS.map((l) => (
                 <li key={l.to}>
-                  <button className="foot-link" onClick={() => navigate(l.to)}>{l.label}</button>
+                  <button className="foot-link" onClick={() => handleNav(l.to)}>{l.label}</button>
                 </li>
               ))}
             </ul>
@@ -68,7 +92,7 @@ export default function Footer({ visitorCount }) {
             <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
               {SUPPORT_LINKS.map((l) => (
                 <li key={l.to}>
-                  <button className="foot-link" onClick={() => navigate(l.to)}>{l.label}</button>
+                  <button className="foot-link" onClick={() => handleNav(l.to)}>{l.label}</button>
                 </li>
               ))}
             </ul>

@@ -32,7 +32,7 @@ const FAQS = [
   },
   {
     q: 'Can I talk to someone for help?',
-    a: 'You can use the FreshFind Assistant chat widget for quick answers about markets and produce, or visit the Contact Us page to see the available contact details.',
+    a: 'You can use the FreshFind Assistant chat widget for quick answers about markets and produce, or visit the Contact section at the bottom of the homepage to see the available contact details.',
   },
 ];
 

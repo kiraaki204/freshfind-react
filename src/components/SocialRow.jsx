@@ -8,7 +8,9 @@ const SOCIALS = [
 ];
 
 export default function SocialRow({ tone = 'light' }) {
-  const cls = tone === 'dark' ? 'social-dark' : 'social-light';
+  let cls = 'social-light';
+  if (tone === 'dark') cls = 'social-dark';
+  else if (tone === 'contact') cls = 'social-contact';
   return SOCIALS.map(([icon, label]) => (
     <a key={icon} href="#" className={`social-btn ${cls}`} aria-label={label} onClick={(e) => e.preventDefault()}>
       <Icon name={icon} size={16} />

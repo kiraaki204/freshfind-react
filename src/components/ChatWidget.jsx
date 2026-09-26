@@ -22,7 +22,7 @@ const PAGE_ROUTES = {
   produce: '/produce',
   bookmarks: '/saved',
   about: '/about',
-  contact: '/contact',
+  contact: '/#contact',
 };
 
 const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -210,8 +210,9 @@ export default function ChatWidget() {
   };
 
   const followLink = (page) => {
-    if (page !== 'home') navigate(PAGE_ROUTES[page] ?? '/');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const to = PAGE_ROUTES[page] ?? '/';
+    navigate(to);
+    if (!to.includes('#')) window.scrollTo({ top: 0, behavior: 'smooth' });
     openChat(false);
   };
 

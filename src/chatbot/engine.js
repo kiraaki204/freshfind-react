@@ -1385,8 +1385,8 @@ function buildIntents(agent) {
         return s;
       },
       handle: () => ({
-        text: `📬 Get in touch with FreshFind:\n\n📧 hello@freshfind.com\n📞 +1 555-FRESH-1\n📍 10 Market Square, Greenfield\n🕐 Mon–Fri, 9:00 AM – 5:00 PM\n\nPrefer self-service? Each market card lists its own phone and email too.`,
-        links: [{ label: 'Contact Page', page: 'contact' }],
+        text: `📬 Get in touch with FreshFind:\n\n📧 hello@freshfind.com\n📞 +92346267809\n📍 10 Market Square, Greenfield\n🕐 Mon–Fri, 9:00 AM – 5:00 PM\n\nPrefer self-service? Each market card lists its own phone and email too.`,
+        links: [{ label: 'Contact Section', page: 'contact' }],
         suggestions: ['Show me all markets', 'What are the market hours?', 'About FreshFind'],
       }),
     },

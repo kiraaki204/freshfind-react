@@ -6,18 +6,40 @@ import Icon from './Icon.jsx';
 const NAV = [
   { label: 'Home', to: '/', icon: 'home' },
   { label: 'Find a Market', to: '/markets', icon: 'pin' },
-  { label: 'Produce Guide', to: '/produce', icon: 'sprout' },
+  { label: 'Produce Guide', to: '/#produce', icon: 'sprout' },
   { label: 'About Us', to: '/about', icon: 'users' },
-  { label: 'Contact Us', to: '/contact', icon: 'phone' },
+  { label: 'Contact Us', to: '/#contact', icon: 'phone' },
 ];
 
-function isActive(pathname, to) {
-  return to === '/' ? pathname === '/' : pathname.startsWith(to);
+function isActive(pathname, hash, to) {
+  const base = to.split('#')[0] || '/';
+  const h = to.split('#')[1] || null;
+  if (h) {
+    return pathname === base && hash === `#${h}`;
+  }
+  return to === '/' ? pathname === '/' && !hash : pathname.startsWith(to);
+}
+
+function scrollToHash(hash) {
+  if (!hash) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  const id = hash.replace(/^#/, '');
+  if (id === 'top' || id === '') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+  const el = document.getElementById(id);
+  if (el) {
+    // CSS scroll-margin-top on the section handles the fixed header offset
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 export default function Header() {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const { bookmarks } = useBookmarks();
 
   const [scrolled, setScrolled] = useState(false);
@@ -37,7 +59,7 @@ export default function Header() {
   useEffect(() => {
     setMenuOpen(false);
     setSearchOpen(false);
-  }, [pathname]);
+  }, [pathname, hash]);
 
   // focus the input whenever the search box opens (desktop inline or mobile panel)
   useEffect(() => {
@@ -59,10 +81,36 @@ export default function Header() {
 
   const savedCount = bookmarks.length;
 
+  const handleNav = (to) => {
+    const base = to.split('#')[0] || '/';
+    const h = to.split('#')[1] ? `#${to.split('#')[1]}` : '';
+    if (h) {
+      if (pathname !== base) {
+        navigate(`${base}${h}`);
+      } else {
+        scrollToHash(h);
+        window.history.replaceState(null, '', `${base}${h}`);
+        setMenuOpen(false);
+      }
+      return;
+    }
+    if (to === '/') {
+      if (pathname === '/') {
+        window.history.replaceState(null, '', '/');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setMenuOpen(false);
+      } else {
+        navigate('/');
+      }
+      return;
+    }
+    navigate(to);
+  };
+
   return (
     <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
       <div className="header-inner">
-        <button className="logo-btn" aria-label="FreshFind Home" onClick={() => navigate('/')}>
+        <button className="logo-btn" aria-label="FreshFind Home" onClick={() => handleNav('/')}>
           <span className="logo-mark"><Icon name="leaf" size={18} /></span>
           <span className="text-start">
             <span className="logo-title d-block">FreshFind</span>
@@ -74,9 +122,9 @@ export default function Header() {
           {NAV.map((l) => (
             <button
               key={l.to}
-              className={`ff-nav${isActive(pathname, l.to) ? ' active' : ''}`}
-              aria-current={isActive(pathname, l.to) ? 'page' : undefined}
-              onClick={() => navigate(l.to)}
+              className={`ff-nav${isActive(pathname, hash, l.to) ? ' active' : ''}`}
+              aria-current={isActive(pathname, hash, l.to) ? 'page' : undefined}
+              onClick={() => handleNav(l.to)}
             >
               <Icon name={l.icon} size={16} />
               <span>{l.label}</span>
@@ -137,8 +185,8 @@ export default function Header() {
           {[...NAV, { label: 'Saved Items', to: '/saved', icon: 'heart' }].map((l) => (
             <button
               key={l.to}
-              className={`mobile-link${isActive(pathname, l.to) ? ' active' : ''}`}
-              onClick={() => navigate(l.to)}
+              className={`mobile-link${isActive(pathname, hash, l.to) ? ' active' : ''}`}
+              onClick={() => handleNav(l.to)}
             >
               <span className="mob-ico"><Icon name={l.icon} size={16} /></span>
               <span className="flex-grow-1">{l.label}</span>

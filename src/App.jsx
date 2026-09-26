@@ -15,7 +15,6 @@ import { MarketModalProvider } from './hooks/useMarketModal.jsx';
 import ProducePage from './pages/ProducePage.jsx';
 import ProduceDetailPage from './pages/ProduceDetailPage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
-import ContactPage from './pages/ContactPage.jsx';
 import SavedItemsPage from './pages/SavedItemsPage.jsx';
 import FaqPage from './pages/FaqPage.jsx';
 import HelpCenterPage from './pages/HelpCenterPage.jsx';
@@ -23,11 +22,22 @@ import TermsPage from './pages/TermsPage.jsx';
 import PrivacyPage from './pages/PrivacyPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 
-function ScrollToTop() {
-  const { pathname } = useLocation();
+function ScrollHandler() {
+  const { pathname, hash } = useLocation();
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [pathname]);
+    if (hash) {
+      const id = hash.slice(1);
+      // allow homepage to render first when navigating from another page
+      const t = setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        else window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 80);
+      return () => clearTimeout(t);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [pathname, hash]);
   return null;
 }
 
@@ -42,7 +52,7 @@ export default function App() {
             <DirectoryFiltersProvider>
               <ProduceFiltersProvider>
                 <MarketModalProvider>
-                <ScrollToTop />
+                <ScrollHandler />
                 <Header />
                 <main id="main-content" tabIndex={-1}>
                   <div id="page">
@@ -52,7 +62,6 @@ export default function App() {
                       <Route path="/produce" element={<ProducePage />} />
                       <Route path="/produce/:produceId" element={<ProduceDetailPage />} />
                       <Route path="/about" element={<AboutPage />} />
-                      <Route path="/contact" element={<ContactPage />} />
                       <Route path="/saved" element={<SavedItemsPage />} />
                       <Route path="/faq" element={<FaqPage />} />
                       <Route path="/help" element={<HelpCenterPage />} />

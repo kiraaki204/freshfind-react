@@ -7,11 +7,13 @@ import { useDirectoryFilters } from '../hooks/useDirectoryFilters.jsx';
 import Icon from '../components/Icon.jsx';
 import LiveClock from '../components/LiveClock.jsx';
 import MarketCard from '../components/MarketCard.jsx';
+import HomeProduceSection from '../components/HomeProduceSection.jsx';
+import HomeContactSection from '../components/HomeContactSection.jsx';
 
 const QUICK_ACTIONS = [
   { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: '#16a34a' },
   { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: '#059669' },
-  { ico: 'leaf', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/produce', bg: '#0d9488' },
+  { ico: 'leaf', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: '#0d9488' },
   { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: '#15803d' },
 ];
 
@@ -50,7 +52,14 @@ export default function HomePage({ visitorCount }) {
 
   const goQuickAction = (a) => {
     if (a.to === 'chat') openChat(true);
-    else navigate(a.to);
+    else if (a.to.includes('#')) {
+      const hash = a.to.split('#')[1];
+      const el = document.getElementById(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.history.replaceState(null, '', a.to);
+      } else navigate(a.to);
+    } else navigate(a.to);
   };
 
   const submitHeroSearch = (e) => {
@@ -183,6 +192,9 @@ export default function HomePage({ visitorCount }) {
         </div>
       </section>
 
+      {/* Curated produce discovery — homepage anchor for Produce Guide */}
+      <HomeProduceSection />
+
       <section className="py-5">
         <div className="container" style={{ maxWidth: '80rem' }}>
           <div className="text-center mb-4">
@@ -281,6 +293,9 @@ export default function HomePage({ visitorCount }) {
           </button>
         </div>
       </section>
+
+      {/* Redesigned Contact — natural conclusion before footer */}
+      <HomeContactSection />
     </>
   );
 }

@@ -81,8 +81,8 @@ export default function PrivacyPage() {
       <div className="ff-card p-4">
         <h2 className="h6">Questions</h2>
         <p className="small text-muted mb-0">
-          If you have questions about this policy, use the details on the{' '}
-          <a href="/contact">Contact Us</a> page.
+          If you have questions about this policy, use the details in the{' '}
+          <a href="/#contact">Contact section on the homepage</a>.
         </p>
       </div>
     </div>
