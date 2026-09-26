@@ -183,10 +183,10 @@ export default function HomePage({ visitorCount }) {
       {/* Curated produce discovery — homepage anchor for Produce Guide */}
       <HomeProduceSection />
 
-      <section className="py-5">
+      <section className="py-5 home-seasons" aria-labelledby="seasons-title">
         <div className="container" style={{ maxWidth: '80rem' }}>
           <div className="text-center mb-4">
-            <h2 className="h4">What's In Season</h2>
+            <h2 className="h4" id="seasons-title">What's In Season</h2>
             <p className="text-muted">
               Discover what fresh produce is available throughout the year at your local farmers' markets.
             </p>
@@ -195,25 +195,24 @@ export default function HomePage({ visitorCount }) {
             {SEASONS.map((s) => (
               <div key={s.name} className="col-sm-6 col-lg-3">
                 <div
-                  className={`season-card${currentSeason === s.name ? ' current' : ''}`}
-                  style={{ background: s.color, border: `1px solid ${s.border}` }}
+                  className={`season-card season-card--${s.name.toLowerCase()}${currentSeason === s.name ? ' current' : ''}`}
                 >
                   {currentSeason === s.name && (
-                    <span className="chip position-absolute" style={{ top: 12, right: 12, background: '#16a34a', color: '#fff', border: 'none' }}>
+                    <span className="season-current">
                       Current
                     </span>
                   )}
-                  <div className="rounded-3 bg-white d-inline-flex p-2 mb-2" style={{ opacity: .8, color: s.accent }}>
-                    <Icon name={s.ico} size={22} />
+                  <div className="season-emblem" aria-hidden="true">
+                    <Icon name={s.ico} size={30} />
                   </div>
-                  <h3 className="h5" style={{ color: s.accent }}>{s.name}</h3>
-                  <p className="small text-muted">{s.desc}</p>
-                  <ul className="list-unstyled small mb-3">
+                  <h3 className="h5">{s.name}</h3>
+                  <p className="season-description">{s.desc}</p>
+                  <ul className="season-produce" role="list">
                     {s.items.map((it) => (
-                      <li key={it} className="mb-1"><span className="pulse-dot me-1" />{it}</li>
+                      <li key={it}>{it}</li>
                     ))}
                   </ul>
-                  <button className="btn btn-link p-0 text-decoration-none small" style={{ color: s.accent }} onClick={() => navigate('/#produce')}>
+                  <button className="season-cta" onClick={() => navigate('/#produce')}>
                     Explore {s.name} Produce <Icon name="chevron" size={14} />
                   </button>
                 </div>
