@@ -1,0 +1,394 @@
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import marketsData from '../data/markets.json';
+import { getReply, emptyContext, welcomeMessage } from '../chatbot/engine.js';
+import { visibleMarkets } from '../utils/geo.js';
+import { applyMarketFilters } from '../utils/markets.js';
+import { imgPath } from '../utils/markets.js';
+import { useChat } from '../hooks/useChat.jsx';
+import { useBookmarks } from '../hooks/useBookmarks.jsx';
+import { useGeolocation } from '../hooks/useGeolocation.jsx';
+import { useDirectoryFilters } from '../hooks/useDirectoryFilters.jsx';
+import { useProduceFilters } from '../hooks/useProduceFilters.jsx';
+import Icon from './Icon.jsx';
+
+const CHAT_KEY = 'freshfind_chat';
+const HINT_KEY = 'freshfind_chat_hint';
+
+const PAGE_ROUTES = {
+  home: '/',
+  directory: '/markets',
+  produce: '/produce',
+  bookmarks: '/saved',
+  about: '/about',
+  contact: '/contact',
+};
+
+const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+const timeLabel = (d) =>
+  new Date(d).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+function loadMessages() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(CHAT_KEY) || '[]');
+    if (Array.isArray(stored) && stored.length) {
+      return stored.map((m) => ({ ...m, timestamp: new Date(m.timestamp) }));
+    }
+  } catch {
+    /* corrupted storage — start fresh */
+  }
+  return [];
+}
+
+export default function ChatWidget() {
+  const { open, openChat } = useChat();
+  const navigate = useNavigate();
+  const bookmarks = useBookmarks();
+  const geoCtx = useGeolocation();
+  const dirFilters = useDirectoryFilters();
+  const produceFilters = useProduceFilters();
+
+  const [msgs, setMsgs] = useState(loadMessages);
+  const [typing, setTyping] = useState(false);
+  const [ctx, setCtx] = useState(emptyContext);
+  const [input, setInput] = useState('');
+  const [hintVisible, setHintVisible] = useState(false);
+
+  const msgsBoxRef = useRef(null);
+  const inputRef = useRef(null);
+
+  /* latest context values, readable from delayed/async engine callbacks */
+  const live = useRef({});
+  live.current = { bookmarks, geoCtx, dirFilters, produceFilters };
+
+  /* The agent is how the engine acts on the site — navigation, filters,
+     bookmarks, location, map. Everything delegates to real app state. */
+  const buildAgent = () => {
+    const { bookmarks: bm, geoCtx: geo, dirFilters: dir, produceFilters: prod } = live.current;
+    const user = () =>
+      geo.geo.granted && geo.geo.lat != null ? { lat: geo.geo.lat, lng: geo.geo.lng } : null;
+
+    return {
+      openPage: (page) => navigate(PAGE_ROUTES[page] ?? '/'),
+      openMarket: (m) => navigate(`/markets/${m.id}`),
+      openProduce: (p) => navigate(`/produce/${p.id}`),
+      openProduceGuide: (opts = {}) => {
+        prod.replace(opts);
+        navigate('/produce');
+      },
+      openDirectory: (search) => {
+        dir.update({ area: '', day: '', produce: '', search: search || '' });
+        navigate('/markets');
+      },
+      openMapView: (marketId) => {
+        dir.update({ view: 'map' });
+        if (marketId != null) dir.requestMapPopup(marketId);
+        navigate('/markets');
+        const filtered = applyMarketFilters(marketsData, dir.filters, geo.geo);
+        return visibleMarkets(filtered, user()).displayed.length;
+      },
+      userLocation: user,
+      locate: (done) => geo.locate(done),
+      bookmarkCount: () => bm.bookmarks.length,
+      saveItem: (item) => {
+        if (bm.isBookmarked(item.id)) return 'already';
+        bm.toggleBookmark(item);
+        return 'saved';
+      },
+      unsaveItem: (item) => {
+        if (!bm.isBookmarked(item.id)) return 'not-saved';
+        bm.toggleBookmark(item);
+        return 'removed';
+      },
+    };
+  };
+
+  /* persist conversation (last 60 messages) */
+  useEffect(() => {
+    try {
+      localStorage.setItem(CHAT_KEY, JSON.stringify(msgs.slice(-60)));
+    } catch {
+      /* ignore */
+    }
+  }, [msgs]);
+
+  /* hint bubble after a few seconds, only if never seen */
+  useEffect(() => {
+    const t = setTimeout(() => {
+      if (open) return;
+      try {
+        if (localStorage.getItem(HINT_KEY) === 'seen') return;
+      } catch {
+        /* ignore */
+      }
+      setHintVisible(true);
+    }, 3500);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* opening the panel: hide hint, greet on first open, focus the input */
+  useEffect(() => {
+    if (!open) return;
+    setHintVisible(false);
+    try {
+      localStorage.setItem(HINT_KEY, 'seen');
+    } catch {
+      /* ignore */
+    }
+    setMsgs((m) => {
+      if (m.length) return m;
+      const w = welcomeMessage();
+      return [{ id: 'welcome', sender: 'bot', text: w.text, suggestions: w.suggestions, timestamp: new Date() }];
+    });
+    const t = setTimeout(() => inputRef.current?.focus(), 200);
+    return () => clearTimeout(t);
+  }, [open]);
+
+  /* Escape closes the panel */
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => {
+      if (e.key === 'Escape') openChat(false);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open, openChat]);
+
+  /* keep the newest message in view */
+  useEffect(() => {
+    const box = msgsBoxRef.current;
+    if (box) box.scrollTop = box.scrollHeight;
+  }, [msgs, typing]);
+
+  const sendChat = (raw) => {
+    const text = (raw || '').trim();
+    if (!text || typing) return;
+    const ctxAtSend = ctx;
+    setMsgs((m) => [...m, { id: uid(), sender: 'user', text, timestamp: new Date() }]);
+    setInput('');
+    if (inputRef.current) inputRef.current.style.height = 'auto';
+    setTyping(true);
+
+    const think = 450 + Math.min(text.length * 12, 700);
+    setTimeout(() => {
+      const out = getReply(text, ctxAtSend, buildAgent());
+      const apply = (o) => {
+        setCtx(o.ctx);
+        setMsgs((m) => [
+          ...m,
+          {
+            id: uid(),
+            sender: 'bot',
+            text: o.reply.text,
+            cards: o.reply.cards,
+            suggestions: o.reply.suggestions,
+            links: o.reply.links,
+            timestamp: new Date(),
+          },
+        ]);
+        setTyping(false);
+      };
+      if (out && typeof out.then === 'function') out.then(apply);
+      else apply(out);
+    }, think);
+  };
+
+  const clearChat = () => {
+    setCtx(emptyContext());
+    const w = welcomeMessage();
+    setMsgs([{ id: 'welcome', sender: 'bot', text: w.text, suggestions: w.suggestions, timestamp: new Date() }]);
+  };
+
+  const openItem = (type, id) => {
+    navigate(type === 'market' ? `/markets/${Number(id)}` : `/produce/${id}`);
+    openChat(false);
+  };
+
+  const followLink = (page) => {
+    if (page !== 'home') navigate(PAGE_ROUTES[page] ?? '/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    openChat(false);
+  };
+
+  const autoResize = (e) => {
+    setInput(e.target.value);
+    e.target.style.height = 'auto';
+    e.target.style.height = `${Math.min(e.target.scrollHeight, 76)}px`;
+  };
+
+  const last = msgs.length - 1;
+
+  return (
+    <>
+      <div className={`chat-panel${open ? ' open' : ''}`} role="dialog" aria-label="FreshFind Assistant">
+        <div className="chat-head">
+          <div className="d-flex align-items-center gap-2">
+            <div
+              className="position-relative d-flex align-items-center justify-content-center rounded-circle"
+              style={{ width: 32, height: 32, background: 'rgba(255,255,255,.2)' }}
+            >
+              <Icon name="leaf" size={18} />
+              <span
+                className="position-absolute"
+                style={{ bottom: -2, right: -2, width: 10, height: 10, background: '#86efac', border: '2px solid #15803d', borderRadius: '50%' }}
+              />
+            </div>
+            <div>
+              <div style={{ fontWeight: 600, fontSize: 13, lineHeight: 1.2 }}>FreshFind Assistant</div>
+              <div style={{ fontSize: 10, color: '#bbf7d0', lineHeight: 1.2 }}>
+                {typing ? 'typing…' : `Online · knows all ${marketsData.length} markets`}
+              </div>
+            </div>
+          </div>
+          <div>
+            <button className="icon-btn text-white" aria-label="Clear conversation" onClick={clearChat}>
+              <Icon name="trash" size={14} />
+            </button>
+            <button className="icon-btn text-white" aria-label="Close chat" onClick={() => openChat(false)}>
+              <Icon name="x" size={16} />
+            </button>
+          </div>
+        </div>
+
+        <div className="position-relative flex-grow-1" style={{ minHeight: 0, display: 'flex', flexDirection: 'column' }}>
+          <div className="chat-msgs" ref={msgsBoxRef} aria-live="polite">
+            {msgs.map((msg, i) => (
+              <div key={msg.id} className={`d-flex gap-1 mb-2${msg.sender === 'user' ? ' justify-content-end' : ''}`}>
+                {msg.sender === 'bot' && (
+                  <div
+                    className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1"
+                    style={{ width: 20, height: 20, background: '#16a34a', color: '#fff' }}
+                  >
+                    <Icon name="leaf" size={10} />
+                  </div>
+                )}
+                <div style={{ maxWidth: '86%' }}>
+                  <div className={`bubble ${msg.sender}`}>{msg.text}</div>
+
+                  {msg.cards && msg.cards.length > 0 && (
+                    <div className="mt-1 d-flex flex-column gap-1">
+                      {msg.cards.map((c, ci) => (
+                        <button key={ci} className="chat-card" onClick={() => openItem(c.type, c.id)}>
+                          <img
+                            src={imgPath(c.image)}
+                            alt=""
+                            style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 8, background: '#f3f4f6' }}
+                          />
+                          <div className="flex-grow-1 overflow-hidden">
+                            <div className="d-flex align-items-center gap-1">
+                              <span className="fw-semibold text-truncate" style={{ fontSize: 11 }}>{c.title}</span>
+                              {c.badge && (
+                                <span
+                                  className={`chip ${c.badge.indexOf('Open') !== -1 ? 'status-open' : 'status-soon'}`}
+                                  style={{ fontSize: 9 }}
+                                >
+                                  {c.badge}
+                                </span>
+                              )}
+                            </div>
+                            <div className="text-muted text-truncate" style={{ fontSize: 10 }}>{c.subtitle}</div>
+                            <div className="text-truncate" style={{ fontSize: 9.5, color: '#15803d' }}>{c.meta}</div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {msg.links && msg.links.length > 0 && (
+                    <div className="mt-1 d-flex flex-wrap gap-1">
+                      {msg.links.map((l, li) => (
+                        <button key={li} className="page-link-chip" onClick={() => followLink(l.page)}>
+                          {l.label} →
+                        </button>
+                      ))}
+                    </div>
+                  )}
+
+                  {msg.sender === 'bot' && msg.suggestions && msg.suggestions.length > 0 && i === last && (
+                    <div className="mt-1 d-flex flex-wrap gap-1">
+                      {msg.suggestions.map((s) => (
+                        <button key={s} className="sug" onClick={() => sendChat(s)}>{s}</button>
+                      ))}
+                    </div>
+                  )}
+
+                  <div
+                    className="text-muted"
+                    style={{ fontSize: 9, ...(msg.sender === 'user' ? { textAlign: 'right' } : {}) }}
+                  >
+                    {timeLabel(msg.timestamp)}
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {typing && (
+              <div className="d-flex gap-1">
+                <div
+                  className="rounded-circle d-flex align-items-center justify-content-center"
+                  style={{ width: 20, height: 20, background: '#16a34a', color: '#fff' }}
+                >
+                  <Icon name="leaf" size={10} />
+                </div>
+                <div className="bubble bot">
+                  <span className="dots"><span /> <span /> <span /></span>
+                </div>
+              </div>
+            )}
+          </div>
+          <button className="jump-latest" hidden aria-label="Scroll to latest message">
+            <Icon name="arrow-down" size={12} />
+          </button>
+        </div>
+
+        <form
+          className="chat-input-row"
+          onSubmit={(e) => {
+            e.preventDefault();
+            sendChat(input);
+          }}
+        >
+          <textarea
+            ref={inputRef}
+            rows={1}
+            placeholder="Ask about markets, times or produce…"
+            aria-label="Message FreshFind Assistant"
+            value={input}
+            onChange={autoResize}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendChat(input);
+              }
+            }}
+          />
+          <button
+            type="submit"
+            className="chat-send"
+            aria-label="Send message"
+            disabled={!input.trim() || typing}
+          >
+            <Icon name="send" size={14} />
+          </button>
+        </form>
+      </div>
+
+      <div className="chat-toggle-wrap">
+        <button className={`chat-hint${hintVisible ? ' show' : ''}`} type="button" onClick={() => openChat(true)}>
+          <span style={{ fontWeight: 500, color: '#15803d' }}>Need a hand?</span>
+          <br />
+          Ask me which markets are open now
+        </button>
+        <button
+          className="chat-fab"
+          aria-label={open ? 'Close chat assistant' : 'Open chat assistant'}
+          onClick={() => openChat(!open)}
+        >
+          <Icon name={open ? 'x' : 'chat'} size={20} />
+        </button>
+      </div>
+    </>
+  );
+}

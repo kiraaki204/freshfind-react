@@ -1,11 +1,37 @@
 # FreshFind
 
-HTML, CSS, Bootstrap and JavaScript. No backend.
+Discover nearby farmers' markets, explore seasonal produce and plan your visit.
 
-Open `index.html` in a browser, or use the live preview.
+React + Vite + Bootstrap CSS. No backend — all data is static and bundled.
+
+## Run it
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+## Structure
+
+```
+src/
+├── chatbot/       assistant engine (NLU + intents, site-agnostic)
+├── components/    reusable UI (cards, header, footer, map, chat, …)
+├── data/          markets.json, produce.json — single source of truth
+├── hooks/         shared state (bookmarks, geolocation, chat, filters, toasts)
+├── pages/         one component per route
+├── utils/         schedule/season, geo/distance, market filtering
+├── App.jsx        routes + providers
+└── main.jsx       entry point
+```
 
 Data files:
 
-- `data/markets.json`
-- `data/produce.json`
-- `data/chatbot.json`
+- `src/data/markets.json`
+- `src/data/produce.json`

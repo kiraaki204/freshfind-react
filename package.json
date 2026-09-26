@@ -1,0 +1,21 @@
+{
+  "name": "freshfind",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Discover nearby farmers' markets, explore seasonal produce and plan your visit.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.4.1",
+    "vite": "^6.3.5"
+  }
+}
