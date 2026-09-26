@@ -83,6 +83,7 @@ button:disabled { cursor: not-allowed; }
 }
 
 .header-inner {
+  position: relative;
   max-width: 80rem;
   margin: 0 auto;
   padding: 0 1rem;
@@ -160,24 +161,41 @@ button:disabled { cursor: not-allowed; }
   display: flex; align-items: center; justify-content: center;
 }
 
+/* hidden pill that pops open next to the search icon (Enter submits) */
 .header-search {
-  display: none;
-  gap: 8px;
+  display: flex;
+  align-items: center;
+  width: 0;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  transition: width .25s ease, opacity .2s ease, visibility 0s linear .25s;
 }
 .header-search.open {
-  display: flex;
-  position: absolute;
-  top: 100%; left: 0; right: 0;
-  background: #fff;
-  border-top: 1px solid var(--gray-100);
-  box-shadow: 0 8px 20px rgba(0,0,0,.08);
-  padding: 10px 1rem 12px;
-  z-index: 55;
+  opacity: 1;
+  visibility: visible;
+  transition: width .25s ease, opacity .2s ease;
 }
-.header-search .form-control { border-radius: 10px; }
-.header-search-go {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 0 14px; border-radius: 10px; white-space: nowrap;
+.header-search .search-wrap { width: 100%; }
+.header-search .form-control { border-radius: 999px; }
+
+@media (max-width: 991.98px) {
+  /* not enough inline room on small screens: pop the pill over the header,
+     anchored right next to the search icon */
+  .header-search {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    right: 138px;
+    width: auto;
+    transform: translateY(-50%) scaleX(.6);
+    transform-origin: right center;
+    transition: transform .22s ease, opacity .18s ease, visibility 0s linear .22s;
+  }
+  .header-search.open {
+    transform: translateY(-50%) scaleX(1);
+    transition: transform .22s ease, opacity .18s ease;
+  }
 }
 
 .mobile-menu {
@@ -215,18 +233,8 @@ button:disabled { cursor: not-allowed; }
   .header-inner { height: 80px; padding: 0 1.5rem; }
   .main-nav { display: flex; }
   .menu-toggle { display: none !important; }
-  /* search stays hidden until the search button is clicked, then expands
-     inline next to the nav links */
-  .header-search.open {
-    position: static;
-    flex: 0 1 260px;
-    min-width: 180px;
-    margin: 0 4px;
-    padding: 0;
-    background: none;
-    border-top: none;
-    box-shadow: none;
-  }
+  /* the pill expands inline, right next to the search icon */
+  .header-search.open { width: 260px; margin: 0 6px; }
 }
 
 /* ---------- layout ---------- */

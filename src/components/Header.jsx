@@ -109,10 +109,6 @@ export default function Header() {
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
-          <button type="submit" className="btn-green header-search-go" aria-label="Search">
-            <Icon name="search" size={16} />
-            <span className="d-none d-lg-inline">Search</span>
-          </button>
         </form>
 
         <div className="header-actions">
