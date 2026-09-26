@@ -59,6 +59,7 @@ const ICONS = {
   volume: <svg viewBox="0 0 24 24" {...S}><path d="M11 5 6 9H2v6h4l5 4V5Z" /><path d="M15.5 8.5a5 5 0 0 1 0 7" /><path d="M18.5 5.5a9.4 9.4 0 0 1 0 13" /></svg>,
   volumeOff: <svg viewBox="0 0 24 24" {...S}><path d="M11 5 6 9H2v6h4l5 4V5Z" /><path d="m22 9-6 6" /><path d="m16 9 6 6" /></svg>,
   stop: <svg viewBox="0 0 24 24" {...S}><rect x="5" y="5" width="14" height="14" rx="2" /></svg>,
+  book: <svg viewBox="0 0 24 24" {...S}><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" /><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" /></svg>,
 };
 
 export default function Icon({ name, size = 16, className }) {
