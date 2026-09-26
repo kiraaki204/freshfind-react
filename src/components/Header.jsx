@@ -8,6 +8,7 @@ const NAV = [
   { label: 'Home', to: '/', icon: 'home' },
   { label: 'Find a Market', to: '/markets', icon: 'pin' },
   { label: 'Produce Guide', to: '/#produce', icon: 'basket' },
+  { label: 'Field Journal', to: '/#journal', icon: 'book' },
   { label: 'Contact Us', to: '/#contact', icon: 'phone' },
 ];
 
