@@ -972,3 +972,18 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
   .ff-card .form-select, .ff-card .form-control { font-size: 16px; }
   .fselect-btn { font-size: 16px; } /* no iOS focus-zoom */
 }
+
+/* ---------- not found (404) ---------- */
+.nf-page {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2rem 0 3.5rem;
+  text-align: center;
+}
+.nf-art { margin-bottom: 1.25rem; }
+.nf-art svg { max-width: 100%; height: auto; }
+.nf-code { color: var(--green-600); }
+.nf-tag { font-size: 1.05rem; font-weight: 600; color: var(--green-800); }
+.nf-copy { max-width: 30rem; margin: 0 auto 1.75rem; }
+.nf-search { max-width: 26rem; margin: 0 auto 1.5rem; }
+.nf-actions a { text-decoration: none; }
