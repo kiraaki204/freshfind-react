@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useMarketModal } from '../hooks/useMarketModal.jsx';
 import allMarkets from '../data/markets.json';
 import produceData from '../data/produce.json';
 import { formatTime, getMarketStatus } from '../utils/time.js';
@@ -42,7 +42,7 @@ function popupHtml(m, saved) {
 let lastFocusNonce = null;
 
 export default function MarketMap({ markets, popupRequest = null, onPopupConsumed, selection = null, onSelectMarket }) {
-  const navigate = useNavigate();
+  const { openMarket } = useMarketModal();
   const { geo } = useGeolocation();
   const { bookmarks, toggleBookmark } = useBookmarks();
 
@@ -56,12 +56,12 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
   const [mapStatus, setMapStatus] = useState('loading'); // loading | ready | error
 
   // latest values for listeners created once at map init
-  const navigateRef = useRef(navigate);
+  const openMarketRef = useRef(openMarket);
   const toggleRef = useRef(toggleBookmark);
   const bookmarksRef = useRef(bookmarks);
   const marketsRef = useRef(markets);
   const onSelectRef = useRef(onSelectMarket);
-  navigateRef.current = navigate;
+  openMarketRef.current = openMarket;
   toggleRef.current = toggleBookmark;
   bookmarksRef.current = bookmarks;
   marketsRef.current = markets;
@@ -94,7 +94,7 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
     const onClick = (e) => {
       const viewBtn = e.target.closest('[data-ff-view]');
       if (viewBtn) {
-        navigateRef.current(`/markets/${viewBtn.dataset.ffView}`);
+        openMarketRef.current(viewBtn.dataset.ffView);
         return;
       }
       const saveBtn = e.target.closest('[data-ff-save]');

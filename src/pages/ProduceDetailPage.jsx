@@ -6,10 +6,12 @@ import Icon from '../components/Icon.jsx';
 import Breadcrumb from '../components/Breadcrumb.jsx';
 import StatusBadge from '../components/StatusBadge.jsx';
 import SaveButton from '../components/SaveButton.jsx';
+import { useMarketModal } from '../hooks/useMarketModal.jsx';
 
 export default function ProduceDetailPage() {
   const { produceId } = useParams();
   const navigate = useNavigate();
+  const { openMarket } = useMarketModal();
 
   const p = produceData.find((x) => x.id === produceId);
   if (!p) {
@@ -95,7 +97,7 @@ export default function ProduceDetailPage() {
                   </div>
                   <div className="d-flex align-items-center gap-2">
                     <StatusBadge market={m} />
-                    <button className="btn-green py-1 px-2" style={{ fontSize: 12 }} onClick={() => navigate(`/markets/${m.id}`)}>
+                    <button className="btn-green py-1 px-2" style={{ fontSize: 12 }} onClick={() => openMarket(m.id)}>
                       View
                     </button>
                   </div>

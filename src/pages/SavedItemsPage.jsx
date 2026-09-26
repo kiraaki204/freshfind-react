@@ -7,6 +7,7 @@ import { useBookmarks } from '../hooks/useBookmarks.jsx';
 import { useToast } from '../hooks/useToast.jsx';
 import Icon from '../components/Icon.jsx';
 import Breadcrumb from '../components/Breadcrumb.jsx';
+import { useMarketModal } from '../hooks/useMarketModal.jsx';
 
 function exportBookmarks(bookmarks) {
   const lines = ['FreshFind Saved Items', `Exported: ${new Date().toLocaleString()}`, ''];
@@ -72,6 +73,7 @@ function NoteEditor({ bookmark, onSave }) {
 
 export default function SavedItemsPage() {
   const navigate = useNavigate();
+  const { openMarket } = useMarketModal();
   const { bookmarks, removeBookmark, setNote } = useBookmarks();
   const showToast = useToast();
 
@@ -137,7 +139,7 @@ export default function SavedItemsPage() {
                         <h3 className="h6 mb-1">{b.name}</h3>
                         <div>
                           {m && (
-                            <button className="btn-green py-1 px-2 me-1" style={{ fontSize: 12 }} onClick={() => navigate(`/markets/${m.id}`)}>
+                            <button className="btn-green py-1 px-2 me-1" style={{ fontSize: 12 }} onClick={() => openMarket(m.id)}>
                               View
                             </button>
                           )}

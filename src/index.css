@@ -563,26 +563,51 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
 .pin-label.open { background: var(--green-600); color: #fff; border-color: var(--green-700); }
 .pin-label.shut { background: #fff; color: var(--gray-800); border-color: #d1d5db; }
 
-/* ---------- detail ---------- */
-.detail-hero {
-  position: relative;
-  height: 320px;
-  border-radius: 16px;
-  overflow: hidden;
-  margin-bottom: 2rem;
-}
-.detail-hero img { width: 100%; height: 100%; object-fit: cover; }
-.detail-hero .shade {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.6), rgba(0,0,0,.2), transparent);
-}
-.detail-hero .info {
-  position: absolute;
-  left: 24px; right: 24px; bottom: 24px;
+/* ---------- market modal ---------- */
+.mm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1040;
+  background: rgba(17, 24, 39, .55);
   display: flex;
-  align-items: flex-end;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.mm-dialog {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 58rem;
+  max-height: min(52rem, 92vh);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .28);
+}
+.mm-head {
+  display: flex;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.mm-body { flex: 1; overflow-y: auto; }
+.mm-media img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.mm-sec { padding: 16px; border-top: 1px solid var(--gray-100); }
+.mm-sec:first-child { border-top: none; }
+
+@media (min-width: 768px) {
+  .mm-body { display: flex; overflow: hidden; }
+  .mm-media { width: 40%; flex-shrink: 0; }
+  .mm-media img { height: 100%; }
+  .mm-content { flex: 1; overflow-y: auto; }
 }
 
 .mini-map {
@@ -598,7 +623,7 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
 .lightbox {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: 1060; /* above the market modal backdrop/dialog */
   background: rgba(0,0,0,.9);
   display: flex;
   align-items: center;

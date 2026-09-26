@@ -11,7 +11,7 @@ import Footer from './components/Footer.jsx';
 import ChatWidget from './components/ChatWidget.jsx';
 import HomePage from './pages/HomePage.jsx';
 import DirectoryPage from './pages/DirectoryPage.jsx';
-import MarketDetailPage from './pages/MarketDetailPage.jsx';
+import { MarketModalProvider } from './hooks/useMarketModal.jsx';
 import ProducePage from './pages/ProducePage.jsx';
 import ProduceDetailPage from './pages/ProduceDetailPage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
@@ -41,6 +41,7 @@ export default function App() {
           <ChatProvider>
             <DirectoryFiltersProvider>
               <ProduceFiltersProvider>
+                <MarketModalProvider>
                 <ScrollToTop />
                 <Header />
                 <main id="main-content" tabIndex={-1}>
@@ -48,7 +49,6 @@ export default function App() {
                     <Routes>
                       <Route path="/" element={<HomePage visitorCount={visitorCount} />} />
                       <Route path="/markets" element={<DirectoryPage />} />
-                      <Route path="/markets/:marketId" element={<MarketDetailPage />} />
                       <Route path="/produce" element={<ProducePage />} />
                       <Route path="/produce/:produceId" element={<ProduceDetailPage />} />
                       <Route path="/about" element={<AboutPage />} />
@@ -64,6 +64,7 @@ export default function App() {
                 </main>
                 <Footer visitorCount={visitorCount} />
                 <ChatWidget />
+                </MarketModalProvider>
               </ProduceFiltersProvider>
             </DirectoryFiltersProvider>
           </ChatProvider>

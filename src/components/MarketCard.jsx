@@ -1,21 +1,27 @@
 import { useNavigate } from 'react-router-dom';
 import { formatTime } from '../utils/time.js';
 import { imgPath, tagDestination } from '../utils/markets.js';
+import { useMarketModal } from '../hooks/useMarketModal.jsx';
 import Icon from './Icon.jsx';
 import StatusBadge from './StatusBadge.jsx';
 import SaveButton from './SaveButton.jsx';
 
 export default function MarketCard({ market, compact = false, selected = false, onSelect }) {
   const navigate = useNavigate();
+  const { openMarket } = useMarketModal();
   const m = market;
+
+  // in the directory's map view a card click focuses the marker;
+  // everywhere else it opens the market detail modal
+  const cardAction = onSelect || (() => openMarket(m.id));
 
   return (
     <article
       className={`m-card${selected ? ' selected' : ''}${onSelect ? ' selectable' : ''}`}
-      onClick={onSelect ? (e) => { if (!e.target.closest('button')) onSelect(); } : undefined}
-      onKeyDown={onSelect ? (e) => { if (e.key === 'Enter' && !e.target.closest('button')) onSelect(); } : undefined}
-      tabIndex={onSelect ? 0 : undefined}
-      aria-label={onSelect ? `Show ${m.name} on the map` : undefined}
+      onClick={(e) => { if (!e.target.closest('button, a')) cardAction(); }}
+      onKeyDown={(e) => { if (e.key === 'Enter' && !e.target.closest('button, a')) cardAction(); }}
+      tabIndex={0}
+      aria-label={onSelect ? `Show ${m.name} on the map` : `View details for ${m.name}`}
     >
       <div className={`thumb${compact ? ' compact' : ''}`}>
         <img src={imgPath(m.image)} alt={m.name} loading="lazy" />
@@ -64,7 +70,7 @@ export default function MarketCard({ market, compact = false, selected = false, 
             </button>
           ))}
         </div>
-        <button className="btn-green w-100 mt-auto" onClick={() => navigate(`/markets/${m.id}`)}>
+        <button className="btn-green w-100 mt-auto" onClick={() => openMarket(m.id)}>
           View Details <Icon name="chevron" size={16} />
         </button>
       </div>
