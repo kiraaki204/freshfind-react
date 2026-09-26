@@ -1,7 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import Breadcrumb from '../components/Breadcrumb.jsx';
-import Icon from '../components/Icon.jsx';
+import Icon from './Icon.jsx';
+import SupportModal from './SupportModal.jsx';
 
+/* Content preserved from the former standalone Help Center page. */
 const GUIDES = [
   {
     icon: 'search',
@@ -35,24 +36,36 @@ const GUIDES = [
   },
 ];
 
-export default function HelpCenterPage() {
+export default function HelpCenterModal({ open, onClose }) {
   const navigate = useNavigate();
-  return (
-    <div className="wrap" style={{ maxWidth: '64rem' }}>
-      <Breadcrumb items={[{ label: 'Help Center' }]} />
-      <h1 className="h3 mt-3"><Icon name="info" size={22} /> Help Center</h1>
-      <p className="text-muted">How to get the most out of FreshFind — from finding markets to saving favourites.</p>
 
+  // an action that navigates elsewhere always closes the modal first
+  const closeAndGo = (to) => {
+    onClose();
+    navigate(to);
+  };
+
+  return (
+    <SupportModal
+      open={open}
+      onClose={onClose}
+      wide
+      icon="info"
+      title="Help Center"
+      intro="How to get the most out of FreshFind — from finding markets to saving favourites."
+    >
       <div className="row g-3">
         {GUIDES.map((g) => (
           <div key={g.title} className="col-md-6">
-            <div className="ff-card p-4 h-100">
+            <div className="ff-card p-3 h-100">
               <div className="d-flex align-items-center gap-2 mb-2">
-                <span className="rounded-3 d-inline-flex align-items-center justify-content-center"
-                  style={{ width: 36, height: 36, background: '#f0fdf4', color: '#15803d' }}>
+                <span
+                  className="rounded-3 d-inline-flex align-items-center justify-content-center"
+                  style={{ width: 36, height: 36, background: '#f0fdf4', color: '#15803d' }}
+                >
                   <Icon name={g.icon} size={18} />
                 </span>
-                <h2 className="h6 mb-0">{g.title}</h2>
+                <h3 className="h6 mb-0">{g.title}</h3>
               </div>
               <p className="small text-muted mb-0">{g.body}</p>
             </div>
@@ -60,18 +73,18 @@ export default function HelpCenterPage() {
         ))}
       </div>
 
-      <div className="ff-card p-4 mt-4 text-center">
-        <h2 className="h6 mb-2">Ready to explore?</h2>
+      <div className="ff-card p-3 mt-3 text-center">
+        <h3 className="h6 mb-2">Ready to explore?</h3>
         <p className="small text-muted mb-3">Jump straight into the market directory or the produce guide.</p>
         <div className="d-flex flex-wrap gap-2 justify-content-center">
-          <button className="btn-green" onClick={() => navigate('/markets')}>
+          <button className="btn-green" onClick={() => closeAndGo('/markets')}>
             <Icon name="store" size={16} /> Find a Market
           </button>
-          <button className="btn-outline-green" onClick={() => navigate('/produce')}>
+          <button className="btn-outline-green" onClick={() => closeAndGo('/produce')}>
             <Icon name="carrot" size={16} /> Produce Guide
           </button>
         </div>
       </div>
-    </div>
+    </SupportModal>
   );
 }

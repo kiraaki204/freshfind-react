@@ -8,6 +8,7 @@ import Icon from '../components/Icon.jsx';
 import LiveClock from '../components/LiveClock.jsx';
 import MarketCard from '../components/MarketCard.jsx';
 import HomeProduceSection from '../components/HomeProduceSection.jsx';
+import HomeAboutSection from '../components/HomeAboutSection.jsx';
 import HomeContactSection from '../components/HomeContactSection.jsx';
 
 const QUICK_ACTIONS = [
@@ -278,6 +279,9 @@ export default function HomePage({ visitorCount }) {
           </div>
         </div>
       </section>
+
+      {/* About Us — illustrated intro with feature hotspots (#about anchor) */}
+      <HomeAboutSection />
 
       <section className="cta-band">
         <h2 className="fw-bold mb-3">Good Food. Stronger Communities.</h2>

@@ -21,7 +21,7 @@ const PAGE_ROUTES = {
   directory: '/markets',
   produce: '/produce',
   bookmarks: '/saved',
-  about: '/about',
+  about: '/#about',
   contact: '/#contact',
 };
 

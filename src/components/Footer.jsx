@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useChat } from '../hooks/useChat.jsx';
+import { useSupportModal } from '../hooks/useSupportModal.jsx';
 import Icon from './Icon.jsx';
 import SocialRow from './SocialRow.jsx';
 
@@ -8,21 +9,23 @@ const QUICK_LINKS = [
   { label: 'Find a Market', to: '/markets' },
   { label: 'Produce Guide', to: '/#produce' },
   { label: 'Saved Items', to: '/saved' },
-  { label: 'About Us', to: '/about' },
+  { label: 'About Us', to: '/#about' },
   { label: 'Contact Us', to: '/#contact' },
 ];
 
+/* Support pages open as modals over the current page, not separate routes */
 const SUPPORT_LINKS = [
-  { label: 'FAQ', to: '/faq' },
-  { label: 'Help Center', to: '/help' },
-  { label: 'Terms of Service', to: '/terms' },
-  { label: 'Privacy Policy', to: '/privacy' },
+  { label: 'FAQ', modal: 'faq' },
+  { label: 'Help Center', modal: 'help' },
+  { label: 'Terms of Service', modal: 'terms' },
+  { label: 'Privacy Policy', modal: 'privacy' },
 ];
 
 export default function Footer({ visitorCount }) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { openChat } = useChat();
+  const { openSupport } = useSupportModal();
 
   const handleNav = (to) => {
     const base = to.split('#')[0] || '/';
@@ -91,8 +94,8 @@ export default function Footer({ visitorCount }) {
             <h3 className="text-white fw-semibold mb-3" style={{ fontSize: 16 }}>Support</h3>
             <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
               {SUPPORT_LINKS.map((l) => (
-                <li key={l.to}>
-                  <button className="foot-link" onClick={() => handleNav(l.to)}>{l.label}</button>
+                <li key={l.modal}>
+                  <button className="foot-link" aria-haspopup="dialog" onClick={() => openSupport(l.modal)}>{l.label}</button>
                 </li>
               ))}
             </ul>

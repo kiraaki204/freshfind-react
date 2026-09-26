@@ -1,6 +1,15 @@
-import Breadcrumb from '../components/Breadcrumb.jsx';
-import Icon from '../components/Icon.jsx';
+import { useNavigate } from 'react-router-dom';
+import SupportModal from './SupportModal.jsx';
 
+/* Content preserved from the former standalone Privacy Policy page. The
+   storage keys and behaviour below were verified against the actual code:
+   - freshfind_bookmarks  → src/hooks/useBookmarks.jsx (saves + notes)
+   - freshfind_chat       → src/components/ChatWidget.jsx (last 60 messages)
+   - freshfind_chat_hint  → src/components/ChatWidget.jsx (welcome-hint flag)
+   - freshfind_cart       → src/chatbot/engine.js (chat-only demo cart)
+   Location state lives only in memory (src/hooks/useGeolocation.jsx);
+   OpenStreetMap tiles and Google Maps directions are the only third-party
+   requests involved. */
 const STORAGE_KEYS = [
   ['freshfind_bookmarks', 'Your saved markets and produce items, plus any personal notes you add to them.'],
   ['freshfind_chat', 'The most recent 60 messages of your conversation with the FreshFind Assistant.'],
@@ -8,15 +17,25 @@ const STORAGE_KEYS = [
   ['freshfind_cart', 'The demo shopping cart you build inside chatbot conversations.'],
 ];
 
-export default function PrivacyPage() {
-  return (
-    <div className="wrap" style={{ maxWidth: '56rem' }}>
-      <Breadcrumb items={[{ label: 'Privacy Policy' }]} />
-      <h1 className="h3 mt-3"><Icon name="checkc" size={22} /> Privacy Policy</h1>
-      <p className="small text-muted">Last updated: September 2026</p>
+export default function PrivacyModal({ open, onClose }) {
+  const navigate = useNavigate();
 
-      <div className="ff-card p-4 mb-3">
-        <h2 className="h6">The short version</h2>
+  // internal navigation closes the modal first, then scrolls to the section
+  const goContact = () => {
+    onClose();
+    navigate('/#contact');
+  };
+
+  return (
+    <SupportModal
+      open={open}
+      onClose={onClose}
+      icon="checkc"
+      title="Privacy Policy"
+      intro="Last updated: September 2026"
+    >
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">The short version</h3>
         <p className="small text-muted mb-0">
           FreshFind is a frontend-only application. It has no backend and no user accounts, it does
           not collect personal information, and nothing you do on the site is sent to a FreshFind
@@ -25,8 +44,8 @@ export default function PrivacyPage() {
         </p>
       </div>
 
-      <div className="ff-card p-4 mb-3">
-        <h2 className="h6">What is stored in your browser</h2>
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">What is stored in your browser</h3>
         <p className="small text-muted">
           The following information is kept in your browser's local storage so that it survives a
           page reload. It never leaves your device and you can remove it at any time by clearing
@@ -41,8 +60,8 @@ export default function PrivacyPage() {
         </ul>
       </div>
 
-      <div className="ff-card p-4 mb-3">
-        <h2 className="h6">Location data</h2>
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">Location data</h3>
         <p className="small text-muted mb-0">
           Location is used only when you actively press a location button (such as "Near Me" or
           "Use my location") and only after your browser asks for, and you grant, permission. Your
@@ -52,8 +71,8 @@ export default function PrivacyPage() {
         </p>
       </div>
 
-      <div className="ff-card p-4 mb-3">
-        <h2 className="h6">Third-party services</h2>
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">Third-party services</h3>
         <ul className="small text-muted mb-0">
           <li className="mb-2">
             <strong>OpenStreetMap</strong> — the interactive maps load map-tile images from
@@ -68,8 +87,8 @@ export default function PrivacyPage() {
         </ul>
       </div>
 
-      <div className="ff-card p-4 mb-3">
-        <h2 className="h6">What FreshFind does NOT do</h2>
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">What FreshFind does NOT do</h3>
         <ul className="small text-muted mb-0">
           <li>No analytics or advertising trackers are embedded.</li>
           <li>No cookies are set by the application.</li>
@@ -78,13 +97,15 @@ export default function PrivacyPage() {
         </ul>
       </div>
 
-      <div className="ff-card p-4">
-        <h2 className="h6">Questions</h2>
+      <div className="ff-card p-3">
+        <h3 className="h6">Questions</h3>
         <p className="small text-muted mb-0">
           If you have questions about this policy, use the details in the{' '}
-          <a href="/#contact">Contact section on the homepage</a>.
+          <button className="support-text-link" onClick={goContact}>
+            Contact section on the homepage
+          </button>.
         </p>
       </div>
-    </div>
+    </SupportModal>
   );
 }

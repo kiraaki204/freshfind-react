@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { ToastProvider } from './hooks/useToast.jsx';
 import { BookmarksProvider } from './hooks/useBookmarks.jsx';
 import { GeoProvider } from './hooks/useGeolocation.jsx';
@@ -12,14 +12,10 @@ import ChatWidget from './components/ChatWidget.jsx';
 import HomePage from './pages/HomePage.jsx';
 import DirectoryPage from './pages/DirectoryPage.jsx';
 import { MarketModalProvider } from './hooks/useMarketModal.jsx';
+import { SupportModalProvider } from './hooks/useSupportModal.jsx';
 import ProducePage from './pages/ProducePage.jsx';
 import ProduceDetailPage from './pages/ProduceDetailPage.jsx';
-import AboutPage from './pages/AboutPage.jsx';
 import SavedItemsPage from './pages/SavedItemsPage.jsx';
-import FaqPage from './pages/FaqPage.jsx';
-import HelpCenterPage from './pages/HelpCenterPage.jsx';
-import TermsPage from './pages/TermsPage.jsx';
-import PrivacyPage from './pages/PrivacyPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 
 function ScrollHandler() {
@@ -52,6 +48,7 @@ export default function App() {
             <DirectoryFiltersProvider>
               <ProduceFiltersProvider>
                 <MarketModalProvider>
+                <SupportModalProvider>
                 <ScrollHandler />
                 <Header />
                 <main id="main-content" tabIndex={-1}>
@@ -61,18 +58,22 @@ export default function App() {
                       <Route path="/markets" element={<DirectoryPage />} />
                       <Route path="/produce" element={<ProducePage />} />
                       <Route path="/produce/:produceId" element={<ProduceDetailPage />} />
-                      <Route path="/about" element={<AboutPage />} />
+                      {/* About Us now lives on the homepage (#about) */}
+                      <Route path="/about" element={<Navigate to="/#about" replace />} />
                       <Route path="/saved" element={<SavedItemsPage />} />
-                      <Route path="/faq" element={<FaqPage />} />
-                      <Route path="/help" element={<HelpCenterPage />} />
-                      <Route path="/terms" element={<TermsPage />} />
-                      <Route path="/privacy" element={<PrivacyPage />} />
+                      {/* FAQ, Help Center, Terms and Privacy open as modals
+                          over the current page — deep links land on Home */}
+                      <Route path="/faq" element={<Navigate to="/" replace />} />
+                      <Route path="/help" element={<Navigate to="/" replace />} />
+                      <Route path="/terms" element={<Navigate to="/" replace />} />
+                      <Route path="/privacy" element={<Navigate to="/" replace />} />
                       <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                   </div>
                 </main>
                 <Footer visitorCount={visitorCount} />
                 <ChatWidget />
+                </SupportModalProvider>
                 </MarketModalProvider>
               </ProduceFiltersProvider>
             </DirectoryFiltersProvider>

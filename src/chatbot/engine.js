@@ -722,8 +722,8 @@ function buildIntents(agent) {
           directory: 'the Market Directory',
           produce: 'the Produce Guide',
           bookmarks: 'your Saved Items',
-          about: 'the About Us page',
-          contact: 'the Contact Us page',
+          about: 'the About Us section on the homepage',
+          contact: 'the Contact Us section on the homepage',
         };
         if (t.page === 'directory') agent.openDirectory('');
         else if (t.page === 'produce') agent.openProduceGuide({});

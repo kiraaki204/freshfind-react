@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import markets from '../data/markets.json';
 import { useToast } from '../hooks/useToast.jsx';
+import { useSupportModal } from '../hooks/useSupportModal.jsx';
 import Icon from './Icon.jsx';
 import SocialRow from './SocialRow.jsx';
 import MiniMap from './MiniMap.jsx';
@@ -10,6 +11,7 @@ const HQ_LNG = markets.reduce((sum, m) => sum + m.lng, 0) / markets.length;
 
 export default function HomeContactSection() {
   const showToast = useToast();
+  const { openSupport } = useSupportModal();
   const [sending, setSending] = useState(false);
 
   const submitMessage = (e) => {
@@ -145,7 +147,16 @@ export default function HomeContactSection() {
                     </button>
                     <p className="contact-demo-note">
                       <Icon name="info" size={12} /> Demo form — messages stay in your browser and aren&apos;t sent to a server.
-                      See <a href="/privacy" style={{ color: '#15803d', textDecoration: 'underline' }}>Privacy</a> for details.
+                      See{' '}
+                      <button
+                        type="button"
+                        className="contact-privacy-link"
+                        aria-haspopup="dialog"
+                        onClick={() => openSupport('privacy')}
+                      >
+                        Privacy
+                      </button>{' '}
+                      for details.
                     </p>
                   </div>
                 </div>
