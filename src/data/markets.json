@@ -720,5 +720,241 @@
     "parkingAvailable": false,
     "petFriendly": true,
     "wheelchairAccessible": true
+  },
+  {
+    "id": 15,
+    "name": "Harbourside Market Hall",
+    "location": "Pier 9 Covered Arcade",
+    "area": "Harbourside",
+    "address": "9 Pier Arcade, Harbourside",
+    "lat": 40.6825,
+    "lng": -74.0142,
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "openingTime": "07:00",
+    "closingTime": "23:59",
+    "description": "Anchored beneath the old ferry terminal, Harbourside Market Hall brings together more than 60 growers, fishers and bakers under one roof. Open every single day of the week from early morning until midnight, it is the region's most reliable stop for just-picked produce, warm bread and last-minute dinner ingredients.",
+    "shortDescription": "A covered market hall open every day until midnight, with over 60 vendors under one roof.",
+    "image": "/images/market-sunnyside.jpg",
+    "gallery": [
+      "/images/market-sunnyside.jpg",
+      "/images/seasonal-produce.jpg",
+      "/images/hero-market.jpg"
+    ],
+    "produce": [
+      "tomatoes",
+      "peppers",
+      "leafy-greens",
+      "bread",
+      "eggs",
+      "honey",
+      "dairy",
+      "flowers"
+    ],
+    "produceTypes": [
+      "Vegetables",
+      "Fruits",
+      "Dairy",
+      "Baked Goods",
+      "Other"
+    ],
+    "tags": [
+      "Organic",
+      "Vegetables",
+      "Fruits",
+      "Baked Goods"
+    ],
+    "featured": false,
+    "rating": 4.7,
+    "vendors": 62,
+    "established": 2011,
+    "contact": "harbourside@freshfind.com",
+    "phone": "+1 555-0115",
+    "website": "https://harboursidemarkethall.example.com",
+    "parkingAvailable": false,
+    "petFriendly": true,
+    "wheelchairAccessible": true
+  },
+  {
+    "id": 16,
+    "name": "Quayside Night Market",
+    "location": "Quayside Promenade",
+    "area": "Harbourside",
+    "address": "44 Quayside Promenade, Harbourside",
+    "lat": 40.6795,
+    "lng": -74.0186,
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "openingTime": "17:00",
+    "closingTime": "23:59",
+    "description": "As the sun sets, the Quayside Promenade fills with lantern-lit stalls selling late-harvest vegetables, ripe fruit, hot street food and small-batch preserves. Quayside Night Market runs every evening of the week, making it easy to pick up farm-fresh ingredients on the way home from work.",
+    "shortDescription": "A lantern-lit evening market running every night along the waterfront promenade.",
+    "image": "/images/seasonal-produce.jpg",
+    "gallery": [
+      "/images/seasonal-produce.jpg",
+      "/images/hero-market.jpg",
+      "/images/market-lakeside.jpg"
+    ],
+    "produce": [
+      "strawberries",
+      "berries",
+      "corn",
+      "cucumbers",
+      "herbs",
+      "bread",
+      "flowers"
+    ],
+    "produceTypes": [
+      "Vegetables",
+      "Fruits",
+      "Baked Goods",
+      "Other"
+    ],
+    "tags": [
+      "Vegetables",
+      "Fruits",
+      "Baked Goods"
+    ],
+    "featured": false,
+    "rating": 4.6,
+    "vendors": 38,
+    "established": 2018,
+    "contact": "quayside@freshfind.com",
+    "phone": "+1 555-0116",
+    "website": "https://quaysidenight.example.com",
+    "parkingAvailable": false,
+    "petFriendly": true,
+    "wheelchairAccessible": true
+  },
+  {
+    "id": 17,
+    "name": "Meridian Produce Exchange",
+    "location": "Meridian Wholesale Sheds",
+    "area": "Midtown",
+    "address": "700 Meridian Avenue, Midtown",
+    "lat": 40.7455,
+    "lng": -73.9885,
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "openingTime": "00:00",
+    "closingTime": "08:00",
+    "description": "The city's original wholesale produce exchange, Meridian has traded through the night since 1974. Chefs, grocers and early risers haggle over crates of root vegetables, orchard fruit and greens while the rest of the city sleeps. The public is welcome to browse and buy any night of the week.",
+    "shortDescription": "An overnight wholesale produce exchange open every night from midnight until 8 AM.",
+    "image": "/images/hero-market.jpg",
+    "gallery": [
+      "/images/hero-market.jpg",
+      "/images/market-riverside.jpg",
+      "/images/seasonal-produce.jpg"
+    ],
+    "produce": [
+      "root-veg",
+      "carrots",
+      "apples",
+      "citrus",
+      "leafy-greens",
+      "corn",
+      "potatoes"
+    ],
+    "produceTypes": [
+      "Vegetables",
+      "Fruits",
+      "Other"
+    ],
+    "tags": [
+      "Vegetables",
+      "Fruits",
+      "Other"
+    ],
+    "featured": false,
+    "rating": 4.4,
+    "vendors": 85,
+    "established": 1974,
+    "contact": "exchange@freshfind.com",
+    "phone": "+1 555-0117",
+    "website": "https://meridianexchange.example.com",
+    "parkingAvailable": true,
+    "petFriendly": false,
+    "wheelchairAccessible": true
+  },
+  {
+    "id": 18,
+    "name": "Midtown Fresh Market",
+    "location": "Cedar Square",
+    "area": "Midtown",
+    "address": "12 Cedar Square, Midtown",
+    "lat": 40.7492,
+    "lng": -73.9857,
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "openingTime": "08:00",
+    "closingTime": "23:00",
+    "description": "Right on Cedar Square, Midtown Fresh Market is the neighbourhood's daily source for vegetables, fruit, eggs and artisan bread. Stalls open at 8 AM and stay busy well into the evening, with growers restocking throughout the day so the produce is always fresh.",
+    "shortDescription": "A daily neighbourhood market on Cedar Square, open from 8 AM until 11 PM.",
+    "image": "/images/market-central.jpg",
+    "gallery": [
+      "/images/market-central.jpg",
+      "/images/market-maple.jpg",
+      "/images/seasonal-produce.jpg"
+    ],
+    "produce": [
+      "tomatoes",
+      "carrots",
+      "leafy-greens",
+      "dairy",
+      "eggs",
+      "bread",
+      "berries",
+      "broccoli"
+    ],
+    "produceTypes": [
+      "Vegetables",
+      "Fruits",
+      "Dairy",
+      "Baked Goods"
+    ],
+    "tags": [
+      "Vegetables",
+      "Fruits",
+      "Dairy",
+      "Baked Goods"
+    ],
+    "featured": false,
+    "rating": 4.5,
+    "vendors": 45,
+    "established": 2009,
+    "contact": "midtown@freshfind.com",
+    "phone": "+1 555-0118",
+    "website": "https://midtownfresh.example.com",
+    "parkingAvailable": true,
+    "petFriendly": true,
+    "wheelchairAccessible": true
   }
 ]
