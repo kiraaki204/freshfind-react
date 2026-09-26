@@ -178,7 +178,21 @@ button:disabled { cursor: not-allowed; }
   transition: width .25s ease, opacity .2s ease;
 }
 .header-search .search-wrap { width: 100%; }
-.header-search .form-control { border-radius: 12px; }
+/* navbar search input: stripped of Bootstrap's chrome — just a green
+   pill outline with a soft green glow, in every state */
+.header-search .form-control {
+  background: transparent;
+  border: 1px solid var(--green-500);
+  border-radius: 999px;
+  box-shadow: 0 2px 10px rgba(22, 163, 74, .18);
+}
+.header-search .form-control:focus,
+.header-search .form-control:focus-visible {
+  background: transparent;
+  border-color: var(--green-500);
+  box-shadow: 0 2px 10px rgba(22, 163, 74, .18);
+  outline: none;
+}
 
 @media (max-width: 991.98px) {
   /* on small screens the search opens as a full-width strip directly
