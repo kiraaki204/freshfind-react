@@ -162,13 +162,23 @@ button:disabled { cursor: not-allowed; }
 
 .header-search {
   display: none;
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 0 1rem 12px;
-  border-top: 1px solid var(--gray-100);
-  padding-top: 12px;
+  gap: 8px;
 }
-.header-search.open { display: block; }
+.header-search.open {
+  display: flex;
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  background: #fff;
+  border-top: 1px solid var(--gray-100);
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  padding: 10px 1rem 12px;
+  z-index: 55;
+}
+.header-search .form-control { border-radius: 10px; }
+.header-search-go {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 0 14px; border-radius: 10px; white-space: nowrap;
+}
 
 .mobile-menu {
   display: none;
@@ -205,6 +215,18 @@ button:disabled { cursor: not-allowed; }
   .header-inner { height: 80px; padding: 0 1.5rem; }
   .main-nav { display: flex; }
   .menu-toggle { display: none !important; }
+  .search-toggle { display: none; }
+  .header-search, .header-search.open {
+    display: flex;
+    position: static;
+    flex: 0 1 260px;
+    min-width: 170px;
+    margin: 0 4px;
+    padding: 0;
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
 }
 
 /* ---------- layout ---------- */
@@ -913,6 +935,39 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
   .ffmap-chip { font-size: 11px; }
 }
 
+.fselect { position: relative; }
+.fselect-label { display: block; margin-bottom: 4px; }
+.fselect-btn {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; background: #fff; border: 1px solid var(--gray-200); border-radius: 10px;
+  padding: 9px 12px; font-size: 14px; color: var(--gray-700); text-align: left;
+  min-height: 42px; transition: border-color .15s, box-shadow .15s;
+}
+.fselect-btn:hover { border-color: var(--green-300); }
+.fselect-btn.open, .fselect-btn:focus-visible {
+  outline: none; border-color: var(--green-500);
+  box-shadow: 0 0 0 .2rem rgba(22,163,74,.15);
+}
+.fselect-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fselect-chev { flex-shrink: 0; color: var(--gray-400); transform: rotate(90deg); transition: transform .15s; }
+.fselect-btn.open .fselect-chev { transform: rotate(-90deg); }
+.fselect-menu {
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 40;
+  margin: 0; padding: 6px; list-style: none; background: #fff;
+  border: 1px solid var(--gray-100); border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.12);
+  max-height: 264px; overflow-y: auto;
+}
+.fselect-menu:focus { outline: none; }
+.fselect-menu:focus-visible { outline: 2px solid var(--green-500); outline-offset: -2px; }
+.fselect-opt {
+  display: flex; align-items: center; gap: 8px; padding: 9px 10px;
+  border-radius: 8px; font-size: 14px; color: var(--gray-700); cursor: pointer;
+}
+.fselect-opt.active { background: var(--green-50); }
+.fselect-opt.selected { color: var(--green-700); font-weight: 600; }
+
 @media (max-width: 576px) {
   .ff-card .form-select, .ff-card .form-control { font-size: 16px; }
+  .fselect-btn { font-size: 16px; } /* no iOS focus-zoom */
 }

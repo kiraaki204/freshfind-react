@@ -7,6 +7,7 @@ import Icon from '../components/Icon.jsx';
 import Breadcrumb from '../components/Breadcrumb.jsx';
 import MarketCard from '../components/MarketCard.jsx';
 import MarketMap from '../components/MarketMap.jsx';
+import FilterSelect from '../components/FilterSelect.jsx';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const PRODUCE_TYPES = ['Fruits', 'Vegetables', 'Herbs', 'Dairy', 'Meat', 'Baked Goods', 'Organic', 'Flowers', 'Other'];
@@ -101,31 +102,36 @@ export default function DirectoryPage() {
         {showFilters && (
           <div className="row g-2 pt-3" style={{ borderTop: '1px solid #f3f4f6' }}>
             <div className="col-12 col-sm-6 col-lg-3">
-              <label className="small text-muted">Location / Area</label>
-              <select className="form-select" value={filters.area} onChange={(e) => update({ area: e.target.value })}>
-                <option value="">All Areas</option>
-                {areas.map((a) => <option key={a}>{a}</option>)}
-              </select>
+              <FilterSelect
+                label="Location / Area"
+                value={filters.area}
+                options={[{ value: '', label: 'All Areas' }, ...areas.map((a) => ({ value: a, label: a }))]}
+                onChange={(v) => update({ area: v })}
+              />
             </div>
             <div className="col-12 col-sm-6 col-lg-3">
-              <label className="small text-muted">Day of Week</label>
-              <select className="form-select" value={filters.day} onChange={(e) => update({ day: e.target.value })}>
-                <option value="">All Days</option>
-                {DAYS.map((d) => <option key={d}>{d}</option>)}
-              </select>
+              <FilterSelect
+                label="Day of Week"
+                value={filters.day}
+                options={[{ value: '', label: 'All Days' }, ...DAYS.map((d) => ({ value: d, label: d }))]}
+                onChange={(v) => update({ day: v })}
+              />
             </div>
             <div className="col-12 col-sm-6 col-lg-3">
-              <label className="small text-muted">Produce Type</label>
-              <select className="form-select" value={filters.produce} onChange={(e) => update({ produce: e.target.value })}>
-                <option value="">All Types</option>
-                {PRODUCE_TYPES.map((p) => <option key={p}>{p}</option>)}
-              </select>
+              <FilterSelect
+                label="Produce Type"
+                value={filters.produce}
+                options={[{ value: '', label: 'All Types' }, ...PRODUCE_TYPES.map((p) => ({ value: p, label: p }))]}
+                onChange={(v) => update({ produce: v })}
+              />
             </div>
             <div className="col-12 col-sm-6 col-lg-3">
-              <label className="small text-muted">Sort By</label>
-              <select className="form-select" value={filters.sort} onChange={(e) => update({ sort: e.target.value })}>
-                {SORTS.map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-              </select>
+              <FilterSelect
+                label="Sort By"
+                value={filters.sort}
+                options={SORTS.map(([value, label]) => ({ value, label }))}
+                onChange={(v) => update({ sort: v })}
+              />
             </div>
             {activeCount > 0 && (
               <div className="col-12">

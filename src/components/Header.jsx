@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useBookmarks } from '../hooks/useBookmarks.jsx';
 import Icon from './Icon.jsx';
@@ -6,8 +6,8 @@ import Icon from './Icon.jsx';
 const NAV = [
   { label: 'Home', to: '/', icon: 'home' },
   { label: 'Find a Market', to: '/markets', icon: 'pin' },
-  { label: 'Produce Guide', to: '/produce', icon: 'carrot' },
-  { label: 'About Us', to: '/about', icon: 'info' },
+  { label: 'Produce Guide', to: '/produce', icon: 'sprout' },
+  { label: 'About Us', to: '/about', icon: 'users' },
   { label: 'Contact Us', to: '/contact', icon: 'phone' },
 ];
 
@@ -24,6 +24,8 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const searchInputRef = useRef(null);
+  const searchToggleRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -31,10 +33,23 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // close the mobile menu whenever navigation happens
+  // close the mobile menu and the mobile search panel on navigation
   useEffect(() => {
     setMenuOpen(false);
+    setSearchOpen(false);
   }, [pathname]);
+
+  // focus the input when the mobile search panel opens
+  useEffect(() => {
+    if (searchOpen && window.matchMedia('(max-width: 991.98px)').matches) {
+      searchInputRef.current?.focus();
+    }
+  }, [searchOpen]);
+
+  const toggleSearch = () => {
+    setSearchOpen((o) => !o);
+    setMenuOpen(false);
+  };
 
   const submitSearch = (e) => {
     e.preventDefault();
@@ -71,9 +86,47 @@ export default function Header() {
           ))}
         </nav>
 
+        <form
+          id="header-search"
+          className={`header-search${searchOpen ? ' open' : ''}`}
+          role="search"
+          aria-label="Site search"
+          onSubmit={submitSearch}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape' && searchOpen) {
+              setSearchOpen(false);
+              searchToggleRef.current?.focus();
+            }
+          }}
+        >
+          <div className="search-wrap flex-grow-1">
+            <span className="s-ico"><Icon name="search" size={18} /></span>
+            <input
+              ref={searchInputRef}
+              type="text"
+              className="form-control"
+              placeholder="Search markets, locations or produce..."
+              aria-label="Search markets, locations or produce"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </div>
+          <button type="submit" className="btn-green header-search-go" aria-label="Search">
+            <Icon name="search" size={16} />
+            <span className="d-none d-lg-inline">Search</span>
+          </button>
+        </form>
+
         <div className="header-actions">
-          <button className="icon-btn" aria-label="Search" onClick={() => setSearchOpen((o) => !o)}>
-            <Icon name="search" size={18} />
+          <button
+            ref={searchToggleRef}
+            className="icon-btn search-toggle"
+            aria-label={searchOpen ? 'Close search' : 'Open search'}
+            aria-expanded={searchOpen}
+            aria-controls="header-search"
+            onClick={toggleSearch}
+          >
+            <Icon name={searchOpen ? 'x' : 'search'} size={18} />
           </button>
           <button className="icon-btn" aria-label="Saved items" onClick={() => navigate('/saved')}>
             <Icon name="heart" size={18} />
@@ -83,23 +136,6 @@ export default function Header() {
             <Icon name={menuOpen ? 'x' : 'menu'} size={20} />
           </button>
         </div>
-      </div>
-
-      <div className={`header-search${searchOpen ? ' open' : ''}`}>
-        <form className="d-flex gap-2" onSubmit={submitSearch}>
-          <div className="search-wrap flex-grow-1">
-            <span className="s-ico"><Icon name="search" size={18} /></span>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search markets, locations or produce..."
-              style={{ borderRadius: 8 }}
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </div>
-          <button type="submit" className="btn-green">Search</button>
-        </form>
       </div>
 
       <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
