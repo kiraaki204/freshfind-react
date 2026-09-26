@@ -129,13 +129,37 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
     const map = mapRef.current;
     if (!map || !L || mapStatus !== 'ready') return;
 
+    /* When several displayed markets share (nearly) the same coordinates,
+       plain pins stack on top of each other and the user only sees ONE
+       market. Spread each stack on a small ring so every pin stays
+       clickable — a visual offset only, the coordinates in the popup and
+       the directory list remain untouched. */
+    const clusters = {};
+    displayed.forEach((m) => {
+      if (!isValidCoord(m.lat, m.lng)) return;
+      const k = `${m.lat.toFixed(3)},${m.lng.toFixed(3)}`;
+      (clusters[k] = clusters[k] || []).push(m.id);
+    });
+    const spotFor = (m) => {
+      const same = clusters[`${m.lat.toFixed(3)},${m.lng.toFixed(3)}`] || [];
+      if (same.length < 2) return [m.lat, m.lng];
+      const i = same.indexOf(m.id);
+      const angle = (Math.PI * 2 * i) / same.length;
+      const r = 0.0015; // ≈160 m — enough to unstack the pins at street zoom
+      return [
+        m.lat + r * Math.cos(angle),
+        m.lng + (r * Math.sin(angle)) / Math.cos((m.lat * Math.PI) / 180),
+      ];
+    };
+
     const existing = markersRef.current;
     const next = {};
     displayed.forEach((m) => {
       if (!isValidCoord(m.lat, m.lng)) return; // never place a marker at a guess
+      const [mlat, mlng] = spotFor(m);
       let marker = existing[m.id];
       if (!marker) {
-        marker = L.marker([m.lat, m.lng], {
+        marker = L.marker([mlat, mlng], {
           icon: marketPinIcon(L, m.id === selectedId),
           title: m.name,
           alt: m.name,
@@ -144,6 +168,9 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
         marker.bindPopup(popupHtml(m, saved), { maxWidth: 300, minWidth: 240 });
         marker.on('click', () => onSelectRef.current && onSelectRef.current(m.id));
         marker.addTo(map);
+      } else {
+        const cur = marker.getLatLng();
+        if (cur.lat !== mlat || cur.lng !== mlng) marker.setLatLng([mlat, mlng]);
       }
       next[m.id] = marker;
     });

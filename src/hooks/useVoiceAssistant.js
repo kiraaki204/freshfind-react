@@ -21,8 +21,50 @@ const cleanForSpeech = (text) =>
   (text || '')
     .replace(EMOJI_RE, ' ')
     .replace(/[•·]/g, ', ')
+    .replace(/→/g, ', ')
     .replace(/\s+/g, ' ')
     .trim();
+
+/* Splitting the reply into short sentence chunks and chaining one utterance
+   after another sounds far more natural than one robotic mega-utterance —
+   and it also avoids the long-text cut-off bug in some browsers. */
+const toSpeechChunks = (text) => {
+  const cleaned = cleanForSpeech(text);
+  if (!cleaned) return [];
+  // sentinel split (no lookbehind — Safari-safe)
+  const parts = cleaned.replace(/([.!?…,;:])\s+/g, '$1\u0001').split('\u0001');
+  const chunks = [];
+  let buf = '';
+  for (const part of parts) {
+    const p = part.trim();
+    if (!p) continue;
+    if ((buf + ' ' + p).trim().length > 140) { if (buf) chunks.push(buf.trim()); buf = p; }
+    else buf = (buf + ' ' + p).trim();
+  }
+  if (buf.trim()) chunks.push(buf.trim());
+  return chunks;
+};
+
+/* Voice quality varies WILDLY between browsers. Prefer the natural/neural
+   online voices (Edge) or Google's English pack (Chrome), then any English
+   voice, then the browser default — never lock onto a random first entry. */
+const pickVoice = (voices) => {
+  const english = voices.filter((v) => /^en\b/i.test(v.lang || ''));
+  const pool = english.length ? english : voices;
+  const score = (v) => {
+    const n = `${v.name || ''} ${v.lang || ''}`.toLowerCase();
+    let s = 0;
+    if (/natural|neural|online/.test(n)) s += 40;
+    if (/google/.test(n)) s += (n.includes('us') ? 34 : 26);
+    if (/samantha|aria|jenny|zira|sonia|libby|daniel|karen|moira|tessa/.test(n)) s += 22;
+    if (/en[-_]us/.test(n)) s += 12;
+    else if (/en[-_]gb|en[-_]au|en[-_]ca/.test(n)) s += 8;
+    if (v.default) s += 6;
+    if (v.localService) s += 2;
+    return s;
+  };
+  return pool.slice().sort((a, b) => score(b) - score(a))[0] || null;
+};
 
 const ERROR_MESSAGES = {
   'not-allowed': 'Microphone access was blocked. Allow mic permission in your browser and try again.',
@@ -43,6 +85,7 @@ export default function useVoiceAssistant() {
   const finalSentRef = useRef(false);
   const cancelledRef = useRef(false);
   const speechIdRef = useRef(null);
+  const queueRef = useRef([]);
   const voicesRef = useRef([]);
 
   /* keep the TTS voice list warm */
@@ -82,7 +125,9 @@ export default function useVoiceAssistant() {
 
     const rec = new SR();
     recRef.current = rec;
-    rec.lang = navigator.language || 'en-US';
+    // the assistant speaks English — an explicit English grammar is far more
+    // reliable than whatever locale the browser was configured with
+    rec.lang = /^en/i.test(navigator.language || '') ? navigator.language : 'en-US';
     rec.interimResults = true;
     rec.continuous = false;
     rec.maxAlternatives = 1;
@@ -138,37 +183,42 @@ export default function useVoiceAssistant() {
       try { window.speechSynthesis.cancel(); } catch { /* ignore */ }
     }
     speechIdRef.current = null;
+    queueRef.current = [];
     setSpeakingId(null);
   }, []);
 
   const speak = useCallback((id, text) => {
     if (!TTS) return;
     stopSpeak(); // only ever one spoken message at a time
-    const cleaned = cleanForSpeech(text);
-    if (!cleaned) return;
-    const utter = new SpeechSynthesisUtterance(cleaned);
-    const voices = voicesRef.current;
-    utter.voice =
-      voices.find((v) => v.default) ||
-      voices.find((v) => /^en\b/i.test(v.lang || '')) ||
-      null;
-    utter.rate = 1.0; // comfortable, unhurried pace
-    utter.pitch = 1.0;
+    const chunks = toSpeechChunks(text);
+    if (!chunks.length) return;
+    const synth = window.speechSynthesis;
+    // refresh lazily — some browsers only fill voices after first use
+    const voices = voicesRef.current.length ? voicesRef.current : synth.getVoices();
+    const voice = pickVoice(voices);
+
     speechIdRef.current = id;
     setSpeakingId(id);
-    const done = () => {
+    let i = 0;
+    const finish = () => {
       if (speechIdRef.current === id) {
         speechIdRef.current = null;
         setSpeakingId(null);
       }
     };
-    utter.onend = done;
-    utter.onerror = done;
-    try {
-      window.speechSynthesis.speak(utter);
-    } catch {
-      setSpeakingId(null);
-    }
+    const next = () => {
+      // a different playback took over (or the user hit Stop) — abandon queue
+      if (speechIdRef.current !== id) return;
+      if (i >= chunks.length) { finish(); return; }
+      const u = new SpeechSynthesisUtterance(chunks[i]);
+      if (voice) u.voice = voice;
+      u.rate = 0.96;  // conversational, unhurried — clearer than 1.0+
+      u.pitch = 1.02; // a touch warmer
+      u.onend = () => { i += 1; next(); };
+      u.onerror = finish;
+      try { synth.speak(u); } catch { finish(); }
+    };
+    next();
   }, [stopSpeak]);
 
   const toggleSpeak = useCallback((id, text) => {
