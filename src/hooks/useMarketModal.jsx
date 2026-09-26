@@ -12,11 +12,19 @@ export function MarketModalProvider({ children }) {
   const closeMarket = useCallback(() => setMarketId(null), []);
 
   return (
-    <MarketModalContext.Provider value={{ openMarket }}>
+    <MarketModalContext.Provider value={{ openMarket, closeMarket, marketId }}>
       {children}
-      <MarketModal key={marketId ?? 'closed'} marketId={marketId} onClose={closeMarket} />
     </MarketModalContext.Provider>
   );
+}
+
+/* Renders the actual market modal. It must be mounted BELOW both the
+   market and produce-detail providers (see App.jsx): MarketModal itself
+   opens the produce detail modal from its produce tiles, so rendering it
+   inside this provider crashed with a null ProduceDetailModal context. */
+export function MarketModalHost() {
+  const { marketId, closeMarket } = useMarketModal();
+  return <MarketModal key={marketId ?? 'closed'} marketId={marketId} onClose={closeMarket} />;
 }
 
 export function useMarketModal() {

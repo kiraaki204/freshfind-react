@@ -11,7 +11,7 @@ import Footer from './components/Footer.jsx';
 import ChatWidget from './components/ChatWidget.jsx';
 import HomePage from './pages/HomePage.jsx';
 import DirectoryPage from './pages/DirectoryPage.jsx';
-import { MarketModalProvider } from './hooks/useMarketModal.jsx';
+import { MarketModalProvider, MarketModalHost } from './hooks/useMarketModal.jsx';
 import { ProduceDetailModalProvider } from './hooks/useProduceDetailModal.jsx';
 import { SupportModalProvider } from './hooks/useSupportModal.jsx';
 import ProducePage from './pages/ProducePage.jsx';
@@ -76,6 +76,10 @@ export default function App() {
                 </main>
                 <Footer visitorCount={visitorCount} />
                 <ChatWidget />
+                {/* market modal renders down here so it can use BOTH the
+                    market and the produce-detail modal contexts (it opens
+                    produce details from its produce tiles) */}
+                <MarketModalHost />
                 </SupportModalProvider>
                 </ProduceDetailModalProvider>
                 </MarketModalProvider>
