@@ -9,6 +9,7 @@ import LiveClock from '../components/LiveClock.jsx';
 import MarketCard from '../components/MarketCard.jsx';
 import HomeProduceSection from '../components/HomeProduceSection.jsx';
 import HomeJournalSection from '../components/HomeJournalSection.jsx';
+import HomePlannerSection from '../components/HomePlannerSection.jsx';
 import HomeContactSection from '../components/HomeContactSection.jsx';
 
 const QUICK_ACTIONS = [
@@ -229,6 +230,9 @@ export default function HomePage({ visitorCount }) {
           </div>
         </div>
       </section>
+
+      {/* interactive market-day planner (replaces the static how-it-works band) */}
+      <HomePlannerSection />
 
       <section className="py-5">
         <div className="container" style={{ maxWidth: '80rem' }}>

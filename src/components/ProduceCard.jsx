@@ -48,6 +48,11 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
           </div>
         )}
         <div className="produce-img-shade" aria-hidden="true" />
+        <div className="produce-glass" aria-hidden="true">
+          <span className="produce-glass-label">
+            <Icon name="chevron" size={15} /> View more details
+          </span>
+        </div>
         <div className="heart-abs">
           <SaveButton size="sm" item={{ id: `produce-${p.id}`, type: 'produce', name: p.name, category: p.category }} />
         </div>
@@ -63,9 +68,6 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
             <Icon name="pin" size={12} /> Available at {marketCount} market{marketCount > 1 ? 's' : ''}
           </p>
         )}
-        <span className="produce-card-cta" aria-hidden="true">
-          View details <Icon name="chevron" size={14} />
-        </span>
       </div>
     </article>
   );
