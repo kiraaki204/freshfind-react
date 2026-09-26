@@ -5,6 +5,7 @@ import produceData from '../data/produce.json';
 import { formatTime, DAY_NAMES } from '../utils/time.js';
 import { imgPath, tagDestination } from '../utils/markets.js';
 import { hasMeaningfulSeason } from '../utils/produce.js';
+import { useProduceModal } from '../hooks/useProduceModal.jsx';
 import Icon from './Icon.jsx';
 import StatusBadge from './StatusBadge.jsx';
 import SaveButton from './SaveButton.jsx';
@@ -17,6 +18,7 @@ const WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
     All content comes from the shared market/produce data. */
 export default function MarketModal({ marketId, onClose }) {
   const navigate = useNavigate();
+  const { openProduce } = useProduceModal();
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
   const [lightboxSrc, setLightboxSrc] = useState(null);
@@ -171,8 +173,8 @@ export default function MarketModal({ marketId, onClose }) {
                     <div key={p.id} className="col-6 col-md-4">
                       <button
                         className="produce-tile"
-                        aria-label={`${p.name} — open in Produce Guide`}
-                        onClick={() => closeAndGo(`/produce/${p.id}`)}
+                        aria-label={`View details for ${p.name}`}
+                        onClick={() => { onClose(); openProduce(p.id); }}
                       >
                         <div style={{ fontSize: '1.6rem' }}>{p.emoji}</div>
                         <div className="small fw-medium">{p.name}</div>

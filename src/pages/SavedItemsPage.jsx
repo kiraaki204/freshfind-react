@@ -8,6 +8,7 @@ import { useToast } from '../hooks/useToast.jsx';
 import Icon from '../components/Icon.jsx';
 import Breadcrumb from '../components/Breadcrumb.jsx';
 import { useMarketModal } from '../hooks/useMarketModal.jsx';
+import { useProduceModal } from '../hooks/useProduceModal.jsx';
 
 function exportBookmarks(bookmarks) {
   const lines = ['FreshFind Saved Items', `Exported: ${new Date().toLocaleString()}`, ''];
@@ -74,6 +75,7 @@ function NoteEditor({ bookmark, onSave }) {
 export default function SavedItemsPage() {
   const navigate = useNavigate();
   const { openMarket } = useMarketModal();
+  const { openProduce } = useProduceModal();
   const { bookmarks, removeBookmark, setNote } = useBookmarks();
   const showToast = useToast();
 
@@ -118,7 +120,7 @@ export default function SavedItemsPage() {
           <button className="btn-green me-2" onClick={() => navigate('/markets')}>
             <Icon name="store" size={16} /> Browse Markets
           </button>
-          <button className="btn-outline-green" onClick={() => navigate('/produce')}>
+          <button className="btn-outline-green" onClick={() => navigate('/#produce')}>
             <Icon name="carrot" size={16} /> Explore Produce
           </button>
         </div>
@@ -174,7 +176,7 @@ export default function SavedItemsPage() {
                         <h3 className="h6 mb-1">{b.name}</h3>
                         <div>
                           {p && (
-                            <button className="btn-green py-1 px-2 me-1" style={{ fontSize: 12 }} onClick={() => navigate(`/produce/${p.id}`)}>
+                            <button className="btn-green py-1 px-2 me-1" style={{ fontSize: 12 }} onClick={() => openProduce(p.id)}>
                               View
                             </button>
                           )}

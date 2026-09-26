@@ -6,7 +6,7 @@ import SocialRow from './SocialRow.jsx';
 const QUICK_LINKS = [
   { label: 'Home', to: '/' },
   { label: 'Find a Market', to: '/markets' },
-  { label: 'Produce Guide', to: '/produce' },
+  { label: 'Produce Guide', to: '/#produce' },
   { label: 'Saved Items', to: '/saved' },
   { label: 'About Us', to: '/about' },
   { label: 'Contact Us', to: '/contact' },

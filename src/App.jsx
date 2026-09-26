@@ -11,9 +11,10 @@ import Footer from './components/Footer.jsx';
 import ChatWidget from './components/ChatWidget.jsx';
 import HomePage from './pages/HomePage.jsx';
 import DirectoryPage from './pages/DirectoryPage.jsx';
-import { MarketModalProvider } from './hooks/useMarketModal.jsx';
-import ProducePage from './pages/ProducePage.jsx';
-import ProduceDetailPage from './pages/ProduceDetailPage.jsx';
+import { MarketModalProvider, useMarketModal } from './hooks/useMarketModal.jsx';
+import { ProduceModalProvider, useProduceModal } from './hooks/useProduceModal.jsx';
+import MarketModal from './components/MarketModal.jsx';
+import ProduceModal from './components/ProduceModal.jsx';
 import AboutPage from './pages/AboutPage.jsx';
 import ContactPage from './pages/ContactPage.jsx';
 import SavedItemsPage from './pages/SavedItemsPage.jsx';
@@ -22,6 +23,17 @@ import HelpCenterPage from './pages/HelpCenterPage.jsx';
 import TermsPage from './pages/TermsPage.jsx';
 import PrivacyPage from './pages/PrivacyPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
+
+function DetailModals() {
+  const { marketId, closeMarket } = useMarketModal();
+  const { produceId, closeProduce } = useProduceModal();
+  return (
+    <>
+      <MarketModal key={marketId ?? 'market-closed'} marketId={marketId} onClose={closeMarket} />
+      <ProduceModal key={produceId ?? 'produce-closed'} produceId={produceId} onClose={closeProduce} />
+    </>
+  );
+}
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -42,6 +54,7 @@ export default function App() {
             <DirectoryFiltersProvider>
               <ProduceFiltersProvider>
                 <MarketModalProvider>
+                  <ProduceModalProvider>
                 <ScrollToTop />
                 <Header />
                 <main id="main-content" tabIndex={-1}>
@@ -49,8 +62,6 @@ export default function App() {
                     <Routes>
                       <Route path="/" element={<HomePage visitorCount={visitorCount} />} />
                       <Route path="/markets" element={<DirectoryPage />} />
-                      <Route path="/produce" element={<ProducePage />} />
-                      <Route path="/produce/:produceId" element={<ProduceDetailPage />} />
                       <Route path="/about" element={<AboutPage />} />
                       <Route path="/contact" element={<ContactPage />} />
                       <Route path="/saved" element={<SavedItemsPage />} />
@@ -64,6 +75,8 @@ export default function App() {
                 </main>
                 <Footer visitorCount={visitorCount} />
                 <ChatWidget />
+                <DetailModals />
+                  </ProduceModalProvider>
                 </MarketModalProvider>
               </ProduceFiltersProvider>
             </DirectoryFiltersProvider>

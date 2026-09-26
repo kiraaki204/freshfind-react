@@ -1,9 +1,12 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import markets from '../data/markets.json';
 import { getMarketStatus, getCurrentSeason } from '../utils/time.js';
 import { useChat } from '../hooks/useChat.jsx';
 import { useDirectoryFilters } from '../hooks/useDirectoryFilters.jsx';
+import { useProduceFilters } from '../hooks/useProduceFilters.jsx';
+import { PRODUCE_CATEGORIES } from '../utils/produce.js';
+import ProduceSection from '../components/ProduceSection.jsx';
 import Icon from '../components/Icon.jsx';
 import LiveClock from '../components/LiveClock.jsx';
 import MarketCard from '../components/MarketCard.jsx';
@@ -11,7 +14,7 @@ import MarketCard from '../components/MarketCard.jsx';
 const QUICK_ACTIONS = [
   { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: '#16a34a' },
   { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: '#059669' },
-  { ico: 'leaf', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/produce', bg: '#0d9488' },
+  { ico: 'leaf', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: '#0d9488' },
   { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: '#15803d' },
 ];
 
@@ -37,9 +40,27 @@ const WHY = [
 
 export default function HomePage({ visitorCount }) {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { openChat } = useChat();
   const { update: updateDirFilters } = useDirectoryFilters();
+  const { update: updateProduceFilters } = useProduceFilters();
+  const produceRef = useRef(null);
   const [heroQuery, setHeroQuery] = useState('');
+
+  // deep links such as /?category=Vegetables#produce select the category once
+  // and scroll the produce section into view
+  useEffect(() => {
+    const raw = searchParams.get('category');
+    if (raw) {
+      const match = PRODUCE_CATEGORIES.find((c) => c.toLowerCase() === raw.toLowerCase());
+      updateProduceFilters({ category: match || 'All' });
+      setSearchParams({}, { replace: true });
+    }
+    if (location.hash === '#produce') {
+      produceRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [location, searchParams, updateProduceFilters, setSearchParams]);
 
   const openNow = markets.filter((m) => getMarketStatus(m).status === 'open');
   const featured = markets.filter((m) => m.featured);
@@ -183,6 +204,10 @@ export default function HomePage({ visitorCount }) {
         </div>
       </section>
 
+      <div ref={produceRef} style={{ scrollMarginTop: 'calc(var(--header-h) + 16px)' }}>
+        <ProduceSection />
+      </div>
+
       <section className="py-5">
         <div className="container" style={{ maxWidth: '80rem' }}>
           <div className="text-center mb-4">
@@ -213,7 +238,7 @@ export default function HomePage({ visitorCount }) {
                       <li key={it} className="mb-1"><span className="pulse-dot me-1" />{it}</li>
                     ))}
                   </ul>
-                  <button className="btn btn-link p-0 text-decoration-none small" style={{ color: s.accent }} onClick={() => navigate('/produce')}>
+                  <button className="btn btn-link p-0 text-decoration-none small" style={{ color: s.accent }} onClick={() => { updateProduceFilters({ season: s.name, category: 'All' }); navigate('/#produce'); }}>
                     Explore {s.name} Produce <Icon name="chevron" size={14} />
                   </button>
                 </div>
@@ -276,7 +301,7 @@ export default function HomePage({ visitorCount }) {
           <button className="btn-green" style={{ background: '#fff', color: '#15803d' }} onClick={() => navigate('/markets')}>
             <Icon name="store" size={18} /> Find a Market
           </button>
-          <button className="btn-green" style={{ background: '#16a34a', border: '2px solid rgba(255,255,255,.3)' }} onClick={() => navigate('/produce')}>
+          <button className="btn-green" style={{ background: '#16a34a', border: '2px solid rgba(255,255,255,.3)' }} onClick={() => navigate('/#produce')}>
             <Icon name="carrot" size={18} /> Explore Produce
           </button>
         </div>

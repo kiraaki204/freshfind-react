@@ -6,7 +6,7 @@ import Icon from './Icon.jsx';
 const NAV = [
   { label: 'Home', to: '/', icon: 'home' },
   { label: 'Find a Market', to: '/markets', icon: 'pin' },
-  { label: 'Produce Guide', to: '/produce', icon: 'sprout' },
+  { label: 'Produce Guide', to: '/#produce', icon: 'sprout' },
   { label: 'About Us', to: '/about', icon: 'users' },
   { label: 'Contact Us', to: '/contact', icon: 'phone' },
 ];
@@ -34,10 +34,11 @@ export default function Header() {
   }, []);
 
   // close the mobile menu and the mobile search panel on navigation
+  // (location includes hash changes, e.g. scrolling to the produce section)
   useEffect(() => {
     setMenuOpen(false);
     setSearchOpen(false);
-  }, [pathname]);
+  }, [location]);
 
   // focus the input whenever the search box opens (desktop inline or mobile panel)
   useEffect(() => {

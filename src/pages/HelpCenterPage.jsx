@@ -67,7 +67,7 @@ export default function HelpCenterPage() {
           <button className="btn-green" onClick={() => navigate('/markets')}>
             <Icon name="store" size={16} /> Find a Market
           </button>
-          <button className="btn-outline-green" onClick={() => navigate('/produce')}>
+          <button className="btn-outline-green" onClick={() => navigate('/#produce')}>
             <Icon name="carrot" size={16} /> Produce Guide
           </button>
         </div>

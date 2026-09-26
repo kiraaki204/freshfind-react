@@ -1,15 +1,21 @@
-import { useNavigate } from 'react-router-dom';
 import markets from '../data/markets.json';
+import { useProduceModal } from '../hooks/useProduceModal.jsx';
 import Icon from './Icon.jsx';
 import SaveButton from './SaveButton.jsx';
 
 export default function ProduceCard({ produce }) {
-  const navigate = useNavigate();
+  const { openProduce } = useProduceModal();
   const p = produce;
   const marketCount = markets.filter((m) => p.markets.includes(m.id)).length;
 
   return (
-    <article className="m-card">
+    <article
+      className="m-card"
+      onClick={(e) => { if (!e.target.closest('button, a')) openProduce(p.id); }}
+      onKeyDown={(e) => { if (e.key === 'Enter' && !e.target.closest('button, a')) openProduce(p.id); }}
+      tabIndex={0}
+      aria-label={`View details for ${p.name}`}
+    >
       <div className="p-thumb">
         <span>{p.emoji}</span>
         <div className="heart-abs">
@@ -25,7 +31,7 @@ export default function ProduceCard({ produce }) {
         {marketCount > 0 && (
           <p className="small text-muted">Available at {marketCount} market{marketCount > 1 ? 's' : ''}</p>
         )}
-        <button className="btn-outline-green w-100 mt-auto" onClick={() => navigate(`/produce/${p.id}`)}>
+        <button className="btn-outline-green w-100 mt-auto" onClick={() => openProduce(p.id)}>
           View Details <Icon name="chevron" size={16} />
         </button>
       </div>

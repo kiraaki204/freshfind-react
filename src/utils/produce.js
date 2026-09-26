@@ -9,3 +9,6 @@ export function hasMeaningfulSeason(produce) {
   if (YEAR_ROUND_CATEGORIES.includes(produce.category)) return false;
   return true;
 }
+
+/* Category tabs shown in the produce browsing UI (matches the data). */
+export const PRODUCE_CATEGORIES = ['All', 'Fruits', 'Vegetables', 'Herbs', 'Dairy', 'Meat', 'Baked Goods', 'Flowers', 'Other'];

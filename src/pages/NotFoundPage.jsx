@@ -64,7 +64,7 @@ export default function NotFoundPage() {
     const produceHit = produceData.some((p) => p.name.toLowerCase().indexOf(lower) !== -1);
     if (produceHit) {
       replaceProduce({ search: q });
-      navigate('/produce');
+      navigate('/#produce');
     } else {
       updateDirectory({ search: q });
       navigate('/markets');
@@ -112,7 +112,7 @@ export default function NotFoundPage() {
           <Link className="btn-outline-green" to="/markets">
             <Icon name="store" size={16} /> Market Directory
           </Link>
-          <Link className="btn-outline-green" to="/produce">
+          <Link className="btn-outline-green" to="/#produce">
             <Icon name="sprout" size={16} /> Produce Guide
           </Link>
         </div>

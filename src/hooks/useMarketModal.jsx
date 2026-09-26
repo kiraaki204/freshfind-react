@@ -1,8 +1,7 @@
 import { createContext, useCallback, useContext, useState } from 'react';
-import MarketModal from '../components/MarketModal.jsx';
 
 /* Shared so every part of the app (market cards, map popups, chatbot,
-   saved list, produce pages) can open the market detail modal without
+   saved list, produce modal) can open the market detail modal without
    navigating away from the current page. */
 const MarketModalContext = createContext(null);
 
@@ -12,9 +11,8 @@ export function MarketModalProvider({ children }) {
   const closeMarket = useCallback(() => setMarketId(null), []);
 
   return (
-    <MarketModalContext.Provider value={{ openMarket }}>
+    <MarketModalContext.Provider value={{ marketId, openMarket, closeMarket }}>
       {children}
-      <MarketModal key={marketId ?? 'closed'} marketId={marketId} onClose={closeMarket} />
     </MarketModalContext.Provider>
   );
 }

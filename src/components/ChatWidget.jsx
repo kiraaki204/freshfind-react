@@ -11,6 +11,7 @@ import { useGeolocation } from '../hooks/useGeolocation.jsx';
 import { useDirectoryFilters } from '../hooks/useDirectoryFilters.jsx';
 import { useProduceFilters } from '../hooks/useProduceFilters.jsx';
 import { useMarketModal } from '../hooks/useMarketModal.jsx';
+import { useProduceModal } from '../hooks/useProduceModal.jsx';
 import Icon from './Icon.jsx';
 
 const CHAT_KEY = 'freshfind_chat';
@@ -19,7 +20,7 @@ const HINT_KEY = 'freshfind_chat_hint';
 const PAGE_ROUTES = {
   home: '/',
   directory: '/markets',
-  produce: '/produce',
+  produce: '/#produce',
   bookmarks: '/saved',
   about: '/about',
   contact: '/contact',
@@ -50,6 +51,7 @@ export default function ChatWidget() {
   const dirFilters = useDirectoryFilters();
   const produceFilters = useProduceFilters();
   const { openMarket: openMarketModal } = useMarketModal();
+  const { openProduce: openProduceModal } = useProduceModal();
 
   const [msgs, setMsgs] = useState(loadMessages);
   const [typing, setTyping] = useState(false);
@@ -74,10 +76,11 @@ export default function ChatWidget() {
     return {
       openPage: (page) => navigate(PAGE_ROUTES[page] ?? '/'),
       openMarket: (m) => { openMarketModal(m.id); openChat(false); },
-      openProduce: (p) => navigate(`/produce/${p.id}`),
+      openProduce: (p) => { openProduceModal(p.id); openChat(false); },
       openProduceGuide: (opts = {}) => {
         prod.replace(opts);
-        navigate('/produce');
+        navigate('/#produce');
+        openChat(false);
       },
       openDirectory: (search) => {
         dir.update({ area: '', day: '', produce: '', search: search || '' });
@@ -205,7 +208,7 @@ export default function ChatWidget() {
 
   const openItem = (type, id) => {
     if (type === 'market') openMarketModal(Number(id));
-    else navigate(`/produce/${id}`);
+    else openProduceModal(id);
     openChat(false);
   };
 
