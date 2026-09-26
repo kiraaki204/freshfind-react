@@ -382,7 +382,7 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
 .hero-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(0,0,0,.7), rgba(0,0,0,.4), transparent);
+  background: linear-gradient(90deg, rgba(20, 45, 30, .86), rgba(25, 49, 32, .62) 58%, rgba(25, 49, 32, .18));
 }
 .hero-copy {
   position: relative;
@@ -393,16 +393,28 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
 .hero-copy h1 {
   font-size: 2.4rem;
   font-weight: 700;
-  color: #fff;
+  color: #fffdf3;
   line-height: 1.15;
+  letter-spacing: -.035em;
+  text-shadow: 0 3px 20px rgba(13, 35, 22, .2);
   margin-bottom: 1rem;
 }
-.hero-copy h1 span { color: var(--green-400); }
+.hero-copy h1 span {
+  color: #d5e9a0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: rgba(231, 216, 143, .65);
+  text-decoration-thickness: 2px;
+  text-underline-offset: .13em;
+}
 .live-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(22,163,74,.9);
+  background: rgba(43, 79, 46, .88);
+  box-shadow: inset 0 0 0 1px rgba(213, 233, 160, .45), 0 4px 16px rgba(13, 35, 22, .12);
   color: #fff;
   font-size: 12px;
   font-weight: 500;
@@ -2684,3 +2696,108 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
 .voice-settings input { width: 100%; accent-color: #15803d; }
 .voice-settings p { font-size: 10px; color: #64748b; line-height: 1.5; margin: 2px 0 0; }
 .voice-preview { justify-self: start; border: 1px solid #bbd5b5; border-radius: 6px; background: white; color: #166534; padding: 5px 10px; font-size: 11px; }
+
+/* ---------- homepage garden polish ----------
+   The hero's following siblings are homepage-only. Keep shared directory,
+   modal and navbar styles unchanged; decorations never intercept input. */
+.hero { overflow: hidden; }
+.hero-shade::after {
+  content: "";
+  position: absolute;
+  top: 9%; right: 5%;
+  width: 110px; height: 86px;
+  background: radial-gradient(circle, rgba(246, 242, 210, .38) 1.5px, transparent 2px) 0 0 / 14px 14px;
+  border-radius: 65% 35% 60% 40%;
+  pointer-events: none;
+}
+.hero-shade::before {
+  content: "";
+  position: absolute;
+  right: 7%; bottom: 9%;
+  width: 100px; height: 48px;
+  border: 1px solid rgba(231, 239, 197, .4);
+  border-radius: 100% 0 100% 0;
+  transform: rotate(-25deg);
+  background: rgba(213, 233, 160, .06);
+  pointer-events: none;
+}
+.hero-copy .form-control {
+  background: #fffdf5;
+  border-color: #e0e6cc;
+  color: #294534;
+  box-shadow: 0 6px 22px rgba(13, 35, 22, .15);
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+.hero-copy .form-control::placeholder { color: #687362; }
+.hero-copy .form-control:focus {
+  background: #fffef9;
+  border-color: #c7df97;
+  box-shadow: 0 0 0 3px rgba(213, 233, 160, .3);
+}
+.hero-copy .btn-green {
+  background: #d5e9a0;
+  color: #243f2b;
+  box-shadow: 0 5px 18px rgba(13, 35, 22, .18);
+  transition: background .2s ease, box-shadow .2s ease;
+}
+.hero-copy .btn-green:hover { background: #e4efbf; box-shadow: 0 7px 22px rgba(13, 35, 22, .25); }
+.hero-copy .btn-green:active { background: #c4db8f; }
+.hero-copy :is(button, input):focus-visible { outline: 2px solid #f4e6aa; outline-offset: 4px; }
+.hero ~ .clock-bar { background: #2d5137; }
+.hero ~ section.py-5 { background: #fffdf6; }
+/* Bootstrap's background utility is important, so this scoped override is too. */
+.hero ~ section.py-5.bg-light { background: #f1f4e7 !important; }
+.hero ~ section .h4 { color: #2d4934; letter-spacing: -.025em; font-weight: 700; }
+.hero ~ section .qa-card {
+  background: #fffef8;
+  border-color: #dce4cd;
+  border-radius: 20px;
+  box-shadow: 0 3px 12px rgba(48, 73, 37, .045);
+}
+.hero ~ section .qa-card:hover {
+  border-color: #a9bf87;
+  box-shadow: 0 8px 22px rgba(48, 73, 37, .1);
+}
+.hero ~ section .qa-ico { border-radius: 16px 16px 16px 5px; }
+.hero ~ section .m-card,
+.home-produce .ff-produce-card {
+  background: #fffef9;
+  border-color: #dfe5d1;
+  box-shadow: 0 3px 8px rgba(48, 73, 37, .035), 0 10px 24px rgba(48, 73, 37, .055);
+}
+.hero ~ section .m-card { border-radius: 20px; }
+.hero ~ section .m-card:hover,
+.home-produce .ff-produce-card:hover {
+  border-color: #b8cc9c;
+  box-shadow: 0 10px 26px rgba(48, 73, 37, .12);
+}
+.hero ~ section .season-card { border-radius: 22px 22px 22px 8px; }
+.hero ~ section .season-card.current { box-shadow: 0 0 0 2px #819e5d, 0 8px 22px rgba(48, 73, 37, .1); }
+.home-produce::before { opacity: .65; }
+.home-journal { border-color: #ddd5b5; }
+.home-journal .fj-eyebrow { color: #657443; }
+.home-journal .fj-btn { box-shadow: 2px 3px 0 rgba(46, 74, 52, .16); }
+.contact-section {
+  background: radial-gradient(ellipse at 95% 5%, rgba(201, 220, 168, .2), transparent 45%),
+    linear-gradient(180deg, #fffdf5, #f6f2e4);
+  border-top-color: #e6dfc7;
+}
+.contact-section :is(.contact-form-card, .contact-map-card) {
+  background: #fffef9;
+  border-color: #e0e4d0;
+  box-shadow: 0 6px 24px rgba(48, 73, 37, .065);
+}
+.contact-section .contact-input { background: #fffef9; border-color: #d5ddc7; }
+.contact-section .contact-input:focus {
+  border-color: #8aa668;
+  box-shadow: 0 0 0 3px rgba(138, 166, 104, .16);
+}
+@media (max-width: 575.98px) {
+  .hero-shade::after { width: 68px; height: 54px; right: 5%; top: 4%; opacity: .65; }
+  .hero-shade::before { width: 64px; height: 30px; bottom: 4%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy :is(.form-control, .btn-green),
+  .hero ~ section :is(.qa-card, .qa-ico) { transition: none; }
+  .hero ~ section .qa-card:hover .qa-ico { transform: none; }
+}
