@@ -19,12 +19,20 @@ export default function MarketCard({ market, compact = false, selected = false, 
     <article
       className={`m-card${selected ? ' selected' : ''}${onSelect ? ' selectable' : ''}`}
       onClick={(e) => { if (!e.target.closest('button, a')) cardAction(); }}
-      onKeyDown={(e) => { if (e.key === 'Enter' && !e.target.closest('button, a')) cardAction(); }}
+      onKeyDown={(e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target === e.currentTarget) { e.preventDefault(); cardAction(); } }}
       tabIndex={0}
       aria-label={onSelect ? `Show ${m.name} on the map` : `View details for ${m.name}`}
     >
       <div className={`thumb${compact ? ' compact' : ''}`}>
         <img src={imgPath(m.image)} alt={m.name} loading="lazy" />
+        <button
+          type="button"
+          className="image-details-overlay"
+          aria-label={`View more details about ${m.name}`}
+          onClick={(e) => { e.stopPropagation(); openMarket(m.id); }}
+        >
+          <span>View more details <Icon name="chevron" size={18} /></span>
+        </button>
         <div className="heart-abs">
           <SaveButton item={{ id: `market-${m.id}`, type: 'market', name: m.name, location: m.location }} />
         </div>
@@ -70,9 +78,6 @@ export default function MarketCard({ market, compact = false, selected = false, 
             </button>
           ))}
         </div>
-        <button className="btn-green w-100 mt-auto" onClick={() => openMarket(m.id)}>
-          View Details <Icon name="chevron" size={16} />
-        </button>
       </div>
     </article>
   );

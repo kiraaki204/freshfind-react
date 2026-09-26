@@ -3,7 +3,6 @@ import markets from '../data/markets.json';
 import { useToast } from '../hooks/useToast.jsx';
 import { useSupportModal } from '../hooks/useSupportModal.jsx';
 import Icon from './Icon.jsx';
-import SocialRow from './SocialRow.jsx';
 import MiniMap from './MiniMap.jsx';
 
 const HQ_LAT = markets.reduce((sum, m) => sum + m.lat, 0) / markets.length;
@@ -88,20 +87,12 @@ export default function HomeContactSection() {
                 </li>
               </ul>
 
-              <div className="contact-follow">
-                <div className="contact-follow-label">Follow Us</div>
-                <div className="d-flex gap-2 flex-wrap">
-                  <SocialRow tone="contact" />
-                </div>
-                <p className="contact-follow-hint">Updates from markets and seasonal highlights.</p>
-              </div>
-
               <div className="contact-map-card">
                 <div className="contact-map-head">
                   <span className="contact-map-icon"><Icon name="pin" size={16} /></span>
                   <div>
                     <div className="fw-semibold" style={{ fontSize: 14, color: '#14532d' }}>FreshFind demo area</div>
-                    <div className="small text-muted">Centre of the 8 sample markets</div>
+                    <div className="small text-muted">Centre of the {markets.length} sample markets</div>
                   </div>
                 </div>
                 <MiniMap name="FreshFind demo area" address="10 Market Square, Greenfield" lat={HQ_LAT} lng={HQ_LNG} />

@@ -36,7 +36,7 @@
       4,
       13
     ],
-    "image": "https://images.unsplash.com/photo-1447175008436-054170c2e979?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-carrots.jpg",
     "featured": false
   },
   {
@@ -100,7 +100,7 @@
       10,
       12
     ],
-    "image": "https://images.unsplash.com/photo-1498557850523-fd3d118b962e?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-berries.jpg",
     "featured": false
   },
   {
@@ -119,7 +119,7 @@
       6,
       10
     ],
-    "image": "https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-corn.jpg",
     "featured": false
   },
   {
@@ -138,7 +138,7 @@
       5,
       13
     ],
-    "image": "https://images.unsplash.com/photo-1589621316382-008455b857cd?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-cucumbers.jpg",
     "featured": false
   },
   {
@@ -157,7 +157,7 @@
       4,
       13
     ],
-    "image": "https://images.unsplash.com/photo-1563565375-f94bff7b7afd?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-peppers.jpg",
     "featured": false
   },
   {
@@ -216,7 +216,7 @@
       5,
       8
     ],
-    "image": "https://images.unsplash.com/photo-1518977678668-ad55d021f63b?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-root-veg.jpg",
     "featured": false
   },
   {
@@ -306,7 +306,7 @@
       10,
       11
     ],
-    "image": "https://images.unsplash.com/photo-1587049352851-8d4e89133924?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-honey.jpg",
     "featured": false
   },
   {
@@ -333,7 +333,7 @@
       11,
       14
     ],
-    "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-bread.jpg",
     "featured": false
   },
   {
@@ -356,7 +356,7 @@
       11,
       13
     ],
-    "image": "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-flowers.jpg",
     "featured": false
   },
   {
@@ -379,7 +379,7 @@
       7,
       9
     ],
-    "image": "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-dairy.jpg",
     "featured": false
   },
   {
@@ -397,7 +397,7 @@
       3,
       9
     ],
-    "image": "https://images.unsplash.com/photo-1587044733375-6588f44887d0?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-radishes.jpg",
     "featured": false
   },
   {
@@ -414,7 +414,7 @@
     "markets": [
       3
     ],
-    "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-asparagus.jpg",
     "featured": false
   },
   {
@@ -435,7 +435,7 @@
       4,
       11
     ],
-    "image": "https://images.unsplash.com/photo-1546964124-0c56318d6fc4?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-meat.jpg",
     "featured": false
   },
   {
@@ -454,7 +454,7 @@
       6,
       13
     ],
-    "image": "https://images.unsplash.com/photo-1459411621457-3b039ccd1cd8?w=600&h=600&fit=crop&auto=format",
+    "image": "/images/produce-broccoli.jpg",
     "featured": false
   }
 ]

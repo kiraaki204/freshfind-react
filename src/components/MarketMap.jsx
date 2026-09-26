@@ -68,7 +68,7 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
   onSelectRef.current = onSelectMarket;
 
   const user = geo.granted && geo.lat != null ? { lat: geo.lat, lng: geo.lng } : null;
-  const { displayed, focused, nearInfo } = visibleMarkets(markets, user);
+  const { displayed, nearInfo } = visibleMarkets(markets, user);
   const displayKey = displayed.map((m) => m.id).join(',');
   const userKey = user ? `${user.lat},${user.lng}` : '';
   const selectedId = selection ? selection.id : null;
@@ -159,8 +159,13 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
       fitKeyRef.current = key;
       const frame = displayed.length ? displayed : allMarkets;
       const pts = frame.filter((m) => isValidCoord(m.lat, m.lng)).map((m) => [m.lat, m.lng]);
-      if (user) pts.push([user.lat, user.lng]);
-      if (pts.length) map.fitBounds(pts, { padding: [48, 48], maxZoom: 14 });
+      // Frame all results, not a potentially distant visitor location.
+      if (!displayed.length && user) pts.push([user.lat, user.lng]);
+      if (pts.length) {
+        // A fresh filter must win over a previous pan/fly animation.
+        map.stop();
+        map.fitBounds(pts, { padding: [48, 48], maxZoom: 14, animate: false });
+      }
     }
   }, [L, mapStatus, displayKey, userKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -249,9 +254,7 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
           <span>
             <Icon name="pin" size={13} />{' '}
             {displayed.length}
-            {focused && displayed.length !== markets.length
-              ? ` nearby market${displayed.length !== 1 ? 's' : ''} (of ${markets.length})`
-              : ` market${displayed.length !== 1 ? 's' : ''}`}{' '}
+            {` matching market${displayed.length !== 1 ? 's' : ''}`}{' '}
             · tap a marker
           </span>
           <span className="ffmap-legend">
@@ -262,12 +265,11 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
           )}
           {!geo.loading && user && closest && (
             <span style={{ color: '#2563eb' }}>
-              <Icon name="nav" size={13} /> centred on your location
-              {nearInfo.near.length > 0 ? '' : ` · closest market ~${fmtDist(closest.d)} away`}
+              <Icon name="nav" size={13} /> closest match ~{fmtDist(closest.d)} away
             </span>
           )}
           {!geo.loading && !user && geo.error && (
-            <span style={{ color: '#b45309' }}><Icon name="alert" size={13} /> {geo.error} — showing all markets</span>
+            <span style={{ color: '#b45309' }}><Icon name="alert" size={13} /> {geo.error} — showing matching markets</span>
           )}
         </div>
       )}

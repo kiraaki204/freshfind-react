@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import markets from '../data/markets.json';
 import produceData from '../data/produce.json';
-import { getCurrentSeason } from '../utils/time.js';
+import { getCurrentSeason, DAY_NAMES } from '../utils/time.js';
+import { useDirectoryFilters } from '../hooks/useDirectoryFilters.jsx';
+import { applyMarketFilters } from '../utils/markets.js';
 import { useMarketModal } from '../hooks/useMarketModal.jsx';
 import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
 import Icon from './Icon.jsx';
@@ -125,28 +127,40 @@ function StoryLeft() {
 }
 
 function StoryRight() {
-  const steps = [
-    { n: '01', ico: 'search', t: 'Find your market', d: 'Search and filter the directory by name, area, day or what’s sold.' },
-    { n: '02', ico: 'clock', t: 'Know before you go', d: 'Live open status, weekly schedules and seasonal produce lists.' },
-    { n: '03', ico: 'heart', t: 'Keep your favourites', d: 'Save markets and produce with personal notes, stored in your browser.' },
-  ];
+  const navigate = useNavigate();
+  const { update } = useDirectoryFilters();
+  const [area, setArea] = useState('');
+  const [day, setDay] = useState('');
+  const areas = [...new Set(markets.map((m) => m.area))].sort();
+  const matches = applyMarketFilters(markets, { area, day }, {});
+  const browse = (e) => {
+    e.preventDefault();
+    update({ area, day, search: '', produce: '', sort: 'alpha', view: 'map' });
+    navigate('/markets');
+  };
   return (
     <>
-      <JournalHead eyebrow="getting started" title="How the journal works for you" />
-      <ol className="fj-steps">
-        {steps.map((s) => (
-          <li key={s.n} className="fj-step">
-            <span className="fj-step-stamp" aria-hidden="true">{s.n}</span>
-            <span className="fj-step-ico" aria-hidden="true"><Icon name={s.ico} size={16} /></span>
-            <div>
-              <span className="fj-step-t">{s.t}</span>
-              <span className="fj-step-d">{s.d}</span>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <div className="fj-tape-line" aria-hidden="true" />
-      <p className="fj-script fj-hint-line">flip the page for the harvest notes <ArrowDoodle width={72} height={30} /></p>
+      <JournalHead eyebrow="make a little plan" title="Your next market morning" />
+      <p className="fj-body fj-body-sm">Pick a place and a day. Find a fresh stop for your week.</p>
+      <form className="journal-planner" onSubmit={browse}>
+        <label htmlFor="plan-area">Where are you heading?</label>
+        <select id="plan-area" value={area} onChange={(e) => setArea(e.target.value)}>
+          <option value="">Any area</option>
+          {areas.map((name) => <option key={name}>{name}</option>)}
+        </select>
+        <label htmlFor="plan-day">When would you like to go?</label>
+        <select id="plan-day" value={day} onChange={(e) => setDay(e.target.value)}>
+          <option value="">Any day</option>
+          {DAY_NAMES.map((name) => <option key={name}>{name}</option>)}
+        </select>
+        <p className="fj-body fj-body-sm" role="status">
+          {matches.length ? `${matches.length} market${matches.length === 1 ? '' : 's'} to explore.` : 'No markets on that day here. Try another day or area.'}
+        </p>
+        <button className="fj-stamp-btn" disabled={!matches.length}>
+          <Icon name="map" size={15} /> See matches on the map
+        </button>
+      </form>
+      <p className="fj-script fj-hint-line">a small outing, a basket of possibilities</p>
     </>
   );
 }

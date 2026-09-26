@@ -17,21 +17,10 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
     else openProduce(p.id);
   };
 
-  const handleKey = (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleSelect();
-    }
-  };
-
   return (
     <article
       className={`ff-produce-card${variant === 'browse' ? ' browse' : ''}`}
-      role="button"
-      tabIndex={0}
-      aria-label={`View details for ${p.name}`}
-      onClick={handleSelect}
-      onKeyDown={handleKey}
+      onClick={(e) => { if (!e.target.closest('button, a')) handleSelect(); }}
     >
       <div className="produce-img-wrap">
         {showImage ? (
@@ -48,6 +37,14 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
           </div>
         )}
         <div className="produce-img-shade" aria-hidden="true" />
+        <button
+          type="button"
+          className="image-details-overlay"
+          aria-label={`View more details about ${p.name}`}
+          onClick={handleSelect}
+        >
+          <span>View more details <Icon name="chevron" size={18} /></span>
+        </button>
         <div className="heart-abs">
           <SaveButton size="sm" item={{ id: `produce-${p.id}`, type: 'produce', name: p.name, category: p.category }} />
         </div>
@@ -63,9 +60,6 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
             <Icon name="pin" size={12} /> Available at {marketCount} market{marketCount > 1 ? 's' : ''}
           </p>
         )}
-        <span className="produce-card-cta" aria-hidden="true">
-          View details <Icon name="chevron" size={14} />
-        </span>
       </div>
     </article>
   );
