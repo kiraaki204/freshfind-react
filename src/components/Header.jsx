@@ -113,7 +113,7 @@ export default function Header() {
     <header className={`site-header${scrolled ? ' scrolled' : ''}`}>
       <div className="header-inner">
         <button className="logo-btn" aria-label="FreshFind Home" onClick={() => handleNav('/')}>
-          <span className="logo-mark"><Icon name="leaf" size={18} /></span>
+          <span className="logo-mark"><Icon name="leaf" size={20} /></span>
           <span className="text-start">
             <span className="logo-title d-block">FreshFind</span>
             <span className="logo-sub d-block">Fresh All Along</span>

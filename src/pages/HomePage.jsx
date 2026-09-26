@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import markets from '../data/markets.json';
+import produceData from '../data/produce.json';
 import { getMarketStatus, getCurrentSeason } from '../utils/time.js';
 import { useChat } from '../hooks/useChat.jsx';
 import { useDirectoryFilters } from '../hooks/useDirectoryFilters.jsx';
@@ -10,19 +11,23 @@ import MarketCard from '../components/MarketCard.jsx';
 import HomeProduceSection from '../components/HomeProduceSection.jsx';
 import HomeJournalSection from '../components/HomeJournalSection.jsx';
 import HomeContactSection from '../components/HomeContactSection.jsx';
+import {
+  Sparkle, StarDoodle, FlowerDoodle, LeafSprig, Vine, Squiggle,
+  ArrowCurve, SunDoodle, TomatoDoodle, StrawberryDoodle, CarrotDoodle, SparkleCluster,
+} from '../components/Doodles.jsx';
 
 const QUICK_ACTIONS = [
-  { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: '#16a34a' },
-  { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: '#059669' },
-  { ico: 'basket', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: '#0d9488' },
-  { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: '#15803d' },
+  { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: '#2f7d3b', tint: '#eef8df' },
+  { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: '#df5f3a', tint: '#fdeee4' },
+  { ico: 'basket', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: '#e9a13b', tint: '#fdf3da' },
+  { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: '#7c5cd6', tint: '#efeafa' },
 ];
 
 const SEASONS = [
-  { name: 'Spring', ico: 'flower', color: '#fdf2f8', border: '#fbcfe8', accent: '#db2777', items: ['Leafy Greens', 'Radishes', 'Asparagus', 'Strawberries'], desc: 'Fresh spring greens and the first fruits of the year.' },
-  { name: 'Summer', ico: 'sun', color: '#fffbeb', border: '#fde68a', accent: '#d97706', items: ['Tomatoes', 'Berries', 'Corn', 'Cucumbers', 'Peppers'], desc: 'Peak season for vibrant summer produce and stone fruits.' },
-  { name: 'Autumn', ico: 'leaf', color: '#fff7ed', border: '#fed7aa', accent: '#ea580c', items: ['Pumpkins', 'Apples', 'Squash', 'Root Vegetables'], desc: 'Warm, hearty autumn harvest of roots and orchard fruits.' },
-  { name: 'Winter', ico: 'snow', color: '#eff6ff', border: '#bfdbfe', accent: '#2563eb', items: ['Citrus', 'Root Vegetables', 'Broccoli', 'Winter Greens'], desc: 'Citrus, brassicas and stored roots for the cool months.' },
+  { name: 'Spring', ico: 'flower', color: '#fdf2f8', border: '#fbcfe8', accent: '#db2777', items: ['Leafy Greens', 'Radishes', 'Asparagus', 'Strawberries'], desc: 'Fresh spring greens and the first fruits of the year.', hand: 'first shoots & blossoms!' },
+  { name: 'Summer', ico: 'sun', color: '#fffbeb', border: '#fde68a', accent: '#d97706', items: ['Tomatoes', 'Berries', 'Corn', 'Cucumbers', 'Peppers'], desc: 'Peak season for vibrant summer produce and stone fruits.', hand: 'sun-ripened & juicy!' },
+  { name: 'Autumn', ico: 'leaf', color: '#fff7ed', border: '#fed7aa', accent: '#ea580c', items: ['Pumpkins', 'Apples', 'Squash', 'Root Vegetables'], desc: 'Warm, hearty autumn harvest of roots and orchard fruits.', hand: 'cosy harvest time!' },
+  { name: 'Winter', ico: 'snow', color: '#eff6ff', border: '#bfdbfe', accent: '#2563eb', items: ['Citrus', 'Root Vegetables', 'Broccoli', 'Winter Greens'], desc: 'Citrus, brassicas and stored roots for the cool months.', hand: 'bright citrus days!' },
 ];
 
 export default function HomePage({ visitorCount }) {
@@ -58,62 +63,115 @@ export default function HomePage({ visitorCount }) {
 
   return (
     <>
+      {/* ================= HERO : journal cover ================= */}
       <section className="hero" aria-label="Hero section">
-        <img className="hero-bg" src="/images/hero-market.jpg" alt="Vibrant farmers market scene with fresh produce" />
-        <div className="hero-shade" />
+        <div className="hero-blob hero-blob--1" aria-hidden="true">
+          <LeafSprig size={120} />
+        </div>
+        <div className="hero-blob hero-blob--2" aria-hidden="true">
+          <Vine width={190} height={82} />
+        </div>
+        <div className="hero-blob hero-blob--3" aria-hidden="true">
+          <SunDoodle size={72} />
+        </div>
+
         <div className="hero-copy">
-          <div style={{ maxWidth: '36rem' }}>
-            <div className="live-pill">
-              <span className="pulse-dot" style={{ background: '#bbf7d0' }} /> {live}
-            </div>
-            <h1>Find Farmers'<br /><span>Markets</span> Near You</h1>
-            <p className="text-white mb-4" style={{ opacity: .85, maxWidth: '28rem' }}>
-              Discover nearby markets, check schedules and locations, and see what's in season.
-            </p>
-            <form className="d-flex gap-2 mb-3" style={{ maxWidth: '36rem' }} onSubmit={submitHeroSearch}>
-              <div className="search-wrap flex-grow-1">
-                <span className="s-ico"><Icon name="search" size={18} /></span>
-                <input
-                  className="form-control"
-                  placeholder="Search by market name, location or produce..."
-                  style={{ height: 52, borderRadius: 12 }}
-                  aria-label="Search markets"
-                  value={heroQuery}
-                  onChange={(e) => setHeroQuery(e.target.value)}
-                />
+          <div className="hero-grid">
+            <div>
+              <div className="live-pill">
+                <span className="pulse-dot" /> {live}
               </div>
-              <button className="btn-green" style={{ borderRadius: 12, padding: '0 22px' }}>Search</button>
-            </form>
-            <button className="btn btn-link text-white text-decoration-none p-0" onClick={() => navigate('/markets')}>
-              <Icon name="pin" size={16} /> Find Markets Near Me <Icon name="chevron" size={16} />
-            </button>
+              <br />
+              <span className="hero-kicker">
+                the farmers-market journal <Squiggle width={64} height={10} />
+              </span>
+              <h1>
+                <span className="hero-script">hey, hungry human —</span>
+                Find Farmers&rsquo;<br />
+                <span className="hero-hl">Markets</span> Near You
+              </h1>
+              <p className="hero-lede">
+                Discover nearby markets, check <strong>schedules and locations</strong>, and see
+                what&rsquo;s <strong>in season</strong> — all tucked into one tasty little guide.
+              </p>
+              <form className="hero-search" onSubmit={submitHeroSearch} role="search">
+                <div className="search-wrap">
+                  <span className="s-ico"><Icon name="search" size={19} /></span>
+                  <input
+                    className="form-control"
+                    placeholder="Search by market name, location or produce..."
+                    aria-label="Search markets"
+                    value={heroQuery}
+                    onChange={(e) => setHeroQuery(e.target.value)}
+                  />
+                </div>
+                <button className="btn-green" type="submit">Search</button>
+              </form>
+              <div>
+                <button className="hero-alt" onClick={() => navigate('/markets')}>
+                  <span className="hero-alt-arrow"><Icon name="pin" size={15} /></span>
+                  Find Markets Near Me
+                </button>
+              </div>
+              <p className="hero-hand-note">psst — the strawberries are *so* worth the trip</p>
+              <div className="hero-stats" aria-label="FreshFind at a glance">
+                <span className="hero-stat"><Icon name="store" size={15} /> {markets.length} local markets</span>
+                <span className="hero-stat"><Icon name="basket" size={15} /> {produceData.length} seasonal finds</span>
+                <span className="hero-stat"><Icon name="star" size={15} /> {featured.length} community faves</span>
+              </div>
+              <div className="hero-strip" aria-hidden="true">
+                <img src="/images/seasonal-produce.jpg" alt="" loading="lazy" />
+                <img src="/images/produce-carrots.jpg" alt="" loading="lazy" />
+                <img src="/images/produce-flowers.jpg" alt="" loading="lazy" />
+                <img src="/images/produce-bread.jpg" alt="" loading="lazy" />
+              </div>
+            </div>
+
+            <div className="hero-collage" aria-hidden="true">
+              <img className="hero-photo-main" src="/images/hero-market.jpg" alt="" />
+              <figure className="hero-polaroid hero-polaroid--1">
+                <img src="/images/produce-strawberries.jpg" alt="" loading="lazy" />
+                <figcaption>berry cute, right?</figcaption>
+              </figure>
+              <figure className="hero-polaroid hero-polaroid--2">
+                <img src="/images/produce-tomatoes.jpg" alt="" loading="lazy" />
+                <figcaption>today&rsquo;s haul</figcaption>
+              </figure>
+              <span className="hero-sticker-badge hero-sticker-badge--a">★ fresh picks</span>
+              <span className="hero-sticker-badge hero-sticker-badge--b">100% local-ish</span>
+              <span className="hero-doodle hero-doodle--1"><Sparkle size={34} /></span>
+              <span className="hero-doodle hero-doodle--2"><FlowerDoodle size={52} /></span>
+              <span className="hero-doodle hero-doodle--3"><TomatoDoodle size={56} /></span>
+            </div>
           </div>
         </div>
       </section>
 
+      {/* ================= ticker tape ================= */}
       <div className="clock-bar">
         <div className="inner">
           <div>
-            <Icon name="clock" size={16} /> <span style={{ color: '#bbf7d0' }}>Current Time:</span>{' '}
+            <Icon name="clock" size={16} /> <span className="tick-label">Current Time:</span>{' '}
             <LiveClock />
           </div>
-          <div style={{ color: '#86efac', fontSize: 12 }}>
+          <div className="tick-visitors">
             <Icon name="leaf" size={14} /> {visitorCount.toLocaleString()} visitors exploring FreshFind
           </div>
         </div>
       </div>
 
-      <section className="py-5 bg-light">
-        <div className="container" style={{ maxWidth: '80rem' }}>
+      {/* ================= quick actions ================= */}
+      <section className="home-quick band-flush" aria-label="Quick actions">
+        <div className="container" style={{ maxWidth: '80rem', position: 'relative' }}>
           <div className="row g-3">
             {QUICK_ACTIONS.map((a) => (
               <div key={a.label} className="col-12 col-sm-6 col-lg-3">
-                <button className="qa-card h-100" onClick={() => goQuickAction(a)}>
+                <button className="qa-card h-100" style={{ background: a.tint }} onClick={() => goQuickAction(a)}>
                   <div className="qa-ico" style={{ background: a.bg }}>
-                    <Icon name={a.ico} size={22} />
+                    <Icon name={a.ico} size={24} />
                   </div>
                   <h3 className="h6 mb-1">{a.label}</h3>
-                  <p className="small text-muted mb-0">{a.desc}</p>
+                  <p className="small mb-0" style={{ color: '#55634e', fontWeight: 600 }}>{a.desc}</p>
                 </button>
               </div>
             ))}
@@ -121,17 +179,22 @@ export default function HomePage({ visitorCount }) {
         </div>
       </section>
 
-      <section className="py-5">
-        <div className="container" style={{ maxWidth: '80rem' }}>
-          <div className="d-flex justify-content-between align-items-end mb-4">
-            <div>
-              <div className="d-flex align-items-center gap-2 mb-1">
-                <span className="pulse-dot" style={{ width: 10, height: 10 }} />
-                <h2 className="h4 mb-0">Open Right Now</h2>
-              </div>
-              <p className="text-muted small mb-0">Markets currently open — updated live</p>
-            </div>
-            <LiveClock className="small text-muted" />
+      {/* ================= open right now ================= */}
+      <section className="home-open band" aria-label="Markets open right now">
+        <div className="band-doodle band-doodle--tr" aria-hidden="true">
+          <span style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
+            <StrawberryDoodle size={52} /><Sparkle size={26} />
+          </span>
+        </div>
+        <div className="band-doodle band-doodle--bl" aria-hidden="true">
+          <Vine width={170} height={72} />
+        </div>
+        <div className="container pt-4" style={{ maxWidth: '80rem', position: 'relative' }}>
+          <div className="sec-head">
+            <span className="kicker"><span className="k-line" /> live from the stalls</span>
+            <h2>Open <span className="hl">Right Now</span></h2>
+            <p>Markets currently open — updated live, so grab your tote bag.</p>
+            <span className="sec-arrow" aria-hidden="true"><ArrowCurve width={86} height={52} /></span>
           </div>
           {openNow.length ? (
             <div className="row g-4">
@@ -142,13 +205,13 @@ export default function HomePage({ visitorCount }) {
               ))}
             </div>
           ) : (
-            <div className="p-5 text-center rounded-4" style={{ background: '#fffbeb', border: '1px solid #fde68a' }}>
-              <Icon name="clock" size={40} />
-              <h3 className="h6 mt-3" style={{ color: '#92400e' }}>No markets open right now</h3>
-              <p className="small" style={{ color: '#b45309' }}>
+            <div className="open-empty p-5 text-center">
+              <SunDoodle size={54} />
+              <h3 className="h5 mt-3" style={{ color: '#7a2f0a', fontWeight: 900 }}>No markets open right now</h3>
+              <p className="small" style={{ color: '#92610e', fontWeight: 600 }}>
                 Check back during market hours or browse our directory to plan your next visit.
               </p>
-              <button className="btn-green" style={{ background: '#d97706' }} onClick={() => navigate('/markets')}>
+              <button className="btn-green" style={{ background: '#e9a13b', color: '#243020' }} onClick={() => navigate('/markets')}>
                 View All Markets
               </button>
             </div>
@@ -156,16 +219,18 @@ export default function HomePage({ visitorCount }) {
         </div>
       </section>
 
-      <section className="py-5 bg-light">
-        <div className="container" style={{ maxWidth: '80rem' }}>
-          <div className="d-flex justify-content-between mb-4">
-            <div>
-              <h2 className="h4">Featured Markets</h2>
-              <p className="small text-muted mb-0">Discover some of our favourite local farmers' markets</p>
-            </div>
-            <button className="btn btn-link text-decoration-none d-none d-sm-inline" style={{ color: '#15803d' }} onClick={() => navigate('/markets')}>
-              View all markets <Icon name="chevron" size={16} />
-            </button>
+      {/* ================= featured markets ================= */}
+      <section className="home-featured band" aria-label="Featured markets">
+        <div className="band-doodle band-doodle--tr" aria-hidden="true">
+          <span style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
+            <CarrotDoodle size={54} /><FlowerDoodle size={44} />
+          </span>
+        </div>
+        <div className="container pt-4" style={{ maxWidth: '80rem', position: 'relative' }}>
+          <div className="sec-head">
+            <span className="kicker"><span className="k-line" /> community faves</span>
+            <h2>Featured <span className="hl hl-butter">Markets</span></h2>
+            <p>Discover some of our favourite local farmers&rsquo; markets.</p>
           </div>
           <div className="row g-4">
             {featured.slice(0, 6).map((m) => (
@@ -176,6 +241,7 @@ export default function HomePage({ visitorCount }) {
           </div>
           <div className="text-center mt-4">
             <button className="btn-green" onClick={() => navigate('/markets')}>Browse All Markets</button>
+            <p className="hero-hand-note">all {markets.length} of &rsquo;em — go on, take a look</p>
           </div>
         </div>
       </section>
@@ -183,12 +249,17 @@ export default function HomePage({ visitorCount }) {
       {/* Curated produce discovery — homepage anchor for Produce Guide */}
       <HomeProduceSection />
 
-      <section className="py-5 home-seasons" aria-labelledby="seasons-title">
-        <div className="container" style={{ maxWidth: '80rem' }}>
+      {/* ================= what's in season ================= */}
+      <section className="home-seasons band" aria-labelledby="seasons-title">
+        <div className="band-doodle band-doodle--tr" aria-hidden="true">
+          <SparkleCluster />
+        </div>
+        <div className="container pt-4" style={{ maxWidth: '80rem', position: 'relative' }}>
           <div className="text-center mb-4">
-            <h2 className="h4" id="seasons-title">What's In Season</h2>
-            <p className="text-muted">
-              Discover what fresh produce is available throughout the year at your local farmers' markets.
+            <span className="season-kicker">a year of tasty chapters</span>
+            <h2 id="seasons-title">What&rsquo;s <span className="hl hl-pink">In Season</span></h2>
+            <p>
+              Discover what fresh produce is available throughout the year at your local farmers&rsquo; markets.
             </p>
           </div>
           <div className="row g-3">
@@ -199,13 +270,14 @@ export default function HomePage({ visitorCount }) {
                 >
                   {currentSeason === s.name && (
                     <span className="season-current">
-                      Current
+                      ★ in season now
                     </span>
                   )}
                   <div className="season-emblem" aria-hidden="true">
                     <Icon name={s.ico} size={30} />
                   </div>
-                  <h3 className="h5">{s.name}</h3>
+                  <span className="season-hand">{s.hand}</span>
+                  <h3>{s.name}</h3>
                   <p className="season-description">{s.desc}</p>
                   <ul className="season-produce" role="list">
                     {s.items.map((it) => (
@@ -225,16 +297,22 @@ export default function HomePage({ visitorCount }) {
       {/* The FreshFind Field Journal — interactive scrapbook (#journal) */}
       <HomeJournalSection />
 
+      {/* ================= CTA ================= */}
       <section className="cta-band">
-        <h2 className="fw-bold mb-3">Good Food. Stronger Communities.</h2>
-        <p className="mb-4" style={{ color: '#bbf7d0', maxWidth: '28rem', marginLeft: 'auto', marginRight: 'auto' }}>
+        <span className="cta-doodle cta-doodle--l" aria-hidden="true"><LeafSprig size={110} color="#d3f26a" /></span>
+        <span className="cta-doodle cta-doodle--r" aria-hidden="true"><TomatoDoodle size={96} /></span>
+        <span className="cta-doodle cta-doodle--s1" aria-hidden="true"><StarDoodle size={30} color="#ffd964" /></span>
+        <span className="cta-doodle cta-doodle--s2" aria-hidden="true"><Sparkle size={30} color="#ffd964" /></span>
+        <span className="cta-kicker">come hungry, leave happy ~</span>
+        <h2>Good Food. <span className="hand">Stronger</span> Communities.</h2>
+        <p>
           Discover fresh local produce and support the people who grow it.
         </p>
-        <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-          <button className="btn-green" style={{ background: '#fff', color: '#15803d' }} onClick={() => navigate('/markets')}>
+        <div className="d-flex flex-column flex-sm-row gap-3 justify-content-center" style={{ position: 'relative' }}>
+          <button className="btn-sun" onClick={() => navigate('/markets')}>
             <Icon name="store" size={18} /> Find a Market
           </button>
-          <button className="btn-green" style={{ background: '#16a34a', border: '2px solid rgba(255,255,255,.3)' }} onClick={() => navigate('/#produce')}>
+          <button className="btn-green" style={{ background: '#d3f26a', color: '#13301d' }} onClick={() => navigate('/#produce')}>
             <Icon name="basket" size={18} /> Explore Produce
           </button>
         </div>

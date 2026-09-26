@@ -8,6 +8,7 @@ import Breadcrumb from '../components/Breadcrumb.jsx';
 import MarketCard from '../components/MarketCard.jsx';
 import MarketMap from '../components/MarketMap.jsx';
 import FilterSelect from '../components/FilterSelect.jsx';
+import { LeafSprig, Vine } from '../components/Doodles.jsx';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const PRODUCE_TYPES = ['Fruits', 'Vegetables', 'Herbs', 'Dairy', 'Meat', 'Baked Goods', 'Organic', 'Flowers', 'Other'];

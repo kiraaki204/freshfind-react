@@ -52,6 +52,7 @@ export default function Footer({ visitorCount }) {
 
   return (
     <footer className="site-footer">
+      <div className="foot-fringe" aria-hidden="true" />
       <div className="foot-bar">
         <div className="container py-3 d-flex flex-column flex-sm-row align-items-center justify-content-between gap-2" style={{ maxWidth: '80rem' }}>
           <span style={{ color: '#86efac', fontSize: 14 }}>
