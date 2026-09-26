@@ -489,17 +489,6 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
   text-align: center;
 }
 
-.why-ico {
-  width: 40px; height: 40px;
-  background: var(--green-100);
-  color: var(--green-600);
-  border-radius: 12px;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 16px;
-  transition: background .2s, color .2s;
-}
-.why-card:hover .why-ico { background: var(--green-600); color: #fff; }
-
 /* ---------- market / produce cards ---------- */
 .m-card {
   background: #fff;
@@ -2445,6 +2434,17 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
   display: inline-flex; align-items: center; justify-content: center;
   margin-top: 1px;
 }
+/* Closing-page benefits, carried over from the homepage. */
+.fj-benefits { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.fj-benefit { display: flex; align-items: flex-start; gap: 10px; }
+.fj-benefit-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; flex-shrink: 0;
+  border: 1px dashed #7ba05b; border-radius: 8px;
+  background: rgba(123, 160, 91, .1); color: #4a7a3b;
+}
+.fj-benefit h4 { margin: 0 0 2px; font-size: 12.5px; font-weight: 800; color: #2e4a34; }
+.fj-benefit p { margin: 0; font-size: 12px; line-height: 1.5; color: #574d36; }
 .fj-cta-stack { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
 .fj-end-mark { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 18px; color: #8a7a5a; font-size: 12px; }
 .fj-return-link {

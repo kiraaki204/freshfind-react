@@ -334,7 +334,13 @@ function SeasonsRight() {
   );
 }
 
-/* Spread 5 — Your Market Field Guide (tips + ways back to the app) */
+/* Spread 5 — Your Market Field Guide (tips + why FreshFind + ways back to the app) */
+const WHY_FRESHFIND = [
+  { ico: 'checkc', t: 'Accurate Information', d: 'Market details, schedules and produce all in one place.' },
+  { ico: 'leaf', t: 'Seasonal Guidance', d: "Know what's likely to be available before you visit." },
+  { ico: 'users', t: 'Support Local', d: 'Discover local farmers and markets in your community.' },
+  { ico: 'star', t: 'Easy to Use', d: 'Simple, accessible experience for everyone.' },
+];
 const FIELD_TIPS = [
   'Arrive early for the best pick — or late for end-of-day bargains.',
   'Bring cash; some small growers don’t take cards.',
@@ -364,10 +370,19 @@ function GuideRight({ onCloseBook }) {
   const navigate = useNavigate();
   return (
     <>
-      <JournalHead eyebrow="continue exploring" title="Back to the market" />
-      <p className="fj-body fj-body-sm">
-        The journal is a companion — the live directory and produce guide carry the full details.
-      </p>
+      <JournalHead eyebrow="a final field note" title="Why FreshFind?" />
+      <p className="fj-body fj-body-sm">Everything you need to connect with local food.</p>
+      <ul className="fj-benefits">
+        {WHY_FRESHFIND.map((benefit) => (
+          <li key={benefit.t} className="fj-benefit">
+            <span className="fj-benefit-icon" aria-hidden="true"><Icon name={benefit.ico} size={17} /></span>
+            <div>
+              <h4>{benefit.t}</h4>
+              <p>{benefit.d}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
       <div className="fj-cta-stack">
         <button className="fj-stamp-btn fj-stamp-btn--big" onClick={() => navigate('/markets')}>
           <Icon name="store" size={16} /> Browse the Market Directory

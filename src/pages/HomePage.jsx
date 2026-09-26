@@ -25,13 +25,6 @@ const SEASONS = [
   { name: 'Winter', ico: 'snow', color: '#eff6ff', border: '#bfdbfe', accent: '#2563eb', items: ['Citrus', 'Root Vegetables', 'Broccoli', 'Winter Greens'], desc: 'Citrus, brassicas and stored roots for the cool months.' },
 ];
 
-const WHY = [
-  { ico: 'checkc', t: 'Accurate Information', d: 'Market details, schedules and produce all in one place.' },
-  { ico: 'leaf', t: 'Seasonal Guidance', d: "Know what's likely to be available before you visit." },
-  { ico: 'users', t: 'Support Local', d: 'Discover local farmers and markets in your community.' },
-  { ico: 'star', t: 'Easy to Use', d: 'Simple, accessible experience for everyone.' },
-];
-
 export default function HomePage({ visitorCount }) {
   const navigate = useNavigate();
   const { openChat } = useChat();
@@ -229,28 +222,6 @@ export default function HomePage({ visitorCount }) {
           </div>
         </div>
       </section>
-
-      <section className="py-5">
-        <div className="container" style={{ maxWidth: '80rem' }}>
-          <div className="text-center mb-4">
-            <h2 className="h4">Why FreshFind?</h2>
-            <p className="text-muted">Everything you need to connect with local food</p>
-          </div>
-          <div className="row g-3">
-            {WHY.map((w) => (
-              <div key={w.t} className="col-sm-6 col-lg-3">
-                <div className="ff-card p-4 why-card h-100">
-                  <div className="why-ico"><Icon name={w.ico} size={20} /></div>
-                  <h3 className="h6">{w.t}</h3>
-                  <p className="small text-muted mb-0">{w.d}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* About Us now lives inside the Field Journal spread below */}
 
       {/* The FreshFind Field Journal — interactive scrapbook (#journal) */}
       <HomeJournalSection />
