@@ -178,7 +178,7 @@ button:disabled { cursor: not-allowed; }
   transition: width .25s ease, opacity .2s ease;
 }
 .header-search .search-wrap { width: 100%; }
-.header-search .form-control { border-radius: 999px; }
+.header-search .form-control { border-radius: 12px; }
 
 @media (max-width: 991.98px) {
   /* on small screens the search opens as a full-width strip directly
@@ -201,7 +201,6 @@ button:disabled { cursor: not-allowed; }
     transform: scaleY(1);
     transition: transform .2s ease, opacity .18s ease;
   }
-  .header-search .form-control { border-radius: 12px; }
 }
 
 .mobile-menu {
