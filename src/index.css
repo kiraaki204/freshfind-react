@@ -215,16 +215,16 @@ button:disabled { cursor: not-allowed; }
   .header-inner { height: 80px; padding: 0 1.5rem; }
   .main-nav { display: flex; }
   .menu-toggle { display: none !important; }
-  .search-toggle { display: none; }
-  .header-search, .header-search.open {
-    display: flex;
+  /* search stays hidden until the search button is clicked, then expands
+     inline next to the nav links */
+  .header-search.open {
     position: static;
     flex: 0 1 260px;
-    min-width: 170px;
+    min-width: 180px;
     margin: 0 4px;
     padding: 0;
     background: none;
-    border: none;
+    border-top: none;
     box-shadow: none;
   }
 }
@@ -509,7 +509,8 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
 .heart-btn:focus-visible { outline: 2px solid var(--green-500); outline-offset: 2px; }
 .heart-btn.saved { background: #fef2f2; color: #ef4444; }
 .heart-btn.saved svg { fill: currentColor; }
-.heart-btn.sm { padding: 6px; }
+.heart-btn.sm { padding: 5px; line-height: 0; }
+.heart-btn.sm svg { width: 14px; height: 14px; }
 
 .p-thumb {
   height: 160px;

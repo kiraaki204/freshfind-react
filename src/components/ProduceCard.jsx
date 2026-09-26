@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import markets from '../data/markets.json';
-import { hasMeaningfulSeason } from '../utils/produce.js';
 import Icon from './Icon.jsx';
 import SaveButton from './SaveButton.jsx';
 
@@ -23,13 +22,6 @@ export default function ProduceCard({ produce }) {
           <span className="chip text-nowrap">{p.category}</span>
         </div>
         <p className="small text-muted line-2">{p.description}</p>
-        {hasMeaningfulSeason(p) && (
-          <div className="d-flex flex-wrap gap-1 mb-2">
-            {p.season.map((s) => (
-              <span key={s} className={`chip season-${s.toLowerCase()}`}>{s}</span>
-            ))}
-          </div>
-        )}
         {marketCount > 0 && (
           <p className="small text-muted">Available at {marketCount} market{marketCount > 1 ? 's' : ''}</p>
         )}

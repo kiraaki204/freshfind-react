@@ -39,11 +39,9 @@ export default function Header() {
     setSearchOpen(false);
   }, [pathname]);
 
-  // focus the input when the mobile search panel opens
+  // focus the input whenever the search box opens (desktop inline or mobile panel)
   useEffect(() => {
-    if (searchOpen && window.matchMedia('(max-width: 991.98px)').matches) {
-      searchInputRef.current?.focus();
-    }
+    if (searchOpen) searchInputRef.current?.focus();
   }, [searchOpen]);
 
   const toggleSearch = () => {
@@ -66,7 +64,7 @@ export default function Header() {
       <div className="header-inner">
         <button className="logo-btn" aria-label="FreshFind Home" onClick={() => navigate('/')}>
           <span className="logo-mark"><Icon name="leaf" size={18} /></span>
-          <span className="d-none d-sm-block text-start">
+          <span className="text-start">
             <span className="logo-title d-block">FreshFind</span>
             <span className="logo-sub d-block">Fresh All Along</span>
           </span>

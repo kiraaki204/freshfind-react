@@ -84,7 +84,7 @@ export default function ProducePage() {
       {items.length > 0 ? (
         <div className="row g-3">
           {items.map((p) => (
-            <div key={p.id} className="col-6 col-sm-4 col-lg-3 col-xl-2">
+            <div key={p.id} className="col-6 col-md-4 col-lg-3">
               <ProduceCard produce={p} />
             </div>
           ))}
