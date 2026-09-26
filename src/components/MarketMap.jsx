@@ -65,7 +65,7 @@ function MapBackground() {
   );
 }
 
-export default function MarketMap({ markets, popupRequest = null }) {
+export default function MarketMap({ markets, popupRequest = null, onPopupConsumed }) {
   const navigate = useNavigate();
   const { geo } = useGeolocation();
   const { toggleBookmark } = useBookmarks();
@@ -74,10 +74,15 @@ export default function MarketMap({ markets, popupRequest = null }) {
   const [pan, setPan] = useState({ dx: 0, dy: 0 });
   const [openId, setOpenId] = useState(popupRequest ? Number(popupRequest.id) : null);
 
-  // the chatbot can ask for a specific market's pop-up ("map of riverside")
+  // The chatbot can ask for a specific market's pop-up ("map of riverside").
+  // The request is one-shot: apply it, then clear it, so a later close or a
+  // list/map toggle doesn't re-open the popup unexpectedly.
   useEffect(() => {
-    if (popupRequest) setOpenId(Number(popupRequest.id));
-  }, [popupRequest]);
+    if (popupRequest) {
+      setOpenId(Number(popupRequest.id));
+      if (onPopupConsumed) onPopupConsumed();
+    }
+  }, [popupRequest, onPopupConsumed]);
 
   const boxRef = useRef(null);
   const dragRef = useRef(null);
@@ -85,7 +90,9 @@ export default function MarketMap({ markets, popupRequest = null }) {
 
   const user = geo.granted && geo.lat != null ? { lat: geo.lat, lng: geo.lng } : null;
   const { displayed, focused, nearInfo } = visibleMarkets(markets, user);
-  const view = computeMapView(displayed, user);
+  // no markets to show → no projection (avoids Infinity/NaN geometry when
+  // the current filters match nothing)
+  const view = displayed.length ? computeMapView(displayed, user) : null;
 
   const project = (lat, lng) => {
     const cx = view.cx + pan.dx / zoom;
@@ -104,7 +111,7 @@ export default function MarketMap({ markets, popupRequest = null }) {
 
   const onPointerMove = (e) => {
     const drag = dragRef.current;
-    if (!drag || !boxRef.current) return;
+    if (!drag || !view || !boxRef.current) return;
     const rect = boxRef.current.getBoundingClientRect();
     if (Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) > 4) drag.moved = true;
     if (!drag.moved) return;
@@ -131,24 +138,26 @@ export default function MarketMap({ markets, popupRequest = null }) {
   // position markers, nudging visually-overlapping pins apart (display only —
   // the underlying coordinates stay exactly as stored in the data)
   const placed = [];
-  const markers = displayed
-    .map((m) => {
-      let p = project(m.lat, m.lng);
-      if (p.x < -4 || p.x > 104 || p.y < -4 || p.y > 104) return null;
-      const dxs = [0, 4.5, -4.5, 0, 4.5, -4.5, 9, -9];
-      const dys = [0, -6, -6, 7, 7, 7, 0, 0];
-      for (let i = 0; i < dxs.length; i += 1) {
-        const nx = p.x + dxs[i];
-        const ny = p.y + dys[i];
-        if (placed.every((o) => Math.abs(o.x - nx) > 4 || Math.abs(o.y - ny) > 4)) {
-          p = { x: nx, y: ny };
-          break;
-        }
-      }
-      placed.push(p);
-      return { m, p };
-    })
-    .filter(Boolean);
+  const markers = view
+    ? displayed
+        .map((m) => {
+          let p = project(m.lat, m.lng);
+          if (p.x < -4 || p.x > 104 || p.y < -4 || p.y > 104) return null;
+          const dxs = [0, 4.5, -4.5, 0, 4.5, -4.5, 9, -9];
+          const dys = [0, -6, -6, 7, 7, 7, 0, 0];
+          for (let i = 0; i < dxs.length; i += 1) {
+            const nx = p.x + dxs[i];
+            const ny = p.y + dys[i];
+            if (placed.every((o) => Math.abs(o.x - nx) > 4 || Math.abs(o.y - ny) > 4)) {
+              p = { x: nx, y: ny };
+              break;
+            }
+          }
+          placed.push(p);
+          return { m, p };
+        })
+        .filter(Boolean)
+    : [];
 
   const openMarket = openId != null ? displayed.find((m) => m.id === openId) : null;
   const closest = nearInfo ? nearInfo.sorted[0] : null;
@@ -221,7 +230,7 @@ export default function MarketMap({ markets, popupRequest = null }) {
         </button>
       ))}
 
-      {user && (() => {
+      {user && view && (() => {
         const up = project(user.lat, user.lng);
         return (
           <div className="ffmap-user" style={{ left: `${up.x}%`, top: `${up.y}%` }} title="Your location">
@@ -230,7 +239,7 @@ export default function MarketMap({ markets, popupRequest = null }) {
         );
       })()}
 
-      {openMarket && (() => {
+      {openMarket && view && (() => {
         const pos = project(openMarket.lat, openMarket.lng);
         const items = produceData.filter((p) => openMarket.produce.includes(p.id));
         const below = pos.y < 46;

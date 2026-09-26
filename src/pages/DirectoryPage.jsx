@@ -18,7 +18,7 @@ const SORTS = [
 ];
 
 export default function DirectoryPage() {
-  const { filters, update, popupRequest } = useDirectoryFilters();
+  const { filters, update, popupRequest, clearPopupRequest } = useDirectoryFilters();
   const { geo, locate } = useGeolocation();
   const [showFilters, setShowFilters] = useState(false);
 
@@ -133,7 +133,7 @@ export default function DirectoryPage() {
       </div>
 
       {filters.view === 'map' ? (
-        <MarketMap markets={list} popupRequest={popupRequest} />
+        <MarketMap markets={list} popupRequest={popupRequest} onPopupConsumed={clearPopupRequest} />
       ) : list.length > 0 ? (
         <div className="row g-3">
           {list.map((m) => (

@@ -20,8 +20,14 @@ export function DirectoryFiltersProvider({ children }) {
     setPopupRequest({ id: marketId, nonce: Date.now() });
   }, []);
 
+  const clearPopupRequest = useCallback(() => {
+    setPopupRequest(null);
+  }, []);
+
   return (
-    <DirectoryFiltersContext.Provider value={{ filters, update, popupRequest, requestMapPopup }}>
+    <DirectoryFiltersContext.Provider
+      value={{ filters, update, popupRequest, requestMapPopup, clearPopupRequest }}
+    >
       {children}
     </DirectoryFiltersContext.Provider>
   );
