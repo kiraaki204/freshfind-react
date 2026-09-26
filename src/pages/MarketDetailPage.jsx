@@ -200,7 +200,7 @@ export default function MarketDetailPage() {
 
           <div className="ff-card p-4 mb-3">
             <h3 className="h6"><Icon name="pin" size={16} /> Location</h3>
-            <MiniMap name={m.name} address={m.address} />
+            <MiniMap name={m.name} address={m.address} lat={m.lat} lng={m.lng} />
             <p className="small fw-medium mt-2 mb-0">{m.address}</p>
             <p className="small text-muted">Area: {m.area}</p>
           </div>

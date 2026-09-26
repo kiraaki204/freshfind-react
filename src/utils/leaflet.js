@@ -1,0 +1,54 @@
+/* Shared Leaflet helpers. Leaflet is loaded with a dynamic import because
+   it touches browser globals at module scope (SSR-hostile otherwise). */
+
+let leafletPromise = null;
+
+export function loadLeaflet() {
+  if (!leafletPromise) leafletPromise = import('leaflet').then((mod) => mod.default);
+  return leafletPromise;
+}
+
+export const OSM_TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+export const OSM_ATTRIBUTION =
+  '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
+
+/** Adds the OpenStreetMap tile layer (the only tile source the app uses). */
+export function addBaseTiles(L, map) {
+  return L.tileLayer(OSM_TILE_URL, { maxZoom: 19, attribution: OSM_ATTRIBUTION }).addTo(map);
+}
+
+/** Only place a marker for coordinates that are actually usable. */
+export function isValidCoord(lat, lng) {
+  return Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
+}
+
+/* The same red pin the old hand-rolled map used (kept as an SVG divIcon so
+   Leaflet's default PNG icons — which bundlers commonly break — are never
+   loaded). The selected variant uses the app's green. */
+const PIN_PATH = 'M12 2C7.9 2 4.5 5.3 4.5 9.4c0 5.4 7.5 12.6 7.5 12.6s7.5-7.2 7.5-12.6C19.5 5.3 16.1 2 12 2z';
+
+export function marketPinIcon(L, active = false) {
+  const fill = active ? '#15803d' : '#dc2626';
+  const stroke = active ? '#14532d' : '#991b1b';
+  return L.divIcon({
+    className: 'ff-pin-icon',
+    html: `<svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true">
+      <path d="${PIN_PATH}" fill="${fill}" stroke="${stroke}" stroke-width="1"/>
+      <circle cx="12" cy="9.4" r="2.7" fill="#fff"/></svg>`,
+    iconSize: [34, 34],
+    iconAnchor: [17, 33],
+    popupAnchor: [0, -30],
+  });
+}
+
+/* Blue pulsing dot for the user's own position — deliberately distinct from
+   the red market pins. */
+export function userDotIcon(L) {
+  return L.divIcon({
+    className: 'ff-user-icon',
+    html: '<span class="ff-user-dot"></span>',
+    iconSize: [16, 16],
+    iconAnchor: [8, 8],
+  });
+}

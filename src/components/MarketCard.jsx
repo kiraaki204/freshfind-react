@@ -5,12 +5,18 @@ import Icon from './Icon.jsx';
 import StatusBadge from './StatusBadge.jsx';
 import SaveButton from './SaveButton.jsx';
 
-export default function MarketCard({ market, compact = false }) {
+export default function MarketCard({ market, compact = false, selected = false, onSelect }) {
   const navigate = useNavigate();
   const m = market;
 
   return (
-    <article className="m-card">
+    <article
+      className={`m-card${selected ? ' selected' : ''}${onSelect ? ' selectable' : ''}`}
+      onClick={onSelect ? (e) => { if (!e.target.closest('button')) onSelect(); } : undefined}
+      onKeyDown={onSelect ? (e) => { if (e.key === 'Enter' && !e.target.closest('button')) onSelect(); } : undefined}
+      tabIndex={onSelect ? 0 : undefined}
+      aria-label={onSelect ? `Show ${m.name} on the map` : undefined}
+    >
       <div className={`thumb${compact ? ' compact' : ''}`}>
         <img src={imgPath(m.image)} alt={m.name} loading="lazy" />
         <div className="heart-abs">

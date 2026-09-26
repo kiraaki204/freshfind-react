@@ -1,9 +1,16 @@
 import { useState } from 'react';
+import markets from '../data/markets.json';
 import { useToast } from '../hooks/useToast.jsx';
 import Icon from '../components/Icon.jsx';
 import Breadcrumb from '../components/Breadcrumb.jsx';
 import SocialRow from '../components/SocialRow.jsx';
 import MiniMap from '../components/MiniMap.jsx';
+
+/* The HQ address is fictional and has no coordinates of its own in the app,
+   so the map is centred on the middle of the existing market locations —
+   an honest demo position rather than an invented one. */
+const HQ_LAT = markets.reduce((sum, m) => sum + m.lat, 0) / markets.length;
+const HQ_LNG = markets.reduce((sum, m) => sum + m.lng, 0) / markets.length;
 
 const CONTACT_CARDS = [
   { i: 'mail', t: 'Email', c: 'hello@freshfind.com', href: 'mailto:hello@freshfind.com', bg: '#eff6ff', col: '#2563eb' },
@@ -108,7 +115,11 @@ export default function ContactPage() {
           </div>
           <div className="ff-card p-4">
             <h2 className="h5"><Icon name="pin" size={18} /> Find Us</h2>
-            <MiniMap name="FreshFind HQ" address="10 Market Square, Greenfield" />
+            <MiniMap name="FreshFind HQ" address="10 Market Square, Greenfield" lat={HQ_LAT} lng={HQ_LNG} />
+            <p className="small text-muted mt-2 mb-0">
+              Demo map: FreshFind is a showcase app, so the pin marks the centre of the demo
+              market area rather than a verified physical office.
+            </p>
           </div>
         </div>
       </div>

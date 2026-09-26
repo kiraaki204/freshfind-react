@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import markets from '../data/markets.json';
 import { applyMarketFilters } from '../utils/markets.js';
 import { useDirectoryFilters } from '../hooks/useDirectoryFilters.jsx';
@@ -21,10 +21,39 @@ export default function DirectoryPage() {
   const { filters, update, popupRequest, clearPopupRequest } = useDirectoryFilters();
   const { geo, locate } = useGeolocation();
   const [showFilters, setShowFilters] = useState(false);
+  const [selection, setSelection] = useState(null); // { id, nonce }
+  const cardRefs = useRef({});
 
   const list = applyMarketFilters(markets, filters, geo);
   const areas = [...new Set(markets.map((m) => m.area))].sort();
   const activeCount = [filters.area, filters.day, filters.produce].filter(Boolean).length;
+
+  // drop the selection when filters/search hide the selected market
+  useEffect(() => {
+    if (selection && !list.some((m) => m.id === selection.id)) setSelection(null);
+  }, [list, selection]);
+
+  // marker clicked (or chatbot request) → highlight the card and reveal it;
+  // the nonce makes each selection a one-shot "focus the map" instruction
+  const selectMarket = (id) => {
+    setSelection({ id, nonce: Date.now() });
+    const el = cardRefs.current[id];
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
+  const renderCards = (selectable) => (
+    <div className="row g-3">
+      {list.map((m) => (
+        <div key={m.id} className="col-sm-6 col-lg-4 col-xl-3" ref={(el) => { cardRefs.current[m.id] = el; }}>
+          <MarketCard
+            market={m}
+            selected={selectable && selection != null && m.id === selection.id}
+            onSelect={selectable ? () => selectMarket(m.id) : undefined}
+          />
+        </div>
+      ))}
+    </div>
+  );
 
   const clearAll = () => {
     update({ search: '', area: '', day: '', produce: '', sort: 'alpha', view: 'list' });
@@ -133,15 +162,26 @@ export default function DirectoryPage() {
       </div>
 
       {filters.view === 'map' ? (
-        <MarketMap markets={list} popupRequest={popupRequest} onPopupConsumed={clearPopupRequest} />
-      ) : list.length > 0 ? (
-        <div className="row g-3">
-          {list.map((m) => (
-            <div key={m.id} className="col-sm-6 col-lg-4 col-xl-3">
-              <MarketCard market={m} />
+        <>
+          <MarketMap
+            markets={list}
+            popupRequest={popupRequest}
+            onPopupConsumed={clearPopupRequest}
+            selection={selection}
+            onSelectMarket={selectMarket}
+          />
+          {list.length > 0 ? (
+            <div className="mt-4">{renderCards(true)}</div>
+          ) : (
+            <div className="text-center py-5">
+              <h3 className="h5">No markets found</h3>
+              <p className="text-muted">Try adjusting your search or filters.</p>
+              <button className="btn-green" onClick={clearAll}>Clear Search</button>
             </div>
-          ))}
-        </div>
+          )}
+        </>
+      ) : list.length > 0 ? (
+        renderCards(false)
       ) : (
         <div className="text-center py-5">
           <h3 className="h5">No markets found</h3>

@@ -1,288 +1,276 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import allMarkets from '../data/markets.json';
 import produceData from '../data/produce.json';
-import { formatTime } from '../utils/time.js';
-import { nearbyMarkets, visibleMarkets, fmtDist } from '../utils/geo.js';
+import { formatTime, getMarketStatus } from '../utils/time.js';
+import { visibleMarkets, fmtDist } from '../utils/geo.js';
+import { loadLeaflet, addBaseTiles, isValidCoord, marketPinIcon, userDotIcon } from '../utils/leaflet.js';
 import { useGeolocation } from '../hooks/useGeolocation.jsx';
 import { useBookmarks } from '../hooks/useBookmarks.jsx';
 import Icon from './Icon.jsx';
-import StatusBadge from './StatusBadge.jsx';
 
-/* Self-contained, data-driven map: every marker is projected from the real
-   lat/lng stored in the market data (no invented coordinates), the user's
-   own position only ever comes from the browser geolocation API, and all
-   cards / pop-ups render from the same market + produce data the rest of
-   the site uses. The decorative street-map background makes no geographic
-   claims. */
+/* Interactive street map (Leaflet + OpenStreetMap tiles). Every marker comes
+   from the lat/lng stored in the market data — never invented — and the user
+   dot only ever comes from the browser geolocation API. */
 
-function computeMapView(list, user) {
-  const lats = list.map((m) => m.lat);
-  const lngs = list.map((m) => m.lng);
-  let minLat = Math.min(...lats);
-  let maxLat = Math.max(...lats);
-  let minLng = Math.min(...lngs);
-  let maxLng = Math.max(...lngs);
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+));
 
-  let userNear = false;
-  if (user) {
-    // a granted live location is ALWAYS honoured: the frame includes the
-    // user so the map is centred on their area with the markets in view
-    userNear = nearbyMarkets(list, user).near.length > 0;
-    minLat = Math.min(minLat, user.lat);
-    maxLat = Math.max(maxLat, user.lat);
-    minLng = Math.min(minLng, user.lng);
-    maxLng = Math.max(maxLng, user.lng);
-  }
-  const padLat = Math.max((maxLat - minLat) * 0.22, 0.008);
-  const padLng = Math.max((maxLng - minLng) * 0.22, 0.008);
-  minLat -= padLat; maxLat += padLat;
-  minLng -= padLng; maxLng += padLng;
-
-  const cy = (minLat + maxLat) / 2;
-  const kx = Math.cos((cy * Math.PI) / 180);
-  const span = Math.max(maxLat - minLat, (maxLng - minLng) * kx);
-  return { cx: (minLng + maxLng) / 2, cy, kx, span, userNear };
+function popupHtml(m, saved) {
+  const st = getMarketStatus(m);
+  const stCls = st.status === 'open' ? 'status-open' : st.status === 'opens-today' ? 'status-soon' : 'status-closed';
+  const items = produceData.filter((p) => m.produce.includes(p.id));
+  const dirUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.address)}`;
+  return `
+    <div class="ffpop">
+      <h3 class="h6 mb-1">${esc(m.name)}</h3>
+      <div class="mb-2"><span class="rounded-pill fw-medium d-inline-flex align-items-center ${stCls}" style="padding:2px 8px;font-size:12px">${st.status === 'open' ? '<span class="pulse-dot me-1"></span>' : ''}${esc(st.label)}</span></div>
+      <div class="small text-muted mb-1">${esc(m.address)}</div>
+      <div class="small text-muted mb-2">${m.days.map(esc).join(', ')} · ${formatTime(m.openingTime)} – ${formatTime(m.closingTime)}</div>
+      ${items.length > 0 ? `<div class="d-flex flex-wrap gap-1 mb-2">${items.slice(0, 6).map((p) => `<span class="chip">${esc(p.emoji)} ${esc(p.name)}</span>`).join('')}${items.length > 6 ? `<span class="chip">+${items.length - 6}</span>` : ''}</div>` : ''}
+      <div class="d-flex gap-1">
+        <button type="button" class="btn-green py-1 px-2 flex-grow-1" style="font-size:12px" data-ff-view="${m.id}">View Details</button>
+        <button type="button" class="btn-outline-green py-1 px-2" style="font-size:12px" data-ff-save="${m.id}" aria-pressed="${saved}"><span class="ffpop-save-label">${saved ? 'Saved' : 'Save'}</span></button>
+        <a class="btn-outline-green py-1 px-2" style="font-size:12px;text-decoration:none" href="${dirUrl}" target="_blank" rel="noopener">Directions</a>
+      </div>
+    </div>`;
 }
 
-function MapBackground() {
-  return (
-    <svg className="ffmap-bg" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-      <rect width="100" height="100" fill="#eaf3e7" />
-      <ellipse cx="12" cy="86" rx="26" ry="20" fill="#dbeafe" opacity=".8" />
-      <ellipse cx="88" cy="10" rx="20" ry="14" fill="#d1fae5" />
-      <ellipse cx="70" cy="78" rx="16" ry="11" fill="#d1fae5" opacity=".8" />
-      <g stroke="#ffffff" strokeWidth="2.6" opacity=".9">
-        <path d="M -5 30 H 105" /><path d="M -5 62 H 105" /><path d="M 26 -5 V 105" /><path d="M 64 -5 V 105" /><path d="M -5 88 L 105 44" />
-      </g>
-      <g stroke="#ffffff" strokeWidth="1.1" opacity=".8">
-        <path d="M -5 14 H 105" /><path d="M -5 46 H 105" /><path d="M -5 78 H 105" />
-        <path d="M 10 -5 V 105" /><path d="M 44 -5 V 105" /><path d="M 82 -5 V 105" />
-      </g>
-      <g stroke="#fde68a" strokeWidth="1.6" opacity=".7">
-        <path d="M -5 52 L 105 20" /><path d="M 48 -5 L 74 105" />
-      </g>
-    </svg>
-  );
-}
+/* Survives list↔map toggles (which remount the map) so a selection that was
+   already focused — or whose popup the user closed — is not re-opened. */
+let lastFocusNonce = null;
 
-export default function MarketMap({ markets, popupRequest = null, onPopupConsumed }) {
+export default function MarketMap({ markets, popupRequest = null, onPopupConsumed, selection = null, onSelectMarket }) {
   const navigate = useNavigate();
   const { geo } = useGeolocation();
-  const { toggleBookmark } = useBookmarks();
+  const { bookmarks, toggleBookmark } = useBookmarks();
 
-  const [zoom, setZoom] = useState(1);
-  const [pan, setPan] = useState({ dx: 0, dy: 0 });
-  const [openId, setOpenId] = useState(popupRequest ? Number(popupRequest.id) : null);
+  const containerRef = useRef(null);
+  const mapRef = useRef(null);
+  const markersRef = useRef({});
+  const userMarkerRef = useRef(null);
+  const fitKeyRef = useRef(null);
+  const pendingFocusRef = useRef(null);
+  const [L, setL] = useState(null);
+  const [mapStatus, setMapStatus] = useState('loading'); // loading | ready | error
 
-  // The chatbot can ask for a specific market's pop-up ("map of riverside").
-  // The request is one-shot: apply it, then clear it, so a later close or a
-  // list/map toggle doesn't re-open the popup unexpectedly.
-  useEffect(() => {
-    if (popupRequest) {
-      setOpenId(Number(popupRequest.id));
-      if (onPopupConsumed) onPopupConsumed();
-    }
-  }, [popupRequest, onPopupConsumed]);
-
-  const boxRef = useRef(null);
-  const dragRef = useRef(null);
-  const suppressClick = useRef(false);
+  // latest values for listeners created once at map init
+  const navigateRef = useRef(navigate);
+  const toggleRef = useRef(toggleBookmark);
+  const bookmarksRef = useRef(bookmarks);
+  const marketsRef = useRef(markets);
+  const onSelectRef = useRef(onSelectMarket);
+  navigateRef.current = navigate;
+  toggleRef.current = toggleBookmark;
+  bookmarksRef.current = bookmarks;
+  marketsRef.current = markets;
+  onSelectRef.current = onSelectMarket;
 
   const user = geo.granted && geo.lat != null ? { lat: geo.lat, lng: geo.lng } : null;
   const { displayed, focused, nearInfo } = visibleMarkets(markets, user);
-  // no markets to show → no projection (avoids Infinity/NaN geometry when
-  // the current filters match nothing)
-  const view = displayed.length ? computeMapView(displayed, user) : null;
+  const displayKey = displayed.map((m) => m.id).join(',');
+  const userKey = user ? `${user.lat},${user.lng}` : '';
+  const selectedId = selection ? selection.id : null;
 
-  const project = (lat, lng) => {
-    const cx = view.cx + pan.dx / zoom;
-    const cy = view.cy + pan.dy / zoom;
-    const span = view.span / zoom;
-    return {
-      x: 50 + (((lng - cx) * view.kx) / span) * 100,
-      y: 50 - ((lat - cy) / span) * 100,
+  // load Leaflet once (dynamic import keeps it SSR-safe)
+  useEffect(() => {
+    let cancelled = false;
+    loadLeaflet()
+      .then((leaflet) => { if (!cancelled) { setL(leaflet); setMapStatus('ready'); } })
+      .catch(() => { if (!cancelled) setMapStatus('error'); });
+    return () => { cancelled = true; };
+  }, []);
+
+  // create the map once Leaflet and the container are available
+  useEffect(() => {
+    if (!L || !containerRef.current || mapRef.current) return undefined;
+    const map = L.map(containerRef.current, { zoomControl: false, minZoom: 3, maxZoom: 18 });
+    addBaseTiles(L, map);
+    L.control.zoom({ position: 'topright' }).addTo(map); // same corner as the old controls
+    mapRef.current = map;
+
+    // one delegated listener serves every popup's buttons
+    const onClick = (e) => {
+      const viewBtn = e.target.closest('[data-ff-view]');
+      if (viewBtn) {
+        navigateRef.current(`/markets/${viewBtn.dataset.ffView}`);
+        return;
+      }
+      const saveBtn = e.target.closest('[data-ff-save]');
+      if (saveBtn) {
+        const id = Number(saveBtn.dataset.ffSave);
+        const m = marketsRef.current.find((x) => x.id === id);
+        if (!m) return;
+        const wasSaved = bookmarksRef.current.some((b) => b.id === `market-${m.id}`);
+        toggleRef.current({ id: `market-${m.id}`, type: 'market', name: m.name, location: m.location });
+        const label = saveBtn.querySelector('.ffpop-save-label');
+        if (label) label.textContent = wasSaved ? 'Save' : 'Saved';
+        saveBtn.setAttribute('aria-pressed', String(!wasSaved));
+      }
     };
-  };
+    containerRef.current.addEventListener('click', onClick);
 
-  const onPointerDown = (e) => {
-    if (e.target.closest('button, .ffmap-popup')) return;
-    dragRef.current = { x: e.clientX, y: e.clientY, dx: pan.dx, dy: pan.dy, moved: false };
-  };
+    const ro = new ResizeObserver(() => map.invalidateSize());
+    ro.observe(containerRef.current);
 
-  const onPointerMove = (e) => {
-    const drag = dragRef.current;
-    if (!drag || !view || !boxRef.current) return;
-    const rect = boxRef.current.getBoundingClientRect();
-    if (Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) > 4) drag.moved = true;
-    if (!drag.moved) return;
-    setPan({
-      dx: drag.dx - ((e.clientX - drag.x) / rect.width) * (view.span / zoom),
-      dy: drag.dy + ((e.clientY - drag.y) / rect.height) * (view.span / zoom),
+    return () => {
+      containerRef.current?.removeEventListener('click', onClick);
+      ro.disconnect();
+      map.remove();
+      mapRef.current = null;
+      markersRef.current = {};
+      userMarkerRef.current = null;
+    };
+  }, [L]);
+
+  // keep markers in sync with the displayed markets
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !L || mapStatus !== 'ready') return;
+
+    const existing = markersRef.current;
+    const next = {};
+    displayed.forEach((m) => {
+      if (!isValidCoord(m.lat, m.lng)) return; // never place a marker at a guess
+      let marker = existing[m.id];
+      if (!marker) {
+        marker = L.marker([m.lat, m.lng], {
+          icon: marketPinIcon(L, m.id === selectedId),
+          title: m.name,
+          alt: m.name,
+        });
+        const saved = bookmarksRef.current.some((b) => b.id === `market-${m.id}`);
+        marker.bindPopup(popupHtml(m, saved), { maxWidth: 300, minWidth: 240 });
+        marker.on('click', () => onSelectRef.current && onSelectRef.current(m.id));
+        marker.addTo(map);
+      }
+      next[m.id] = marker;
     });
-  };
+    Object.keys(existing).forEach((id) => {
+      if (!next[id]) existing[id].remove();
+    });
+    markersRef.current = next;
 
-  const onPointerUp = () => {
-    if (dragRef.current && dragRef.current.moved) {
-      suppressClick.current = true;
-      setTimeout(() => { suppressClick.current = false; }, 0);
+    // re-frame only when the set of displayed markets (or the user) changes,
+    // so manual panning is never hijacked mid-interaction
+    const key = `${displayKey}|${userKey}`;
+    if (key !== fitKeyRef.current) {
+      fitKeyRef.current = key;
+      const frame = displayed.length ? displayed : allMarkets;
+      const pts = frame.filter((m) => isValidCoord(m.lat, m.lng)).map((m) => [m.lat, m.lng]);
+      if (user) pts.push([user.lat, user.lng]);
+      if (pts.length) map.fitBounds(pts, { padding: [48, 48], maxZoom: 14 });
     }
-    dragRef.current = null;
-  };
+  }, [L, mapStatus, displayKey, userKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const zoomBy = (kind) => {
-    if (kind === 'in') setZoom((z) => Math.min(8, z * 1.5));
-    else if (kind === 'out') setZoom((z) => Math.max(1, z / 1.5));
-    else { setZoom(1); setPan({ dx: 0, dy: 0 }); }
-  };
+  // selected-market pin gets the green highlight
+  useEffect(() => {
+    if (!L) return;
+    Object.entries(markersRef.current).forEach(([id, marker]) => {
+      marker.setIcon(marketPinIcon(L, Number(id) === selectedId));
+    });
+  }, [L, selectedId, displayKey]);
 
-  // position markers, nudging visually-overlapping pins apart (display only —
-  // the underlying coordinates stay exactly as stored in the data)
-  const placed = [];
-  const markers = view
-    ? displayed
-        .map((m) => {
-          let p = project(m.lat, m.lng);
-          if (p.x < -4 || p.x > 104 || p.y < -4 || p.y > 104) return null;
-          const dxs = [0, 4.5, -4.5, 0, 4.5, -4.5, 9, -9];
-          const dys = [0, -6, -6, 7, 7, 7, 0, 0];
-          for (let i = 0; i < dxs.length; i += 1) {
-            const nx = p.x + dxs[i];
-            const ny = p.y + dys[i];
-            if (placed.every((o) => Math.abs(o.x - nx) > 4 || Math.abs(o.y - ny) > 4)) {
-              p = { x: nx, y: ny };
-              break;
-            }
-          }
-          placed.push(p);
-          return { m, p };
-        })
-        .filter(Boolean)
-    : [];
+  // user location marker (blue dot, distinct from the red market pins)
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !L || mapStatus !== 'ready') return;
+    if (userMarkerRef.current) {
+      userMarkerRef.current.remove();
+      userMarkerRef.current = null;
+    }
+    if (user && isValidCoord(user.lat, user.lng)) {
+      userMarkerRef.current = L.marker([user.lat, user.lng], {
+        icon: userDotIcon(L),
+        title: 'Your location',
+        alt: 'Your location',
+        zIndexOffset: 500,
+      }).addTo(map);
+    }
+  }, [L, mapStatus, userKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const openMarket = openId != null ? displayed.find((m) => m.id === openId) : null;
+  // a fresh selection (card click, marker click or chatbot request) → fly to
+  // the marker and open its popup; each nonce is consumed exactly once
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map || !selection || selection.nonce === lastFocusNonce) return;
+    const marker = markersRef.current[selection.id];
+    if (!marker) return; // not ready yet — the nonce stays unconsumed
+    lastFocusNonce = selection.nonce;
+    if (!marker.isPopupOpen()) {
+      map.flyTo(marker.getLatLng(), Math.max(map.getZoom(), 14), { duration: 0.6 });
+      marker.openPopup();
+    }
+  }, [selection, mapStatus, displayKey]);
+
+  // the chatbot can ask for a specific market's popup ("map of riverside");
+  // one-shot: apply and clear, so closing it or toggling views never re-opens it
+  useEffect(() => {
+    if (!popupRequest) return;
+    const id = Number(popupRequest.id);
+    if (mapStatus === 'ready') {
+      if (onSelectRef.current) onSelectRef.current(id);
+    } else {
+      pendingFocusRef.current = id; // map still loading — apply once ready
+    }
+    if (onPopupConsumed) onPopupConsumed();
+  }, [popupRequest, onPopupConsumed, mapStatus]);
+
+  useEffect(() => {
+    if (mapStatus === 'ready' && pendingFocusRef.current != null) {
+      const id = pendingFocusRef.current;
+      pendingFocusRef.current = null;
+      if (onSelectRef.current) onSelectRef.current(id);
+    }
+  }, [mapStatus]);
+
   const closest = nearInfo ? nearInfo.sorted[0] : null;
 
   return (
     <div
       className="ffmap"
       id="ffmap"
-      ref={boxRef}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerLeave={() => { dragRef.current = null; }}
       onKeyDown={(e) => {
-        if (e.key === 'Escape' && openId != null) setOpenId(null);
-      }}
-      onClick={(e) => {
-        if (suppressClick.current) return;
-        if (!e.target.closest('button') && !e.target.closest('.ffmap-popup')) setOpenId(null);
+        if (e.key === 'Escape' && mapRef.current) mapRef.current.closePopup();
       }}
     >
-      <MapBackground />
+      <div ref={containerRef} className="ffmap-canvas" role="application" aria-label="Map of farmers' markets" />
 
-      <div className="ffmap-ctl">
-        <button aria-label="Zoom in" onClick={() => zoomBy('in')}>+</button>
-        <button aria-label="Zoom out" onClick={() => zoomBy('out')}>−</button>
-        <button aria-label="Reset view" style={{ fontSize: 12 }} onClick={() => zoomBy('reset')}>⌂</button>
-      </div>
+      {mapStatus === 'loading' && (
+        <div className="ffmap-state"><Icon name="map" size={18} /> Loading map…</div>
+      )}
+      {mapStatus === 'error' && (
+        <div className="ffmap-state"><Icon name="alert" size={18} /> The map could not be loaded. The market list below is still available.</div>
+      )}
 
-      <div className="ffmap-chip d-flex flex-column gap-1">
-        <span>
-          <Icon name="pin" size={13} />{' '}
-          {displayed.length}
-          {focused && displayed.length !== markets.length
-            ? ` nearby market${displayed.length !== 1 ? 's' : ''} (of ${markets.length})`
-            : ` market${displayed.length !== 1 ? 's' : ''}`}{' '}
-          · tap a marker
-        </span>
-        <span className="ffmap-legend">
-          <i className="lg-pin" /> Market{user ? <>&nbsp;<i className="lg-you" /> You</> : ''}
-        </span>
-        {geo.loading && (
-          <span style={{ color: '#1d4ed8' }}><Icon name="nav" size={13} /> Requesting your location…</span>
-        )}
-        {!geo.loading && user && closest && (
-          <span style={{ color: '#2563eb' }}>
-            <Icon name="nav" size={13} /> centred on your location
-            {view.userNear ? '' : ` · closest market ~${fmtDist(closest.d)} away`}
+      {mapStatus === 'ready' && (
+        <div className="ffmap-chip d-flex flex-column gap-1">
+          <span>
+            <Icon name="pin" size={13} />{' '}
+            {displayed.length}
+            {focused && displayed.length !== markets.length
+              ? ` nearby market${displayed.length !== 1 ? 's' : ''} (of ${markets.length})`
+              : ` market${displayed.length !== 1 ? 's' : ''}`}{' '}
+            · tap a marker
           </span>
-        )}
-        {!geo.loading && !user && geo.error && (
-          <span style={{ color: '#b45309' }}><Icon name="alert" size={13} /> {geo.error} — showing all markets</span>
-        )}
-      </div>
-
-      {markers.map(({ m, p }) => (
-        <button
-          key={m.id}
-          className={`ffmap-marker${openId === m.id ? ' active' : ''}`}
-          style={{ left: `${p.x}%`, top: `${p.y}%` }}
-          aria-label={m.name}
-          title={m.name}
-          onClick={() => setOpenId(m.id)}
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 2C7.9 2 4.5 5.3 4.5 9.4c0 5.4 7.5 12.6 7.5 12.6s7.5-7.2 7.5-12.6C19.5 5.3 16.1 2 12 2z" fill="#dc2626" stroke="#991b1b" strokeWidth="1" />
-            <circle cx="12" cy="9.4" r="2.7" fill="#fff" />
-          </svg>
-          <span className="ffmap-tag">{m.name.split(' ').slice(0, 2).join(' ')}</span>
-        </button>
-      ))}
-
-      {user && view && (() => {
-        const up = project(user.lat, user.lng);
-        return (
-          <div className="ffmap-user" style={{ left: `${up.x}%`, top: `${up.y}%` }} title="Your location">
-            <span /><em className="ffmap-user-tag">You</em>
-          </div>
-        );
-      })()}
-
-      {openMarket && view && (() => {
-        const pos = project(openMarket.lat, openMarket.lng);
-        const items = produceData.filter((p) => openMarket.produce.includes(p.id));
-        const below = pos.y < 46;
-        const left = Math.max(18, Math.min(82, pos.x));
-        return (
-          <div
-            className={`ffmap-popup${below ? ' below' : ''}`}
-            style={{ left: `${left}%`, top: `${pos.y}%` }}
-            role="dialog"
-            aria-label={openMarket.name}
-          >
-            <button className="icon-btn position-absolute top-0 end-0 m-1 p-1" aria-label="Close pop-up" onClick={() => setOpenId(null)}>
-              <Icon name="x" size={14} />
-            </button>
-            <h3 className="h6 mb-1 pe-3">{openMarket.name}</h3>
-            <div className="mb-2"><StatusBadge market={openMarket} /></div>
-            <div className="small text-muted mb-1"><Icon name="pin" size={13} /> {openMarket.address}</div>
-            <div className="small text-muted mb-2">
-              <Icon name="clock" size={13} /> {openMarket.days.join(', ')} · {formatTime(openMarket.openingTime)} – {formatTime(openMarket.closingTime)}
-            </div>
-            {items.length > 0 && (
-              <div className="d-flex flex-wrap gap-1 mb-2">
-                {items.slice(0, 6).map((p) => (
-                  <span key={p.id} className="chip" title={p.name}>{p.emoji} {p.name}</span>
-                ))}
-                {items.length > 6 && <span className="chip">+{items.length - 6}</span>}
-              </div>
-            )}
-            <div className="d-flex gap-1">
-              <button className="btn-green py-1 px-2 flex-grow-1" style={{ fontSize: 12 }} onClick={() => navigate(`/markets/${openMarket.id}`)}>
-                View Details <Icon name="chevron" size={13} />
-              </button>
-              <button
-                className="btn-outline-green py-1 px-2"
-                style={{ fontSize: 12 }}
-                onClick={() => toggleBookmark({ id: `market-${openMarket.id}`, type: 'market', name: openMarket.name, location: openMarket.location })}
-              >
-                <Icon name="heart" size={13} /> Save
-              </button>
-            </div>
-          </div>
-        );
-      })()}
+          <span className="ffmap-legend">
+            <i className="lg-pin" /> Market{user ? <>&nbsp;<i className="lg-you" /> You</> : ''}
+          </span>
+          {geo.loading && (
+            <span style={{ color: '#1d4ed8' }}><Icon name="nav" size={13} /> Requesting your location…</span>
+          )}
+          {!geo.loading && user && closest && (
+            <span style={{ color: '#2563eb' }}>
+              <Icon name="nav" size={13} /> centred on your location
+              {nearInfo.near.length > 0 ? '' : ` · closest market ~${fmtDist(closest.d)} away`}
+            </span>
+          )}
+          {!geo.loading && !user && geo.error && (
+            <span style={{ color: '#b45309' }}><Icon name="alert" size={13} /> {geo.error} — showing all markets</span>
+          )}
+        </div>
+      )}
     </div>
   );
 }
