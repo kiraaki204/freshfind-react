@@ -1,14 +1,17 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import markets from '../data/markets.json';
 import produceData from '../data/produce.json';
 import { imgPath } from '../utils/markets.js';
 import { useBookmarks } from '../hooks/useBookmarks.jsx';
 import { useToast } from '../hooks/useToast.jsx';
-import Icon from '../components/Icon.jsx';
-import Breadcrumb from '../components/Breadcrumb.jsx';
 import { useMarketModal } from '../hooks/useMarketModal.jsx';
+import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
+import Icon from './Icon.jsx';
+import SupportModal from './SupportModal.jsx';
 
+/* Content preserved from the former standalone Saved Items page —
+   notes, export and removal all keep working inside the modal. */
 function exportBookmarks(bookmarks) {
   const lines = ['FreshFind Saved Items', `Exported: ${new Date().toLocaleString()}`, ''];
   bookmarks.forEach((b) => {
@@ -37,11 +40,13 @@ function NoteEditor({ bookmark, onSave }) {
       <div className="d-flex align-items-center gap-2 mt-1">
         <input
           className="form-control form-control-sm"
+          aria-label={`Note for ${bookmark.name}`}
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
         />
         <button
           className="icon-btn p-1"
+          aria-label={`Save note for ${bookmark.name}`}
           onClick={() => {
             onSave(draft);
             setEditing(false);
@@ -60,6 +65,7 @@ function NoteEditor({ bookmark, onSave }) {
       </p>
       <button
         className="icon-btn p-1"
+        aria-label={`Edit note for ${bookmark.name}`}
         onClick={() => {
           setDraft(bookmark.note || '');
           setEditing(true);
@@ -71,9 +77,10 @@ function NoteEditor({ bookmark, onSave }) {
   );
 }
 
-export default function SavedItemsPage() {
+export default function SavedItemsModal({ open, onClose }) {
   const navigate = useNavigate();
   const { openMarket } = useMarketModal();
+  const { openProduce } = useProduceDetailModal();
   const { bookmarks, removeBookmark, setNote } = useBookmarks();
   const showToast = useToast();
 
@@ -85,23 +92,31 @@ export default function SavedItemsPage() {
     showToast('Note saved for this session. 📝');
   };
 
-  return (
-    <div className="wrap" style={{ maxWidth: '56rem' }}>
-      <Breadcrumb items={[{ label: 'Saved Items' }]} />
+  // opening another modal or a different section — close this one first
+  const closeThen = (fn) => {
+    onClose();
+    setTimeout(fn, 80);
+  };
 
-      <div className="d-flex justify-content-between align-items-center mt-3 mb-4">
-        <div>
-          <h1 className="h3 mb-0">Saved Items</h1>
-          <p className="text-muted mb-0">
-            {bookmarks.length} item{bookmarks.length !== 1 ? 's' : ''} saved
-          </p>
-        </div>
-        {bookmarks.length > 0 && (
-          <button className="btn-green" onClick={() => { exportBookmarks(bookmarks); showToast('Bookmarks exported successfully! 📥'); }}>
+  return (
+    <SupportModal
+      open={open}
+      onClose={onClose}
+      wide
+      icon="heart"
+      title="Saved Items"
+      intro={`${bookmarks.length} item${bookmarks.length !== 1 ? 's' : ''} saved — stored in your browser's local storage.`}
+    >
+      {bookmarks.length > 0 && (
+        <div className="d-flex justify-content-end mb-3">
+          <button
+            className="btn-green"
+            onClick={() => { exportBookmarks(bookmarks); showToast('Bookmarks exported successfully! 📥'); }}
+          >
             <Icon name="download" size={16} /> Export Bookmarks
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       {bookmarks.length === 0 ? (
         <div className="ff-card p-5 text-center">
@@ -111,14 +126,14 @@ export default function SavedItemsPage() {
           >
             <Icon name="heart" size={28} />
           </div>
-          <h2 className="h5">No saved items yet</h2>
+          <h3 className="h5">No saved items yet</h3>
           <p className="text-muted small">
             Start exploring farmers' markets and produce items and save your favourites here for quick access.
           </p>
-          <button className="btn-green me-2" onClick={() => navigate('/markets')}>
+          <button className="btn-green me-2" onClick={() => closeThen(() => navigate('/markets'))}>
             <Icon name="store" size={16} /> Browse Markets
           </button>
-          <button className="btn-outline-green" onClick={() => navigate('/produce')}>
+          <button className="btn-outline-green" onClick={() => closeThen(() => navigate('/produce'))}>
             <Icon name="carrot" size={16} /> Explore Produce
           </button>
         </div>
@@ -126,7 +141,7 @@ export default function SavedItemsPage() {
         <>
           {savedMarkets.length > 0 && (
             <>
-              <h2 className="h5 mb-3"><Icon name="pin" size={18} /> Saved Markets ({savedMarkets.length})</h2>
+              <h3 className="h6 mb-3"><Icon name="pin" size={16} /> Saved Markets ({savedMarkets.length})</h3>
               {savedMarkets.map((b) => {
                 const m = markets.find((x) => `market-${x.id}` === b.id);
                 return (
@@ -136,14 +151,14 @@ export default function SavedItemsPage() {
                     )}
                     <div className="flex-grow-1">
                       <div className="d-flex justify-content-between">
-                        <h3 className="h6 mb-1">{b.name}</h3>
+                        <h4 className="h6 mb-1">{b.name}</h4>
                         <div>
                           {m && (
-                            <button className="btn-green py-1 px-2 me-1" style={{ fontSize: 12 }} onClick={() => openMarket(m.id)}>
+                            <button className="btn-green py-1 px-2 me-1" style={{ fontSize: 12 }} onClick={() => closeThen(() => openMarket(m.id))}>
                               View
                             </button>
                           )}
-                          <button className="icon-btn" aria-label="Remove" onClick={() => removeBookmark(b.id)}>
+                          <button className="icon-btn" aria-label={`Remove ${b.name}`} onClick={() => removeBookmark(b.id)}>
                             <Icon name="trash" size={16} />
                           </button>
                         </div>
@@ -161,7 +176,7 @@ export default function SavedItemsPage() {
 
           {savedProduce.length > 0 && (
             <>
-              <h2 className="h5 mb-3 mt-4"><Icon name="tag" size={18} /> Saved Produce ({savedProduce.length})</h2>
+              <h3 className="h6 mb-3 mt-2"><Icon name="tag" size={16} /> Saved Produce ({savedProduce.length})</h3>
               {savedProduce.map((b) => {
                 const p = produceData.find((x) => `produce-${x.id}` === b.id);
                 return (
@@ -171,14 +186,14 @@ export default function SavedItemsPage() {
                     </div>
                     <div className="flex-grow-1">
                       <div className="d-flex justify-content-between">
-                        <h3 className="h6 mb-1">{b.name}</h3>
+                        <h4 className="h6 mb-1">{b.name}</h4>
                         <div>
                           {p && (
-                            <button className="btn-green py-1 px-2 me-1" style={{ fontSize: 12 }} onClick={() => navigate(`/produce/${p.id}`)}>
+                            <button className="btn-green py-1 px-2 me-1" style={{ fontSize: 12 }} onClick={() => closeThen(() => openProduce(p.id))}>
                               View
                             </button>
                           )}
-                          <button className="icon-btn" aria-label="Remove" onClick={() => removeBookmark(b.id)}>
+                          <button className="icon-btn" aria-label={`Remove ${b.name}`} onClick={() => removeBookmark(b.id)}>
                             <Icon name="trash" size={16} />
                           </button>
                         </div>
@@ -187,12 +202,12 @@ export default function SavedItemsPage() {
                       <NoteEditor bookmark={b} onSave={saveNote(b.id)} />
                     </div>
                   </div>
-              );
-            })}
+                );
+              })}
             </>
           )}
         </>
       )}
-    </div>
+    </SupportModal>
   );
 }

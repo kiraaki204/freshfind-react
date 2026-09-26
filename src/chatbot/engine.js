@@ -1310,7 +1310,7 @@ function buildIntents(agent) {
         if (!item) {
           agent.openPage('bookmarks'); // actually open Saved Items
           return {
-            text: `❤️ I've opened your Saved Items page.\n\nReminder — you can save anything by tapping the heart on a market or produce card, add notes, and export the list. Saved items stay in this browser.`,
+            text: `❤️ I've opened your Saved Items.\n\nReminder — you can save anything by tapping the heart on a market or produce card, add notes, and export the list. Saved items stay in this browser.`,
             suggestions: ['Save honey for later', 'Show me all markets', 'What produce is in season?'],
           };
         }

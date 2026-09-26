@@ -1,5 +1,6 @@
 import { useId, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSupportModal } from '../hooks/useSupportModal.jsx';
 import Icon from './Icon.jsx';
 
 /* Homepage About section — a hand-drawn market-stall illustration with
@@ -36,7 +37,7 @@ const HOTSPOTS = [
     blurb:
       'Tap the heart on any market or produce card to keep it. Saved items live only in your browser’s ' +
       'local storage — add personal notes and export the list whenever you like.',
-    link: { label: 'Open Saved Items', to: '/saved' },
+    link: { label: 'Open Saved Items', modal: 'saved' },
   },
 ];
 
@@ -144,6 +145,7 @@ function StallIllustration() {
 
 export default function HomeAboutSection() {
   const navigate = useNavigate();
+  const { openSupport } = useSupportModal();
   const [activeId, setActiveId] = useState('directory');
   const pillRowRef = useRef(null);
   const panelId = `about-feature-${useId().replace(/:/g, '')}`;
@@ -279,7 +281,10 @@ export default function HomeAboutSection() {
               <div className="about-feature-body">
                 <h3 className="about-feature-t">{active.label}</h3>
                 <p className="about-feature-d">{active.blurb}</p>
-                <button className="about-feature-link" onClick={() => navigate(active.link.to)}>
+                <button
+                  className="about-feature-link"
+                  onClick={() => (active.link.modal ? openSupport(active.link.modal) : navigate(active.link.to))}
+                >
                   {active.link.label} <Icon name="chevron" size={14} />
                 </button>
               </div>

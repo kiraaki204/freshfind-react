@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useBookmarks } from '../hooks/useBookmarks.jsx';
+import { useSupportModal } from '../hooks/useSupportModal.jsx';
 import Icon from './Icon.jsx';
 
 const NAV = [
@@ -41,6 +42,7 @@ export default function Header() {
   const navigate = useNavigate();
   const { pathname, hash } = useLocation();
   const { bookmarks } = useBookmarks();
+  const { openSupport } = useSupportModal();
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -170,7 +172,7 @@ export default function Header() {
           >
             <Icon name={searchOpen ? 'x' : 'search'} size={18} />
           </button>
-          <button className="icon-btn" aria-label="Saved items" onClick={() => navigate('/saved')}>
+          <button className="icon-btn" aria-label="Saved items" aria-haspopup="dialog" onClick={() => openSupport('saved')}>
             <Icon name="heart" size={18} />
             {savedCount > 0 && <span className="count-badge">{savedCount > 9 ? '9+' : savedCount}</span>}
           </button>
@@ -182,15 +184,16 @@ export default function Header() {
 
       <div className={`mobile-menu${menuOpen ? ' open' : ''}`}>
         <nav className="px-3 py-3" aria-label="Mobile navigation">
-          {[...NAV, { label: 'Saved Items', to: '/saved', icon: 'heart' }].map((l) => (
+          {[...NAV, { label: 'Saved Items', modal: 'saved', icon: 'heart' }].map((l) => (
             <button
-              key={l.to}
-              className={`mobile-link${isActive(pathname, hash, l.to) ? ' active' : ''}`}
-              onClick={() => handleNav(l.to)}
+              key={l.to ?? l.modal}
+              className={`mobile-link${!l.modal && isActive(pathname, hash, l.to) ? ' active' : ''}`}
+              aria-haspopup={l.modal ? 'dialog' : undefined}
+              onClick={() => (l.modal ? (openSupport(l.modal), setMenuOpen(false)) : handleNav(l.to))}
             >
               <span className="mob-ico"><Icon name={l.icon} size={16} /></span>
               <span className="flex-grow-1">{l.label}</span>
-              {l.to === '/saved' && savedCount > 0 && (
+              {l.modal === 'saved' && savedCount > 0 && (
                 <span className="count-badge position-static d-inline-flex">{savedCount}</span>
               )}
               <Icon name="chevron" size={16} />

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import markets from '../data/markets.json';
 import { hasMeaningfulSeason } from '../utils/produce.js';
 import Icon from './Icon.jsx';
@@ -10,6 +10,7 @@ export default function ProduceDetailModal({ produce, onClose }) {
   const { openMarket } = useMarketModal();
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
+  const titleId = `pd-title-${useId().replace(/:/g, '')}`;
   const [imgError, setImgError] = useState(false);
 
   const open = Boolean(produce);
@@ -50,11 +51,11 @@ export default function ProduceDetailModal({ produce, onClose }) {
 
   return (
     <div className="mm-backdrop produce-detail-backdrop" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className="mm-dialog produce-detail-dialog" role="dialog" aria-modal="true" aria-labelledby="pd-title" ref={dialogRef}>
+      <div className="mm-dialog produce-detail-dialog" role="dialog" aria-modal="true" aria-labelledby={titleId} ref={dialogRef}>
         <header className="mm-head produce-detail-head">
           <div>
             <span className="chip" style={{ background: '#f0fdf4', color: '#15803d', border: '1px solid #dcfce7' }}>{p.category}</span>
-            <h2 id="pd-title" className="h5 mt-2 mb-1" style={{ lineHeight: 1.2 }}>{p.emoji} {p.name}</h2>
+            <h2 id={titleId} className="h5 mt-2 mb-1" style={{ lineHeight: 1.2 }}>{p.emoji} {p.name}</h2>
             <p className="small text-muted mb-0" style={{ maxWidth: '28rem' }}>{p.description.slice(0, 110)}…</p>
           </div>
           <div className="d-flex align-items-center gap-1">

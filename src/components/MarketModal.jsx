@@ -10,6 +10,7 @@ import StatusBadge from './StatusBadge.jsx';
 import SaveButton from './SaveButton.jsx';
 import LiveClock from './LiveClock.jsx';
 import MiniMap from './MiniMap.jsx';
+import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
 
 const WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -17,6 +18,7 @@ const WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
     All content comes from the shared market/produce data. */
 export default function MarketModal({ marketId, onClose }) {
   const navigate = useNavigate();
+  const { openProduce } = useProduceDetailModal();
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
   const [lightboxSrc, setLightboxSrc] = useState(null);
@@ -169,10 +171,12 @@ export default function MarketModal({ marketId, onClose }) {
                 <div className="row g-2">
                   {items.map((p) => (
                     <div key={p.id} className="col-6 col-md-4">
+                      {/* produce detail stacks above this market modal;
+                          closing it returns here */}
                       <button
                         className="produce-tile"
-                        aria-label={`${p.name} — open in Produce Guide`}
-                        onClick={() => closeAndGo(`/produce/${p.id}`)}
+                        aria-label={`${p.name} — view details`}
+                        onClick={() => openProduce(p.id)}
                       >
                         <div style={{ fontSize: '1.6rem' }}>{p.emoji}</div>
                         <div className="small fw-medium">{p.name}</div>

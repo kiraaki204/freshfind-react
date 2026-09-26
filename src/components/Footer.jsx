@@ -8,7 +8,7 @@ const QUICK_LINKS = [
   { label: 'Home', to: '/' },
   { label: 'Find a Market', to: '/markets' },
   { label: 'Produce Guide', to: '/#produce' },
-  { label: 'Saved Items', to: '/saved' },
+  { label: 'Saved Items', modal: 'saved' },
   { label: 'About Us', to: '/#about' },
   { label: 'Contact Us', to: '/#contact' },
 ];
@@ -84,8 +84,14 @@ export default function Footer({ visitorCount }) {
             <h3 className="text-white fw-semibold mb-3" style={{ fontSize: 16 }}>Quick Links</h3>
             <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
               {QUICK_LINKS.map((l) => (
-                <li key={l.to}>
-                  <button className="foot-link" onClick={() => handleNav(l.to)}>{l.label}</button>
+                <li key={l.to ?? l.modal}>
+                  <button
+                    className="foot-link"
+                    aria-haspopup={l.modal ? 'dialog' : undefined}
+                    onClick={() => (l.modal ? openSupport(l.modal) : handleNav(l.to))}
+                  >
+                    {l.label}
+                  </button>
                 </li>
               ))}
             </ul>

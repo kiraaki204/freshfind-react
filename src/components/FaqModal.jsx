@@ -24,7 +24,7 @@ const FAQS = [
   },
   {
     q: 'How do saved items work?',
-    a: 'When you save a market or produce item, it is stored in your browser\u2019s local storage under this site. Saved items and any notes you add stay on your device; you can export them from the Saved Items page.',
+    a: 'When you save a market or produce item, it is stored in your browser\u2019s local storage under this site. Saved items and any notes you add stay on your device; you can export them from Saved Items.',
   },
   {
     q: 'How does the "Near Me" / location feature work?',

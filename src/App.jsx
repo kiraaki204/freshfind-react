@@ -12,10 +12,9 @@ import ChatWidget from './components/ChatWidget.jsx';
 import HomePage from './pages/HomePage.jsx';
 import DirectoryPage from './pages/DirectoryPage.jsx';
 import { MarketModalProvider } from './hooks/useMarketModal.jsx';
+import { ProduceDetailModalProvider } from './hooks/useProduceDetailModal.jsx';
 import { SupportModalProvider } from './hooks/useSupportModal.jsx';
 import ProducePage from './pages/ProducePage.jsx';
-import ProduceDetailPage from './pages/ProduceDetailPage.jsx';
-import SavedItemsPage from './pages/SavedItemsPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 
 function ScrollHandler() {
@@ -48,6 +47,7 @@ export default function App() {
             <DirectoryFiltersProvider>
               <ProduceFiltersProvider>
                 <MarketModalProvider>
+                <ProduceDetailModalProvider>
                 <SupportModalProvider>
                 <ScrollHandler />
                 <Header />
@@ -57,10 +57,13 @@ export default function App() {
                       <Route path="/" element={<HomePage visitorCount={visitorCount} />} />
                       <Route path="/markets" element={<DirectoryPage />} />
                       <Route path="/produce" element={<ProducePage />} />
-                      <Route path="/produce/:produceId" element={<ProduceDetailPage />} />
+                      {/* Produce details open as a modal over the current
+                          page — deep links land on the Produce Guide */}
+                      <Route path="/produce/:produceId" element={<Navigate to="/produce" replace />} />
                       {/* About Us now lives on the homepage (#about) */}
                       <Route path="/about" element={<Navigate to="/#about" replace />} />
-                      <Route path="/saved" element={<SavedItemsPage />} />
+                      {/* Saved Items open as a modal over the current page */}
+                      <Route path="/saved" element={<Navigate to="/" replace />} />
                       {/* FAQ, Help Center, Terms and Privacy open as modals
                           over the current page — deep links land on Home */}
                       <Route path="/faq" element={<Navigate to="/" replace />} />
@@ -74,6 +77,7 @@ export default function App() {
                 <Footer visitorCount={visitorCount} />
                 <ChatWidget />
                 </SupportModalProvider>
+                </ProduceDetailModalProvider>
                 </MarketModalProvider>
               </ProduceFiltersProvider>
             </DirectoryFiltersProvider>

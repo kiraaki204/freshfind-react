@@ -11,16 +11,18 @@ import { useGeolocation } from '../hooks/useGeolocation.jsx';
 import { useDirectoryFilters } from '../hooks/useDirectoryFilters.jsx';
 import { useProduceFilters } from '../hooks/useProduceFilters.jsx';
 import { useMarketModal } from '../hooks/useMarketModal.jsx';
+import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
+import { useSupportModal } from '../hooks/useSupportModal.jsx';
 import Icon from './Icon.jsx';
 
 const CHAT_KEY = 'freshfind_chat';
 const HINT_KEY = 'freshfind_chat_hint';
 
+/* saved items are a modal ('saved'), not a route — handled specially below */
 const PAGE_ROUTES = {
   home: '/',
   directory: '/markets',
   produce: '/produce',
-  bookmarks: '/saved',
   about: '/#about',
   contact: '/#contact',
 };
@@ -50,6 +52,8 @@ export default function ChatWidget() {
   const dirFilters = useDirectoryFilters();
   const produceFilters = useProduceFilters();
   const { openMarket: openMarketModal } = useMarketModal();
+  const { openProduce: openProduceModal } = useProduceDetailModal();
+  const { openSupport } = useSupportModal();
 
   const [msgs, setMsgs] = useState(loadMessages);
   const [typing, setTyping] = useState(false);
@@ -72,9 +76,12 @@ export default function ChatWidget() {
       geo.geo.granted && geo.geo.lat != null ? { lat: geo.geo.lat, lng: geo.geo.lng } : null;
 
     return {
-      openPage: (page) => navigate(PAGE_ROUTES[page] ?? '/'),
+      openPage: (page) => {
+        if (page === 'bookmarks') { openSupport('saved'); return; }
+        navigate(PAGE_ROUTES[page] ?? '/');
+      },
       openMarket: (m) => { openMarketModal(m.id); openChat(false); },
-      openProduce: (p) => navigate(`/produce/${p.id}`),
+      openProduce: (p) => openProduceModal(p.id),
       openProduceGuide: (opts = {}) => {
         prod.replace(opts);
         navigate('/produce');
@@ -205,11 +212,12 @@ export default function ChatWidget() {
 
   const openItem = (type, id) => {
     if (type === 'market') openMarketModal(Number(id));
-    else navigate(`/produce/${id}`);
+    else openProduceModal(id);
     openChat(false);
   };
 
   const followLink = (page) => {
+    if (page === 'bookmarks') { openSupport('saved'); openChat(false); return; }
     const to = PAGE_ROUTES[page] ?? '/';
     navigate(to);
     if (!to.includes('#')) window.scrollTo({ top: 0, behavior: 'smooth' });

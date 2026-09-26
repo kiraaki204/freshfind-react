@@ -39,10 +39,11 @@ img { max-width: 100%; height: auto; }
 button { cursor: pointer; }
 button:disabled { cursor: not-allowed; }
 
+/* no border-radius here — forcing one mangled the corners of pill and
+   rounded inputs (the old "four weird green corners" around search) */
 :focus-visible {
   outline: 2px solid var(--green-600);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
 ::selection {
@@ -645,6 +646,9 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
 
 /* ---------- footer ---------- */
 .site-footer { background: var(--green-950); color: #dcfce7; }
+/* footer contact links (email / phone) should not be underlined */
+.site-footer a { text-decoration: none; }
+.site-footer a:hover { text-decoration: none; }
 .foot-bar {
   background: var(--green-900);
   border-bottom: 1px solid var(--green-800);
@@ -879,7 +883,13 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
 
 .form-control:focus, .form-select:focus {
   border-color: var(--green-500);
-  box-shadow: 0 0 0 .2rem rgba(22,163,74,.2);
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, .18);
+}
+/* text inputs/selects signal focus with the green border + glow above,
+   which follows the control's own border radius — suppress the generic
+   outline so it doesn't double up as a squared-off second ring */
+.form-control:focus-visible, .form-select:focus-visible {
+  outline: none;
 }
 
 .search-wrap { position: relative; }

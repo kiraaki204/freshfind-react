@@ -1,20 +1,21 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import markets from '../data/markets.json';
 import Icon from './Icon.jsx';
 import SaveButton from './SaveButton.jsx';
 import { hasMeaningfulSeason } from '../utils/produce.js';
+import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
 
 export default function ProduceCard({ produce, onSelect, variant = 'default' }) {
-  const navigate = useNavigate();
+  const { openProduce } = useProduceDetailModal();
   const p = produce;
   const marketCount = markets.filter((m) => p.markets.includes(m.id)).length;
   const [imgError, setImgError] = useState(false);
   const showImage = p.image && !imgError;
 
   const handleSelect = () => {
+    // details open in the shared produce modal, not a separate page
     if (onSelect) onSelect(p);
-    else navigate(`/produce/${p.id}`);
+    else openProduce(p.id);
   };
 
   const handleKey = (e) => {

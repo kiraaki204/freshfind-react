@@ -3,14 +3,15 @@ import FaqModal from '../components/FaqModal.jsx';
 import HelpCenterModal from '../components/HelpCenterModal.jsx';
 import TermsModal from '../components/TermsModal.jsx';
 import PrivacyModal from '../components/PrivacyModal.jsx';
+import SavedItemsModal from '../components/SavedItemsModal.jsx';
 
-/* Shared support-modal system: FAQ, Help Center, Terms of Service and the
-   Privacy Policy open as accessible dialogs over the current page instead
-   of navigating to standalone routes. Any part of the app (footer, contact
-   section, other modals) can request one by id. */
+/* Shared app-modal system: FAQ, Help Center, Terms of Service, Privacy
+   Policy and Saved Items open as accessible dialogs over the current page
+   instead of navigating to standalone routes. Any part of the app (footer,
+   header, contact section, chatbot, other modals) can request one by id. */
 const SupportModalContext = createContext(null);
 
-const VALID = new Set(['faq', 'help', 'terms', 'privacy']);
+const VALID = new Set(['faq', 'help', 'terms', 'privacy', 'saved']);
 
 export function SupportModalProvider({ children }) {
   const [active, setActive] = useState(null);
@@ -27,6 +28,7 @@ export function SupportModalProvider({ children }) {
       <HelpCenterModal open={active === 'help'} onClose={closeSupport} />
       <TermsModal open={active === 'terms'} onClose={closeSupport} />
       <PrivacyModal open={active === 'privacy'} onClose={closeSupport} />
+      <SavedItemsModal open={active === 'saved'} onClose={closeSupport} />
     </SupportModalContext.Provider>
   );
 }

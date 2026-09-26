@@ -22,7 +22,7 @@ const GUIDES = [
   {
     icon: 'heart',
     title: 'Save markets and produce',
-    body: 'Use the heart button on any market or produce card to save it. Your saved items live in your browser — add personal notes to them and export the list from the Saved Items page.',
+    body: 'Use the heart button on any market or produce card to save it. Your saved items live in your browser — add personal notes to them and export the list from Saved Items.',
   },
   {
     icon: 'chat',
