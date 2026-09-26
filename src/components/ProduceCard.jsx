@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import markets from '../data/markets.json';
+import { hasMeaningfulSeason } from '../utils/produce.js';
 import Icon from './Icon.jsx';
 import SaveButton from './SaveButton.jsx';
 
@@ -15,18 +16,20 @@ export default function ProduceCard({ produce }) {
         <div className="heart-abs">
           <SaveButton size="sm" item={{ id: `produce-${p.id}`, type: 'produce', name: p.name, category: p.category }} />
         </div>
-        <div className="org-abs">
-          <span className="chip" style={{ background: 'rgba(255,255,255,.85)', color: '#4b5563' }}>{p.category}</span>
-        </div>
       </div>
       <div className="p-3 d-flex flex-column flex-grow-1">
-        <h3 className="h6">{p.name}</h3>
-        <p className="small text-muted line-2">{p.description}</p>
-        <div className="d-flex flex-wrap gap-1 mb-2">
-          {p.season.map((s) => (
-            <span key={s} className={`chip season-${s.toLowerCase()}`}>{s}</span>
-          ))}
+        <div className="d-flex justify-content-between align-items-start gap-2 mb-1">
+          <h3 className="h6 mb-0">{p.name}</h3>
+          <span className="chip text-nowrap">{p.category}</span>
         </div>
+        <p className="small text-muted line-2">{p.description}</p>
+        {hasMeaningfulSeason(p) && (
+          <div className="d-flex flex-wrap gap-1 mb-2">
+            {p.season.map((s) => (
+              <span key={s} className={`chip season-${s.toLowerCase()}`}>{s}</span>
+            ))}
+          </div>
+        )}
         {marketCount > 0 && (
           <p className="small text-muted">Available at {marketCount} market{marketCount > 1 ? 's' : ''}</p>
         )}

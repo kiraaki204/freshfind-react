@@ -110,8 +110,8 @@ export default function HomePage({ visitorCount }) {
         <div className="container" style={{ maxWidth: '80rem' }}>
           <div className="row g-3">
             {QUICK_ACTIONS.map((a) => (
-              <div key={a.label} className="col-6 col-lg-3">
-                <button className="qa-card" onClick={() => goQuickAction(a)}>
+              <div key={a.label} className="col-12 col-sm-6 col-lg-3">
+                <button className="qa-card h-100" onClick={() => goQuickAction(a)}>
                   <div className="qa-ico" style={{ background: a.bg }}>
                     <Icon name={a.ico} size={22} />
                   </div>

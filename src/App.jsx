@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { ToastProvider } from './hooks/useToast.jsx';
 import { BookmarksProvider } from './hooks/useBookmarks.jsx';
 import { GeoProvider } from './hooks/useGeolocation.jsx';
@@ -17,6 +17,11 @@ import ProduceDetailPage from './pages/ProduceDetailPage.jsx';
 import AboutPage from './pages/AboutPage.jsx';
 import ContactPage from './pages/ContactPage.jsx';
 import SavedItemsPage from './pages/SavedItemsPage.jsx';
+import FaqPage from './pages/FaqPage.jsx';
+import HelpCenterPage from './pages/HelpCenterPage.jsx';
+import TermsPage from './pages/TermsPage.jsx';
+import PrivacyPage from './pages/PrivacyPage.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -49,7 +54,11 @@ export default function App() {
                       <Route path="/about" element={<AboutPage />} />
                       <Route path="/contact" element={<ContactPage />} />
                       <Route path="/saved" element={<SavedItemsPage />} />
-                      <Route path="*" element={<Navigate to="/" replace />} />
+                      <Route path="/faq" element={<FaqPage />} />
+                      <Route path="/help" element={<HelpCenterPage />} />
+                      <Route path="/terms" element={<TermsPage />} />
+                      <Route path="/privacy" element={<PrivacyPage />} />
+                      <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                   </div>
                 </main>

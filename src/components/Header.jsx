@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useBookmarks } from '../hooks/useBookmarks.jsx';
-import { useToast } from '../hooks/useToast.jsx';
 import Icon from './Icon.jsx';
 
 const NAV = [
@@ -16,60 +15,15 @@ function isActive(pathname, to) {
   return to === '/' ? pathname === '/' : pathname.startsWith(to);
 }
 
-/* Always mounted (like the original markup) so partly-filled demo forms
-   keep their values when the modal is closed and re-opened. */
-function AuthModal({ kind, open, onClose, onSubmit }) {
-  const login = kind === 'login';
-  return (
-    <div
-      className={`modal-back${open ? ' open' : ''}`}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div className="modal-box">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h2 className="h5 mb-0">{login ? 'Login' : 'Sign up'}</h2>
-          <button className="icon-btn" aria-label="Close" onClick={onClose}>
-            <Icon name="x" size={18} />
-          </button>
-        </div>
-        <p className="text-muted small">
-          {login ? 'This is a demo login — nothing is sent to a server.' : 'Demo only — accounts are not actually created.'}
-        </p>
-        <form onSubmit={onSubmit}>
-          {!login && (
-            <div className="mb-3">
-              <label className="form-label small">Name</label>
-              <input type="text" className="form-control" required placeholder="Your name" />
-            </div>
-          )}
-          <div className="mb-3">
-            <label className="form-label small">Email</label>
-            <input type="email" className="form-control" required placeholder="you@email.com" />
-          </div>
-          <div className="mb-3">
-            <label className="form-label small">Password</label>
-            <input type="password" className="form-control" required placeholder="••••••••" />
-          </div>
-          <button type="submit" className="btn-green w-100">{login ? 'Login' : 'Create account'}</button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
 export default function Header() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { bookmarks } = useBookmarks();
-  const showToast = useToast();
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState('');
-  const [modal, setModal] = useState(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -88,12 +42,6 @@ export default function Header() {
     if (!q) return;
     setSearchOpen(false);
     navigate(`/markets?q=${encodeURIComponent(q)}`);
-  };
-
-  const submitAuth = (message) => (e) => {
-    e.preventDefault();
-    setModal(null);
-    showToast(message, 'info');
   };
 
   const savedCount = bookmarks.length;
@@ -124,10 +72,6 @@ export default function Header() {
         </nav>
 
         <div className="header-actions">
-          <div className="dummy-auth">
-            <button className="btn-login" type="button" onClick={() => setModal('login')}>Login</button>
-            <button className="btn-signup" type="button" onClick={() => setModal('signup')}>Sign up</button>
-          </div>
           <button className="icon-btn" aria-label="Search" onClick={() => setSearchOpen((o) => !o)}>
             <Icon name="search" size={18} />
           </button>
@@ -174,15 +118,8 @@ export default function Header() {
               <Icon name="chevron" size={16} />
             </button>
           ))}
-          <div className="d-flex gap-2 px-2 pt-2 d-lg-none">
-            <button className="btn-login" onClick={() => setModal('login')}>Login</button>
-            <button className="btn-signup" onClick={() => setModal('signup')}>Sign up</button>
-          </div>
         </nav>
       </div>
-
-      <AuthModal kind="login" open={modal === 'login'} onClose={() => setModal(null)} onSubmit={submitAuth('Logged in (demo only)')} />
-      <AuthModal kind="signup" open={modal === 'signup'} onClose={() => setModal(null)} onSubmit={submitAuth('Account created (demo only)')} />
     </header>
   );
 }

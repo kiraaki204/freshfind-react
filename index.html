@@ -7,6 +7,16 @@
   <meta name="keywords" content="farmers market, fresh produce, local food, seasonal vegetables, organic market, community market">
   <title>FreshFind — Discover Fresh Local Farmers' Markets</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- Inline so the skip link is hidden before the bundled CSS loads; it
+       becomes visible only when a keyboard user tabs onto it. -->
+  <style>
+    .skip-link {
+      position: absolute; left: -9999px; top: 8px; z-index: 200;
+      background: #16a34a; color: #fff; padding: 8px 16px;
+      border-radius: 8px; text-decoration: none;
+    }
+    .skip-link:focus { left: 16px; }
+  </style>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>

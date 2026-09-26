@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import markets from '../data/markets.json';
 import produceData from '../data/produce.json';
+import { hasMeaningfulSeason } from '../utils/produce.js';
 import Icon from '../components/Icon.jsx';
 import Breadcrumb from '../components/Breadcrumb.jsx';
 import StatusBadge from '../components/StatusBadge.jsx';
@@ -37,14 +38,16 @@ export default function ProduceDetailPage() {
               <SaveButton item={{ id: `produce-${p.id}`, type: 'produce', name: p.name, category: p.category }} />
             </div>
           </div>
-          <div className="ff-card p-3 mb-3">
-            <h3 className="h6">In Season</h3>
-            <div className="d-flex flex-wrap gap-2">
-              {p.season.map((s) => (
-                <span key={s} className={`chip season-${s.toLowerCase()}`}>{s}</span>
-              ))}
+          {hasMeaningfulSeason(p) && (
+            <div className="ff-card p-3 mb-3">
+              <h3 className="h6">In Season</h3>
+              <div className="d-flex flex-wrap gap-2">
+                {p.season.map((s) => (
+                  <span key={s} className={`chip season-${s.toLowerCase()}`}>{s}</span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           <div className="ff-card p-3">
             <h3 className="h6">Details</h3>
             <div className="d-flex justify-content-between small">

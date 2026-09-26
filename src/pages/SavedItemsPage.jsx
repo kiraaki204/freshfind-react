@@ -185,14 +185,10 @@ export default function SavedItemsPage() {
                       <NoteEditor bookmark={b} onSave={saveNote(b.id)} />
                     </div>
                   </div>
-                );
-              })}
+              );
+            })}
             </>
           )}
-
-          <div className="p-3 rounded-4 small mt-3" style={{ background: '#fffbeb', border: '1px solid #fde68a', color: '#b45309' }}>
-            Notes are stored in your browser only and are not saved to any server. Export your bookmarks to keep a permanent copy.
-          </div>
         </>
       )}
     </div>

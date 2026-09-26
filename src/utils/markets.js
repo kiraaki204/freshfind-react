@@ -18,6 +18,15 @@ export function imgPath(p) {
   return String(p);
 }
 
+/** Where a market tag/category badge should navigate. Produce categories go
+    to the Produce Guide with that category pre-selected via URL parameter;
+    Organic is a market attribute rather than a produce category, so it opens
+    the Produce Guide without a filter. */
+export function tagDestination(tag) {
+  if (tag === 'Organic') return '/produce';
+  return `/produce?category=${encodeURIComponent(tag)}`;
+}
+
 /** Directory filtering + sorting. `geo` is the shared geolocation state;
     proximity sorting only applies once a real location is granted. */
 export function applyMarketFilters(list, filters, geo, now = new Date()) {

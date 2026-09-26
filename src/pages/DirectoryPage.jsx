@@ -100,28 +100,28 @@ export default function DirectoryPage() {
 
         {showFilters && (
           <div className="row g-2 pt-3" style={{ borderTop: '1px solid #f3f4f6' }}>
-            <div className="col-sm-6 col-lg-3">
+            <div className="col-12 col-sm-6 col-lg-3">
               <label className="small text-muted">Location / Area</label>
               <select className="form-select" value={filters.area} onChange={(e) => update({ area: e.target.value })}>
                 <option value="">All Areas</option>
                 {areas.map((a) => <option key={a}>{a}</option>)}
               </select>
             </div>
-            <div className="col-sm-6 col-lg-3">
+            <div className="col-12 col-sm-6 col-lg-3">
               <label className="small text-muted">Day of Week</label>
               <select className="form-select" value={filters.day} onChange={(e) => update({ day: e.target.value })}>
                 <option value="">All Days</option>
                 {DAYS.map((d) => <option key={d}>{d}</option>)}
               </select>
             </div>
-            <div className="col-sm-6 col-lg-3">
+            <div className="col-12 col-sm-6 col-lg-3">
               <label className="small text-muted">Produce Type</label>
               <select className="form-select" value={filters.produce} onChange={(e) => update({ produce: e.target.value })}>
                 <option value="">All Types</option>
                 {PRODUCE_TYPES.map((p) => <option key={p}>{p}</option>)}
               </select>
             </div>
-            <div className="col-sm-6 col-lg-3">
+            <div className="col-12 col-sm-6 col-lg-3">
               <label className="small text-muted">Sort By</label>
               <select className="form-select" value={filters.sort} onChange={(e) => update({ sort: e.target.value })}>
                 {SORTS.map(([value, label]) => <option key={value} value={value}>{label}</option>)}

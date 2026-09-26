@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { formatTime } from '../utils/time.js';
-import { imgPath } from '../utils/markets.js';
+import { imgPath, tagDestination } from '../utils/markets.js';
 import Icon from './Icon.jsx';
 import StatusBadge from './StatusBadge.jsx';
 import SaveButton from './SaveButton.jsx';
@@ -27,7 +27,14 @@ export default function MarketCard({ market, compact = false, selected = false, 
         </div>
         {m.tags.includes('Organic') && (
           <div className="org-abs">
-            <span className="chip" style={{ background: '#16a34a', color: '#fff', border: 'none' }}>Organic</span>
+            <button
+              className="chip"
+              style={{ background: '#16a34a', color: '#fff', border: 'none' }}
+              aria-label="Browse the Produce Guide"
+              onClick={(e) => { e.stopPropagation(); navigate(tagDestination('Organic')); }}
+            >
+              Organic
+            </button>
           </div>
         )}
       </div>
@@ -47,7 +54,14 @@ export default function MarketCard({ market, compact = false, selected = false, 
         {!compact && <p className="small text-muted line-2">{m.shortDescription}</p>}
         <div className="d-flex flex-wrap gap-1 mb-3">
           {m.tags.slice(0, 3).map((tag) => (
-            <span key={tag} className="chip">{tag}</span>
+            <button
+              key={tag}
+              className="chip chip-link"
+              aria-label={`Browse ${tag} in the Produce Guide`}
+              onClick={(e) => { e.stopPropagation(); navigate(tagDestination(tag)); }}
+            >
+              {tag}
+            </button>
           ))}
         </div>
         <button className="btn-green w-100 mt-auto" onClick={() => navigate(`/markets/${m.id}`)}>

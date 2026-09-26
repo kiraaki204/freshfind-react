@@ -67,7 +67,7 @@ export default function AboutPage() {
           <div className="ff-card p-4 h-100">
             <h2 className="h4">Our Story</h2>
             <p className="text-muted">
-              FreshFind started in 2020 when our founder, a former organic farmer, realised that despite there being
+              FreshFind started in 2026 when our founder, a former organic farmer, realised that despite there being
               wonderful farmers' markets all around the city, many residents had no easy way to discover them.
             </p>
             <p className="text-muted">

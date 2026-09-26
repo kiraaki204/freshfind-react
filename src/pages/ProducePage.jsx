@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import produceData from '../data/produce.json';
 import { useProduceFilters, DEFAULT_PRODUCE_FILTERS } from '../hooks/useProduceFilters.jsx';
 import Icon from '../components/Icon.jsx';
@@ -10,6 +12,18 @@ const SEASON_ICONS = { All: 'sprout', Spring: 'flower', Summer: 'sun', Autumn: '
 
 export default function ProducePage() {
   const { filters, update, replace } = useProduceFilters();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // deep links such as /produce?category=Meat (used by market badges) select
+  // the category once; the parameter is then consumed so ordinary category
+  // clicks keep working without fighting the URL
+  useEffect(() => {
+    const raw = searchParams.get('category');
+    if (!raw) return;
+    const match = CATEGORIES.find((c) => c.toLowerCase() === raw.toLowerCase());
+    replace({ category: match || 'All' });
+    setSearchParams({}, { replace: true });
+  }, [searchParams, replace, setSearchParams]);
 
   let items = produceData.slice();
   if (filters.search) {
@@ -32,7 +46,7 @@ export default function ProducePage() {
           <input
             className="form-control"
             value={filters.search}
-            placeholder="Search produce..."
+            placeholder="e.g. tomatoes, carrots..."
             style={{ borderRadius: 12 }}
             onChange={(e) => update({ search: e.target.value })}
           />
@@ -70,7 +84,7 @@ export default function ProducePage() {
       {items.length > 0 ? (
         <div className="row g-3">
           {items.map((p) => (
-            <div key={p.id} className="col-6 col-sm-4 col-lg-3 col-xl">
+            <div key={p.id} className="col-6 col-sm-4 col-lg-3 col-xl-2">
               <ProduceCard produce={p} />
             </div>
           ))}

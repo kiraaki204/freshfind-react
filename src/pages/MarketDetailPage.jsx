@@ -3,7 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import markets from '../data/markets.json';
 import produceData from '../data/produce.json';
 import { formatTime, DAY_NAMES } from '../utils/time.js';
-import { imgPath } from '../utils/markets.js';
+import { imgPath, tagDestination } from '../utils/markets.js';
+import { hasMeaningfulSeason } from '../utils/produce.js';
 import { useToast } from '../hooks/useToast.jsx';
 import Icon from '../components/Icon.jsx';
 import Breadcrumb from '../components/Breadcrumb.jsx';
@@ -137,18 +138,24 @@ export default function MarketDetailPage() {
 
           {items.length > 0 && (
             <div className="ff-card p-4 mb-3">
-              <h2 className="h5 mb-3">Typical Produce Available</h2>
+              <h2 className="h5 mb-1">Typical Produce Available</h2>
+              <p className="small text-muted mb-3">Select an item for details, seasons and where else to find it.</p>
               <div className="row g-2">
                 {items.map((p) => (
-                  <div key={p.id} className="col-6 col-md-3">
+                  <div key={p.id} className="col-6 col-md-4 col-lg-3">
                     <button
-                      className="w-100 p-3 rounded-3 text-center border-0"
-                      style={{ background: '#f0fdf4' }}
+                      className="produce-tile"
+                      aria-label={`${p.name} — open in Produce Guide`}
                       onClick={() => navigate(`/produce/${p.id}`)}
                     >
                       <div style={{ fontSize: '1.6rem' }}>{p.emoji}</div>
                       <div className="small fw-medium">{p.name}</div>
-                      <div className="small text-muted">{p.category}</div>
+                      <div className="d-flex flex-wrap gap-1 justify-content-center mt-1">
+                        <span className="chip">{p.category}</span>
+                        {hasMeaningfulSeason(p) && p.season.map((s) => (
+                          <span key={s} className={`chip season-${s.toLowerCase()}`}>{s}</span>
+                        ))}
+                      </div>
                     </button>
                   </div>
                 ))}
@@ -232,7 +239,16 @@ export default function MarketDetailPage() {
           <div className="ff-card p-4">
             <h3 className="h6">Produce Categories</h3>
             <div className="d-flex flex-wrap gap-2">
-              {m.tags.map((t) => <span key={t} className="chip">{t}</span>)}
+              {m.tags.map((t) => (
+                <button
+                  key={t}
+                  className="chip chip-link"
+                  aria-label={`Browse ${t} in the Produce Guide`}
+                  onClick={() => navigate(tagDestination(t))}
+                >
+                  {t}
+                </button>
+              ))}
             </div>
           </div>
         </div>
