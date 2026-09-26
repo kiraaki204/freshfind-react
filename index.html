@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FreshFind — Discover nearby farmers' markets, explore seasonal produce, check market schedules, and support local farmers in your community.">
+  <meta name="keywords" content="farmers market, fresh produce, local food, seasonal vegetables, organic market, community market">
+  <title>FreshFind — Discover Fresh Local Farmers' Markets</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header" id="header">
+    <div class="header-inner">
+      <button class="logo-btn" id="logoBtn" aria-label="FreshFind Home">
+        <span class="logo-mark" data-icon="leaf"></span>
+        <span class="d-none d-sm-block text-start">
+          <span class="logo-title d-block">FreshFind</span>
+          <span class="logo-sub d-block">Fresh All Along</span>
+        </span>
+      </button>
+
+      <nav class="main-nav" aria-label="Main navigation" id="desktopNav"></nav>
+
+      <div class="header-actions">
+        <div class="dummy-auth">
+          <button class="btn-login" type="button" data-modal="login">Login</button>
+          <button class="btn-signup" type="button" data-modal="signup">Sign up</button>
+        </div>
+        <button class="icon-btn" id="searchToggle" aria-label="Search" data-icon="search"></button>
+        <button class="icon-btn" id="savedBtn" aria-label="Saved items">
+          <span data-icon="heart"></span>
+          <span class="count-badge" id="savedCount" hidden>0</span>
+        </button>
+        <button class="icon-btn menu-toggle" id="menuToggle" aria-label="Toggle menu" data-icon="menu"></button>
+      </div>
+    </div>
+
+    <div class="header-search" id="headerSearch">
+      <form id="headerSearchForm" class="d-flex gap-2">
+        <div class="search-wrap flex-grow-1">
+          <span class="s-ico" data-icon="search"></span>
+          <input type="text" class="form-control" id="headerSearchInput" placeholder="Search markets, locations or produce..." style="border-radius:8px;">
+        </div>
+        <button type="submit" class="btn-green">Search</button>
+      </form>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <nav class="px-3 py-3" aria-label="Mobile navigation" id="mobileNav"></nav>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <div id="page"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="foot-bar">
+      <div class="container py-3 d-flex flex-column flex-sm-row align-items-center justify-content-between gap-2" style="max-width:80rem;">
+        <span style="color:#86efac;font-size:14px;">
+          <span data-icon="leaf" class="d-inline-block" style="vertical-align:-3px;color:#4ade80;"></span>
+          <strong style="color:#fff;" id="footVisitors">12,458</strong> visitors exploring FreshFind
+        </span>
+        <span style="color:#4ade80;font-size:12px;">Connecting communities with local farmers since 2020</span>
+      </div>
+    </div>
+    <div class="container py-5" style="max-width:80rem;">
+      <div class="row g-4">
+        <div class="col-sm-6 col-lg-3">
+          <button class="logo-btn mb-3" data-page="home">
+            <span class="logo-mark" data-icon="leaf"></span>
+            <span class="text-start">
+              <span class="d-block text-white fw-bold" style="font-size:1.2rem;">FreshFind</span>
+              <span class="d-block" style="font-size:11px;color:#4ade80;margin-top:-2px;">Fresh All Along</span>
+            </span>
+          </button>
+          <p style="font-size:14px;color:#86efac;line-height:1.6;">Connecting local communities with fresh, seasonal produce from nearby farmers' markets.</p>
+          <div class="d-flex gap-2" id="footerSocial"></div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <h3 class="text-white fw-semibold mb-3" style="font-size:16px;">Quick Links</h3>
+          <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+            <li><button class="foot-link" data-page="home">Home</button></li>
+            <li><button class="foot-link" data-page="directory">Find a Market</button></li>
+            <li><button class="foot-link" data-page="produce">Produce Guide</button></li>
+            <li><button class="foot-link" data-page="bookmarks">Saved Items</button></li>
+            <li><button class="foot-link" data-page="about">About Us</button></li>
+            <li><button class="foot-link" data-page="contact">Contact Us</button></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <h3 class="text-white fw-semibold mb-3" style="font-size:16px;">Support</h3>
+          <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+            <li><button class="foot-link" data-soon="FAQ">FAQ</button></li>
+            <li><button class="foot-link" data-soon="Help Centre">Help Centre</button></li>
+            <li><button class="foot-link" data-soon="Terms of Service">Terms of Service</button></li>
+            <li><button class="foot-link" data-soon="Privacy Policy">Privacy Policy</button></li>
+          </ul>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <h3 class="text-white fw-semibold mb-3" style="font-size:16px;">Contact</h3>
+          <ul class="list-unstyled d-flex flex-column gap-3 mb-0" style="font-size:14px;color:#86efac;">
+            <li><a href="mailto:hello@freshfind.com" style="color:#86efac;">hello@freshfind.com</a></li>
+            <li>+1 555-FRESH-1</li>
+            <li>10 Market Square, Greenfield</li>
+            <li><button class="foot-link" id="openChatFromFooter">Chat with the assistant</button></li>
+          </ul>
+        </div>
+      </div>
+      <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between gap-2 mt-5 pt-4" style="border-top:1px solid #166534;">
+        <p class="mb-0" style="font-size:12px;color:#4ade80;">© 2026 FreshFind. All rights reserved.</p>
+        <p class="mb-0" style="font-size:12px;color:#22c55e;">Built with love for local communities</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- chatbot -->
+  <div class="chat-panel" id="chatPanel" role="dialog" aria-label="FreshFind Assistant">
+    <div class="chat-head">
+      <div class="d-flex align-items-center gap-2">
+        <div class="position-relative d-flex align-items-center justify-content-center rounded-circle" style="width:32px;height:32px;background:rgba(255,255,255,.2);">
+          <span data-icon="leaf"></span>
+          <span class="position-absolute" style="bottom:-2px;right:-2px;width:10px;height:10px;background:#86efac;border:2px solid #15803d;border-radius:50%;"></span>
+        </div>
+        <div>
+          <div style="font-weight:600;font-size:13px;line-height:1.2;">FreshFind Assistant</div>
+          <div id="chatStatus" style="font-size:10px;color:#bbf7d0;line-height:1.2;">Online · knows all 8 markets</div>
+        </div>
+      </div>
+      <div>
+        <button class="icon-btn text-white" id="clearChat" aria-label="Clear conversation" data-icon="trash"></button>
+        <button class="icon-btn text-white" id="closeChat" aria-label="Close chat" data-icon="x"></button>
+      </div>
+    </div>
+    <div class="position-relative flex-grow-1" style="min-height:0;display:flex;flex-direction:column;">
+      <div class="chat-msgs" id="chatMsgs" aria-live="polite"></div>
+      <button class="jump-latest" id="jumpLatest" hidden aria-label="Scroll to latest message" data-icon="arrow-down"></button>
+    </div>
+    <form class="chat-input-row" id="chatForm">
+      <textarea id="chatInput" rows="1" placeholder="Ask about markets, times or produce…" aria-label="Message FreshFind Assistant"></textarea>
+      <button type="submit" class="chat-send" id="chatSend" aria-label="Send message" disabled data-icon="send"></button>
+    </form>
+  </div>
+
+  <div class="chat-toggle-wrap">
+    <button class="chat-hint" id="chatHint" type="button">
+      <span style="font-weight:500;color:#15803d;">Need a hand?</span><br>
+      Ask me which markets are open now
+    </button>
+    <button class="chat-fab" id="chatFab" aria-label="Open chat assistant" data-icon="chat"></button>
+  </div>
+
+  <div class="toast-stack" id="toasts"></div>
+
+  <!-- dummy login / signup -->
+  <div class="modal-back" id="loginModal">
+    <div class="modal-box">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0">Login</h2>
+        <button class="icon-btn" data-close-modal data-icon="x" aria-label="Close"></button>
+      </div>
+      <p class="text-muted small">This is a demo login — nothing is sent to a server.</p>
+      <form id="loginForm">
+        <div class="mb-3">
+          <label class="form-label small">Email</label>
+          <input type="email" class="form-control" required placeholder="you@email.com">
+        </div>
+        <div class="mb-3">
+          <label class="form-label small">Password</label>
+          <input type="password" class="form-control" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-green w-100">Login</button>
+      </form>
+    </div>
+  </div>
+  <div class="modal-back" id="signupModal">
+    <div class="modal-box">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0">Sign up</h2>
+        <button class="icon-btn" data-close-modal data-icon="x" aria-label="Close"></button>
+      </div>
+      <p class="text-muted small">Demo only — accounts are not actually created.</p>
+      <form id="signupForm">
+        <div class="mb-3">
+          <label class="form-label small">Name</label>
+          <input type="text" class="form-control" required placeholder="Your name">
+        </div>
+        <div class="mb-3">
+          <label class="form-label small">Email</label>
+          <input type="email" class="form-control" required placeholder="you@email.com">
+        </div>
+        <div class="mb-3">
+          <label class="form-label small">Password</label>
+          <input type="password" class="form-control" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn-green w-100">Create account</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox" hidden>
+    <img id="lightboxImg" alt="">
+    <button class="icon-btn position-absolute top-0 end-0 m-3 text-white" id="lightboxClose" aria-label="Close gallery" data-icon="x"></button>
+  </div>
+
+  <script src="js/markets-data.js"></script>
+  <script src="js/produce-data.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
