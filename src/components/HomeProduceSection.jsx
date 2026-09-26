@@ -4,6 +4,7 @@ import Icon from './Icon.jsx';
 import ProduceCard from './ProduceCard.jsx';
 import ProductBrowseModal from './ProductBrowseModal.jsx';
 import ProduceDetailModal from './ProduceDetailModal.jsx';
+import { LeafSprig, Vine, TomatoDoodle, FlowerDoodle, Squiggle } from './Doodles.jsx';
 
 const CATEGORIES = ['All', 'Vegetables', 'Fruits', 'Herbs', 'Dairy', 'Baked Goods'];
 
