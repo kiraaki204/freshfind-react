@@ -4,6 +4,7 @@ import { useToast } from '../hooks/useToast.jsx';
 import { useSupportModal } from '../hooks/useSupportModal.jsx';
 import Icon from './Icon.jsx';
 import MiniMap from './MiniMap.jsx';
+import { FlowerDoodle, LeafSprig, Squiggle } from './Doodles.jsx';
 
 const HQ_LAT = markets.reduce((sum, m) => sum + m.lat, 0) / markets.length;
 const HQ_LNG = markets.reduce((sum, m) => sum + m.lng, 0) / markets.length;
