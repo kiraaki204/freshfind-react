@@ -110,10 +110,11 @@ const SYNONYMS = {
   fruit: 'fruits',
   // quality
   top: 'best', rated: 'best', rating: 'best', popular: 'best', recommend: 'best',
-  recommended: 'best', favourite: 'best', favorite: 'best',
+  recommended: 'best',
   // saving
   bookmark: 'bookmark', bookmarks: 'bookmark', save: 'bookmark', saved: 'bookmark',
-  favourite2: 'bookmark', wishlist: 'bookmark', heart: 'bookmark', unsave: 'remove',
+  favourite: 'bookmark', favourites: 'bookmark', favorite: 'bookmark', favorites: 'bookmark',
+  wishlist: 'bookmark', heart: 'bookmark', unsave: 'remove',
   // cart
   basket: 'cart', trolley: 'cart',
   // clear / remove
@@ -1318,10 +1319,9 @@ function buildIntents(agent) {
         const wantsRemove = has(q, 'remove', 'unsave') || q.tokens.has('unsave');
         if (wantsRemove) {
           const res = agent.unsaveItem(item);
-          const count = agent.bookmarkCount();
           return res === 'removed'
             ? {
-                text: `💔 Done — ${item.name} was removed from your saved items. ${count ? `You have ${count} left.` : 'Nothing is saved now.'}`,
+                text: `💔 ${item.name} was removed from your favourites (Saved Items).`,
                 suggestions: ['Show my saved items', `Save ${item.name.toLowerCase()} again`],
               }
             : {
@@ -1330,14 +1330,13 @@ function buildIntents(agent) {
               };
         }
         const res = agent.saveItem(item);
-        const count = agent.bookmarkCount();
         return res === 'saved'
           ? {
-              text: `❤️ Saved ${item.name}! You now have ${count} saved item${count === 1 ? '' : 's'}.`,
+              text: `❤️ Added ${item.name} to your favourites (Saved Items).`,
               suggestions: ['Show my saved items', 'What produce is in season?'],
             }
           : {
-              text: `${item.name} is already in your saved items.`,
+              text: `${item.name} is already in your favourites (Saved Items).`,
               suggestions: ['Show my saved items', `Remove ${item.name.toLowerCase()} from my saved items`],
             };
       },
