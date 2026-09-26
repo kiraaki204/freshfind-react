@@ -14,6 +14,7 @@ import { useMarketModal } from '../hooks/useMarketModal.jsx';
 import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
 import { useSupportModal } from '../hooks/useSupportModal.jsx';
 import useVoiceAssistant from '../hooks/useVoiceAssistant.js';
+import { VOICE_LANGUAGES } from '../utils/voice.js';
 import Icon from './Icon.jsx';
 
 const CHAT_KEY = 'freshfind_chat';
@@ -61,8 +62,9 @@ export default function ChatWidget() {
   /* voice interaction — native Web Speech APIs, gracefully degrading */
   const {
     micSupported, ttsSupported,
-    micState, micError, clearMicError, startMic, cancelMic,
+    micState, micError, clearMicError, startMic, finishMic, cancelMic,
     speakingId, toggleSpeak, speak, stopSpeak, stopAll,
+    voices, preferences, updatePreferences,
   } = useVoiceAssistant();
   const [autoSpeak, setAutoSpeak] = useState(false);
   const autoSpeakRef = useRef(false);
@@ -194,6 +196,9 @@ export default function ChatWidget() {
   const sendChat = (raw) => {
     const text = (raw || '').trim();
     if (!text || typing) return;
+    cancelMic();
+    stopSpeak();
+    clearMicError();
     const ctxAtSend = ctx;
     setMsgs((m) => [...m, { id: uid(), sender: 'user', text, timestamp: new Date() }]);
     setInput('');
@@ -235,23 +240,25 @@ export default function ChatWidget() {
       return;
     }
     if (micState === 'listening') {
-      cancelMic();
+      finishMic();
       return;
     }
     clearMicError();
     stopSpeak(); // never talk over the user's own question
+    const draft = input.trim();
+    const updateDraft = (text) => setInput([draft, text].filter(Boolean).join(' '));
     startMic({
-      onInterim: (t) => setInput(t), // recognized speech appears in the input
-      onFinal: (t) => {
-        setInput('');
-        if (inputRef.current) inputRef.current.style.height = 'auto';
-        // the recognized text goes through the same chatbot pipeline as typing
-        sendChat(t);
+      onInterim: updateDraft,
+      onFinal: (text) => {
+        updateDraft(text);
+        inputRef.current?.focus();
       },
     });
   };
 
   const clearChat = () => {
+    stopAll();
+    clearMicError();
     setCtx(emptyContext());
     const w = welcomeMessage();
     setMsgs([{ id: 'welcome', sender: 'bot', text: w.text, suggestions: w.suggestions, timestamp: new Date() }]);
@@ -322,6 +329,31 @@ export default function ChatWidget() {
             </button>
           </div>
         </div>
+
+        <details className="voice-settings">
+          <summary>Voice settings <span>Accent, voice &amp; pace</span></summary>
+          <div className="voice-settings-body">
+            <label htmlFor="voice-language">Listening accent</label>
+            <select id="voice-language" value={preferences.language} onChange={(e) => updatePreferences({ language: e.target.value, voiceURI: '' })}>
+              {VOICE_LANGUAGES.map(([code, label]) => <option key={code} value={code}>{label}</option>)}
+            </select>
+            {ttsSupported && <>
+              <label htmlFor="voice-choice">Speaking voice</label>
+              <select id="voice-choice" value={voices.some((v) => v.voiceURI === preferences.voiceURI) ? preferences.voiceURI : ''} onChange={(e) => updatePreferences({ voiceURI: e.target.value })}>
+                <option value="">Automatic · best available English voice</option>
+                {voices.map((voice) => <option key={voice.voiceURI} value={voice.voiceURI}>{voice.name} ({voice.lang})</option>)}
+              </select>
+              <label htmlFor="voice-rate">Speaking pace · {preferences.rate.toFixed(2)}×</label>
+              <input id="voice-rate" type="range" min="0.8" max="1.2" step="0.05" value={preferences.rate} onChange={(e) => updatePreferences({ rate: Number(e.target.value) })} />
+              <button type="button" className="voice-preview" onClick={() => toggleSpeak('voice-preview', 'Hi, I’m your FreshFind assistant. Where would you like to explore today?')}>
+                {speakingId === 'voice-preview' ? 'Stop preview' : 'Preview voice'}
+              </button>
+            </>}
+            <p>Voices depend on your browser and device. Dictated text stays editable until you send it. Your browser may process speech online.</p>
+            {!micSupported && <p>Voice input is not supported here. You can still type your question.</p>}
+            {!ttsSupported && <p>Read-aloud is not supported in this browser.</p>}
+          </div>
+        </details>
 
         <div className="position-relative flex-grow-1" style={{ minHeight: 0, display: 'flex', flexDirection: 'column' }}>
           <div className="chat-msgs" ref={msgsBoxRef} aria-live="polite">
@@ -425,16 +457,17 @@ export default function ChatWidget() {
           </button>
         </div>
 
-        {(micState === 'listening' || micError || speakingId) && (
+        {(micState !== 'idle' || micError || speakingId) && (
           <div
             className={`voice-status${micState === 'listening' ? ' listening' : ''}${micError ? ' has-error' : ''}`}
             role="status"
             aria-live="polite"
           >
-            {micState === 'listening' && (
+            {micState !== 'idle' && (
               <>
                 <span className="voice-pulse" aria-hidden="true" />
-                <span className="flex-grow-1 text-truncate">Listening… tap the mic to cancel</span>
+                <span className="flex-grow-1">{micState === 'finishing' ? 'Finishing your draft…' : 'Listening… tap the mic when done'}</span>
+                <button type="button" className="voice-status-stop" onClick={cancelMic}>Cancel</button>
               </>
             )}
             {micError && (
@@ -471,10 +504,11 @@ export default function ChatWidget() {
             aria-label="Message FreshFind Assistant"
             value={input}
             onChange={autoResize}
+            readOnly={micState !== 'idle'}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                sendChat(input);
+                if (micState === 'idle') sendChat(input);
               }
             }}
           />
@@ -485,7 +519,7 @@ export default function ChatWidget() {
               aria-label={micState === 'listening' ? 'Stop voice input' : 'Speak your question'}
               aria-pressed={micState === 'listening'}
               onClick={onMic}
-              disabled={typing}
+              disabled={typing || micState === 'finishing'}
             >
               <Icon name={micState === 'listening' ? 'micOff' : 'mic'} size={15} />
             </button>
@@ -494,7 +528,7 @@ export default function ChatWidget() {
             type="submit"
             className="chat-send"
             aria-label="Send message"
-            disabled={!input.trim() || typing}
+            disabled={!input.trim() || typing || micState !== 'idle'}
           >
             <Icon name="send" size={14} />
           </button>

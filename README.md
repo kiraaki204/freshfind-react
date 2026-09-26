@@ -35,3 +35,37 @@ Data files:
 
 - `src/data/markets.json`
 - `src/data/produce.json`
+
+## Interaction updates
+
+- Card images reveal a dark glass detail action on hover/focus; touch devices
+  show the action without a hover gesture. Save buttons remain independent.
+- The journal's market planner applies area/day filters directly to the map.
+  The map and directory always share the same results, including after location
+  permission is granted. Proximity never silently removes a matching pin.
+- Market pictures are representative stock photography, not verified locations.
+  Produce uses custom stylized imagery. Sources: `public/images/CREDITS.md`.
+
+## Voice assistant
+
+Uses browser Web Speech APIs; no API keys or backend are required. In the chat's
+**Voice settings**, choose an English accent, an available voice, and pace.
+Preferences are stored locally. Natural/enhanced English voices are preferred
+when the device provides them; quality varies by browser/OS. Dictation is a draft:
+finish with the mic button, review/edit, then send. Closing chat releases the mic
+and stops playback. Browser speech recognition may use an online service and
+requires microphone permission in a secure context (HTTPS or localhost).
+
+## Tests
+
+```bash
+npm test                         # data, map consistency, speech utilities
+npx playwright install chromium # first-time browser install
+npm run test:e2e                  # desktop/touch interactions and mocked Web Speech
+npm run build
+```
+
+For an existing Chromium installation, set
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to its executable path. Browser tests mock
+speech services and external map tiles: they test UI/lifecycle behavior, not
+real microphone accuracy, voice sound quality, or third-party tile availability.

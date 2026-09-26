@@ -79,6 +79,7 @@ export default function DirectoryPage() {
             <span className="s-ico"><Icon name="search" size={18} /></span>
             <input
               className="form-control"
+              aria-label="Search the market directory"
               value={filters.search}
               placeholder="Search markets, locations or produce..."
               style={{ borderRadius: 12 }}
@@ -153,6 +154,8 @@ export default function DirectoryPage() {
           <button
             className={`icon-btn${filters.view === 'list' ? ' text-white' : ''}`}
             style={filters.view === 'list' ? { background: '#16a34a' } : undefined}
+            aria-label="Show market list"
+            aria-pressed={filters.view === 'list'}
             onClick={() => update({ view: 'list' })}
           >
             <Icon name="list" size={16} />
@@ -160,6 +163,8 @@ export default function DirectoryPage() {
           <button
             className={`icon-btn${filters.view === 'map' ? ' text-white' : ''}`}
             style={filters.view === 'map' ? { background: '#16a34a' } : undefined}
+            aria-label="Show market map"
+            aria-pressed={filters.view === 'map'}
             onClick={() => update({ view: 'map' })}
           >
             <Icon name="map" size={16} />

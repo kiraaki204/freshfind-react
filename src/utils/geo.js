@@ -21,15 +21,10 @@ export function nearbyMarkets(list, user, radius = NEAR_RADIUS_KM) {
   return { sorted, near: sorted.filter((x) => x.d <= radius) };
 }
 
-/** Which markers the map shows: focused on nearby markets when the user has
-    a live location and some markets fall within the radius. */
+/** The directory is the single source of truth for visible markers.
+    Geolocation adds distance context; it must never silently filter results. */
 export function visibleMarkets(list, user) {
-  if (!user) return { displayed: list, focused: false, nearInfo: null };
-  const nearInfo = nearbyMarkets(list, user);
-  if (nearInfo.near.length && nearInfo.near.length < list.length) {
-    return { displayed: nearInfo.near.map((x) => x.m), focused: true, nearInfo };
-  }
-  return { displayed: list, focused: nearInfo.near.length > 0, nearInfo };
+  return { displayed: list, focused: false, nearInfo: user ? nearbyMarkets(list, user) : null };
 }
 
 export function fmtDist(km) {

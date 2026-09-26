@@ -2589,3 +2589,86 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
   .chat-mic.on, .voice-pulse, .voice-bars i { animation: none; }
   .chat-mic.on { box-shadow: 0 0 0 4px rgba(220, 38, 38, .22); }
 }
+
+/* Image-first detail actions: a glass veil on desktop, a clear tap target
+   on touch. Native buttons retain keyboard activation and focus semantics. */
+.image-details-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: 0;
+  padding: 16px;
+  background: rgba(8, 15, 12, .5);
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+  color: #fff;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity .22s ease;
+}
+.image-details-overlay span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, .55);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(0, 0, 0, .2);
+}
+.m-card:hover .image-details-overlay,
+.ff-produce-card:hover .image-details-overlay,
+.m-card:focus-within .image-details-overlay,
+.ff-produce-card:focus-within .image-details-overlay { opacity: 1; }
+.image-details-overlay:focus-visible { outline: 3px solid #fff; outline-offset: -6px; }
+.status-abs { pointer-events: none; }
+.produce-img { object-fit: contain; background: #f3eddf; }
+.produce-img-wrap { background: #f3eddf; }
+.produce-img-shade { display: none; }
+@media (hover: none), (pointer: coarse) {
+  .image-details-overlay {
+    opacity: 1;
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    align-items: flex-end;
+    padding-bottom: 12px;
+  }
+  .image-details-overlay span {
+    background: rgba(8, 15, 12, .8);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+  }
+  .m-card .status-abs { bottom: auto; top: 54px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .image-details-overlay, .m-card .thumb img { transition: none; }
+  .m-card:hover .thumb img { transform: none; }
+}
+.journal-planner { display: grid; gap: 10px; margin: 18px 0; }
+.journal-planner label { font-size: 13px; font-weight: 600; color: #2e4a34; }
+.journal-planner select {
+  width: 100%;
+  border: 1px solid #c9cbb6;
+  border-radius: 8px;
+  background: rgba(255,255,255,.65);
+  padding: 10px;
+  color: #2e4a34;
+  font: inherit;
+  font-size: 14px;
+}
+.journal-planner select:focus-visible { outline: 2px solid #54803f; outline-offset: 2px; }
+.voice-settings { border-bottom: 1px solid #e5e7eb; background: #f8faf7; flex-shrink: 0; }
+.voice-settings summary { cursor: pointer; padding: 8px 12px; font-size: 11px; font-weight: 600; color: #166534; }
+.voice-settings summary span { float: right; font-weight: 400; color: #64748b; }
+.voice-settings-body { display: grid; gap: 6px; padding: 4px 12px 12px; max-height: 200px; overflow-y: auto; }
+.voice-settings label { font-size: 11px; font-weight: 600; }
+.voice-settings select { width: 100%; min-width: 0; padding: 6px; border: 1px solid #cbd5c1; border-radius: 6px; font-size: 12px; background: #fff; }
+.voice-settings input { width: 100%; accent-color: #15803d; }
+.voice-settings p { font-size: 10px; color: #64748b; line-height: 1.5; margin: 2px 0 0; }
+.voice-preview { justify-self: start; border: 1px solid #bbd5b5; border-radius: 6px; background: white; color: #166534; padding: 5px 10px; font-size: 11px; }
