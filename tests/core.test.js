@@ -65,3 +65,13 @@ test('long replies are split safely without lost or repeated words', () => {
 test('decimal ratings and distances are not broken into separate utterances', () => {
   assert.deepEqual(speechChunks('Rated 4.9 stars, just 2.5 km away.'), ['Rated 4.9 stars, just 2.5 kilometres away.']);
 });
+
+test('header stacks above leaflet maps so contact map cannot cover the nav', () => {
+  const css = readFileSync(new URL('../src/index.css', import.meta.url), 'utf8');
+  const header = css.match(/\.site-header\s*\{[^}]*z-index:\s*(\d+)/);
+  const miniMap = css.match(/\.mini-map\s*\{[^}]*\}/s);
+  assert.ok(header, 'site-header z-index is set');
+  assert.ok(Number(header[1]) > 1000, 'header sits above Leaflet panes/controls');
+  assert.match(miniMap?.[0] ?? '', /isolation:\s*isolate/);
+  assert.match(miniMap?.[0] ?? '', /z-index:\s*0/);
+});

@@ -178,3 +178,30 @@ test('unsupported speech APIs preserve text chat', async ({ page }) => {
   await page.getByRole('button', { name: 'Send message', exact: true }).click();
   await expect(page.locator('.bubble.user')).toHaveText('Hello');
 });
+
+test('contact map stays under the navbar while scrolling', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#contact .mini-map')).toBeVisible();
+  await page.evaluate(() => {
+    const map = document.querySelector('#contact .mini-map');
+    const header = document.querySelector('.site-header');
+    window.scrollTo(0, map.getBoundingClientRect().top + window.scrollY - header.offsetHeight * 0.45);
+  });
+  const hit = await page.evaluate(() => {
+    const header = document.querySelector('.site-header');
+    const map = document.querySelector('#contact .mini-map');
+    const headerBox = header.getBoundingClientRect();
+    const mapBox = map.getBoundingClientRect();
+    const x = Math.min(mapBox.left + mapBox.width / 2, headerBox.left + 160);
+    const y = headerBox.top + headerBox.height / 2;
+    const el = document.elementFromPoint(x, y);
+    return {
+      overlap: mapBox.top < headerBox.bottom && mapBox.bottom > headerBox.top,
+      inHeader: Boolean(el && el.closest('.site-header')),
+      inMap: Boolean(el && el.closest('.mini-map, .leaflet-container')),
+    };
+  });
+  expect(hit.overlap).toBe(true);
+  expect(hit.inHeader).toBe(true);
+  expect(hit.inMap).toBe(false);
+});

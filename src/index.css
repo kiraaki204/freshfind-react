@@ -60,7 +60,7 @@ button:disabled { cursor: not-allowed; }
   position: absolute;
   left: -999px;
   top: 8px;
-  z-index: 200;
+  z-index: 1100;
   background: var(--green-600);
   color: #fff;
   padding: 8px 16px;
@@ -72,7 +72,8 @@ button:disabled { cursor: not-allowed; }
 .site-header {
   position: fixed;
   top: 0; left: 0; right: 0;
-  z-index: 50;
+  /* Above Leaflet panes/controls (up to 1000) so maps cannot cover the nav */
+  z-index: 1030;
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(6px);
   box-shadow: 0 1px 2px rgba(0,0,0,.05);
@@ -636,6 +637,8 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
   overflow: hidden;
   border: 1px solid var(--green-200);
   position: relative;
+  z-index: 0;
+  isolation: isolate;
   background: linear-gradient(135deg, #f0fdf4, #d1fae5);
 }
 
@@ -938,7 +941,7 @@ button.chip-link:focus-visible { outline: 2px solid var(--green-500); outline-of
 
 /* ================= Leaflet street maps (directory + minimaps) ============= */
 .ffmap {
-  position: relative; height: 480px; border-radius: 16px; overflow: hidden;
+  position: relative; z-index: 0; isolation: isolate; height: 480px; border-radius: 16px; overflow: hidden;
   background: #eaf3e7; border: 1px solid #dcfce7;
 }
 .ffmap-canvas, .mini-map-canvas { position: absolute; inset: 0; }
