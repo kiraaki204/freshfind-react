@@ -1,7 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="9" fill="#e6eedb"/>
-  <rect x="2.5" y="2.5" width="27" height="27" rx="7" fill="none" stroke="#b8cbb2" stroke-width="1.6"/>
-  <path d="M16 6 C10.5 6, 7 10.5, 7 15.5 C7 21, 10.5 25, 16 25 C17.5 25, 16 20, 16 15.5 C16 11.5, 18 8, 22.5 7 C20.5 6.2, 18 6, 16 6Z" fill="#355b43"/>
-  <path d="M16 15.5 L16 25" stroke="#faf7ef" stroke-width="1.6" stroke-linecap="round"/>
-  <circle cx="23.5" cy="20.5" r="2.2" fill="#ffd964"/>
+  <!-- Same logo as the navbar (.logo-mark): pistachio→sage gradient blob
+       with the leaf icon from src/components/Icon.jsx in forest deep. -->
+  <defs>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e6eedb"/>
+      <stop offset=".6" stop-color="#dce7d5"/>
+      <stop offset="1" stop-color="#b8cbb2"/>
+    </linearGradient>
+  </defs>
+  <!-- The .logo-mark border-radius 46% 54% 52% 48% / 52% 46% 54% 48%,
+       rendered as four elliptical quarter arcs. -->
+  <path fill="url(#mark)" d="M0 16A14.72 16 0 0 1 14.72 0 17.28 14.72 0 0 1 32 14.72 16.64 17.28 0 0 1 15.36 32 15.36 16 0 0 1 0 16Z"/>
+  <g transform="translate(3.35 3.35) scale(1.1)" fill="none" stroke="#2a4a36" stroke-width="2">
+    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
+    <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+  </g>
 </svg>
