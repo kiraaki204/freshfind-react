@@ -14,6 +14,7 @@ import HomeContactSection from '../components/HomeContactSection.jsx';
 import {
   Sparkle, StarDoodle, FlowerDoodle, LeafSprig, Vine, Squiggle,
   ArrowCurve, SunDoodle, TomatoDoodle, StrawberryDoodle, CarrotDoodle, SparkleCluster,
+  DriftLeaf, DriftPetal,
 } from '../components/Doodles.jsx';
 
 const QUICK_ACTIONS = [
@@ -74,6 +75,14 @@ export default function HomePage({ visitorCount }) {
         <div className="hero-blob hero-blob--3" aria-hidden="true">
           <SunDoodle size={72} />
         </div>
+
+        {/* slow-drifting botanicals, kept to the open right-hand margin */}
+        <span className="ff-drift ff-drift--hero-leaf" aria-hidden="true">
+          <DriftLeaf size={26} />
+        </span>
+        <span className="ff-drift ff-drift--hero-petal" aria-hidden="true">
+          <DriftPetal size={22} />
+        </span>
 
         <div className="hero-copy">
           <div className="hero-grid">
@@ -187,6 +196,9 @@ export default function HomePage({ visitorCount }) {
         <div className="band-doodle band-doodle--bl" aria-hidden="true">
           <Vine width={170} height={72} />
         </div>
+        <span className="ff-drift ff-drift--band-leaf" aria-hidden="true">
+          <DriftLeaf size={24} />
+        </span>
         <div className="container pt-4" style={{ maxWidth: '80rem', position: 'relative' }}>
           <div className="sec-head">
             <span className="kicker"><span className="k-line" /> live from the stalls</span>

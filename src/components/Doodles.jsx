@@ -159,6 +159,41 @@ export function LeafPair({ size = 40, color = '#8FAE90', className = '', style }
   );
 }
 
+/* ---------- tiny floating botanicals ----------
+   Much smaller and lighter than the doodles above: these are meant to
+   drift slowly through the empty margins of spacious sections. Strokes
+   are thinner and the shapes simpler so they read as weightless rather
+   than as illustrations. Colour defaults to currentColor so the .ff-drift
+   wrapper can pick it up from the existing palette tokens. */
+
+export function DriftLeaf({ size = 26, color = 'currentColor', className = '', style }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} className={className} style={style} {...BASE} stroke={color} strokeWidth="1.2">
+      <path d="M12 2.5 C17.2 6 18.8 11.2 12 21.5 C5.2 11.2 6.8 6 12 2.5 Z" />
+      <path d="M12 4.8 C12 10 12 15.4 12 19.8" strokeWidth=".9" opacity=".6" />
+    </svg>
+  );
+}
+
+export function DriftPetal({ size = 22, color = 'currentColor', className = '', style }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} className={className} style={style} {...BASE} stroke={color} strokeWidth="1.2">
+      <path d="M12 20.5 C6.2 17.2 4.2 11 8.2 5.8 C10.4 3 13.6 3 15.8 5.8 C19.8 11 17.8 17.2 12 20.5 Z" fill={color} fillOpacity=".16" />
+      <path d="M12 20.2 C12 15 12 10.2 12 5.6" strokeWidth=".9" opacity=".55" />
+    </svg>
+  );
+}
+
+export function DriftSprig({ size = 28, color = 'currentColor', className = '', style }) {
+  return (
+    <svg viewBox="0 0 24 24" width={size} height={size} className={className} style={style} {...BASE} stroke={color} strokeWidth="1.2">
+      <path d="M12 22 C12 16.4 12.2 10.8 13.4 4.2" />
+      <path d="M12 16.4 C7.9 15.3 5.8 12.2 5.9 8.6 C9.2 9.7 11.2 12.4 12 16.4 Z" />
+      <path d="M12.6 11.4 C15.6 10.4 17.2 7.6 17.1 4.4 C14.3 5.4 12.7 7.9 12.6 11.4 Z" />
+    </svg>
+  );
+}
+
 /* 12-point starburst used behind rating / badge stickers */
 export function StarBurst({ size = 64, color = '#F8EFD5', className = '', style }) {
   return (

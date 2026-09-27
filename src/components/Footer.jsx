@@ -3,6 +3,7 @@ import { useChat } from '../hooks/useChat.jsx';
 import { useSupportModal } from '../hooks/useSupportModal.jsx';
 import Icon from './Icon.jsx';
 import SocialRow from './SocialRow.jsx';
+import { DriftSprig } from './Doodles.jsx';
 
 const QUICK_LINKS = [
   { label: 'Home', to: '/' },
@@ -52,6 +53,9 @@ export default function Footer({ visitorCount }) {
   return (
     <footer className="site-footer">
       <div className="foot-fringe" aria-hidden="true" />
+      <span className="ff-drift ff-drift--foot-sprig" aria-hidden="true">
+        <DriftSprig size={28} />
+      </span>
       <div className="foot-bar">
         <div className="container py-3 d-flex flex-column flex-sm-row align-items-center justify-content-between gap-2" style={{ maxWidth: '80rem' }}>
           <span style={{ color: '#5f7263', fontSize: 14 }}>
