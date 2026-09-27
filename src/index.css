@@ -1449,6 +1449,10 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 
 .fselect { position: relative; }
+.fselect.open { z-index: 60; }
+/* the filter bar must sit above the market cards so open menus aren't covered */
+.dir-filter-bar { position: relative; z-index: 50; }
+.dir-filter-bar:hover { transform: none; }
 .fselect-label { display: block; margin-bottom: 4px; font-weight: 700; color: var(--forest-deep); }
 .fselect-btn {
   width: 100%; display: flex; align-items: center; justify-content: space-between;
@@ -1465,7 +1469,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .fselect-chev { flex-shrink: 0; color: var(--leaf); transform: rotate(90deg); transition: transform .15s; }
 .fselect-btn.open .fselect-chev { transform: rotate(-90deg); }
 .fselect-menu {
-  position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 40;
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 1020;
   margin: 0; padding: 6px; list-style: none; background: var(--cream);
   border: 1px solid var(--line); border-radius: 14px;
   box-shadow: var(--shadow-lift);

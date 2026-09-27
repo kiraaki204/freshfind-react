@@ -74,7 +74,7 @@ export default function DirectoryPage() {
       <h1 className="h3 mt-3">Market Directory</h1>
       <p className="text-muted">Find and explore farmers' markets in your area.</p>
 
-      <div className="ff-card p-3 mb-4">
+      <div className="ff-card dir-filter-bar p-3 mb-4">
         <div className="d-flex flex-column flex-sm-row gap-2 mb-2">
           <div className="search-wrap flex-grow-1">
             <span className="s-ico"><Icon name="search" size={18} /></span>

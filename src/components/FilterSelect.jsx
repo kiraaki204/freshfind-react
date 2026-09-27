@@ -73,7 +73,7 @@ export default function FilterSelect({ label, value, options, onChange }) {
   };
 
   return (
-    <div className="fselect" ref={rootRef}>
+    <div className={`fselect${open ? ' open' : ''}`} ref={rootRef}>
       <span className="small text-muted fselect-label" id={labelId}>{label}</span>
       <button
         type="button"
