@@ -6,6 +6,14 @@ import { applyMarketFilters } from '../src/utils/markets.js';
 import { chooseVoice, cleanForSpeech, speechChunks } from '../src/utils/voice.js';
 const markets = JSON.parse(readFileSync(new URL('../src/data/markets.json', import.meta.url)));
 const produce = JSON.parse(readFileSync(new URL('../src/data/produce.json', import.meta.url)));
+const cssFiles = [
+  '../src/styles/tokens.css', '../src/styles/base.css', '../src/styles/components/header.css',
+  '../src/styles/layout.css', '../src/styles/components/cards.css', '../src/styles/components/map.css',
+  '../src/styles/components/modals.css', '../src/styles/components/footer.css', '../src/styles/components/chat.css',
+  '../src/styles/components/forms.css', '../src/styles/components/map-detail.css', '../src/styles/components/directory.css',
+  '../src/styles/components/cards-detail.css', '../src/styles/components/contact.css',
+];
+const readCss = () => cssFiles.map((file) => readFileSync(new URL(file, import.meta.url), 'utf8')).join('\n');
 
 test('map and list match every area, with and without a visitor location', () => {
   for (const area of new Set(markets.map((m) => m.area))) {
@@ -67,7 +75,7 @@ test('decimal ratings and distances are not broken into separate utterances', ()
 });
 
 test('header stacks above leaflet maps so contact map cannot cover the nav', () => {
-  const css = readFileSync(new URL('../src/index.css', import.meta.url), 'utf8');
+  const css = readCss();
   const header = css.match(/\.site-header\s*\{[^}]*z-index:\s*(\d+)/);
   const miniMap = css.match(/\.mini-map\s*\{[^}]*\}/s);
   assert.ok(header, 'site-header z-index is set');
@@ -77,7 +85,7 @@ test('header stacks above leaflet maps so contact map cannot cover the nav', () 
 });
 
 test('hero search resets its desktop flex height when stacked on phones', () => {
-  const css = readFileSync(new URL('../src/index.css', import.meta.url), 'utf8');
+  const css = readCss();
   const phoneRules = css.match(/@media \(max-width: 575\.98px\) \{[\s\S]*?\/\* ---------- boot loader/);
   assert.ok(phoneRules, 'phone-specific search rules are present');
   assert.match(phoneRules[0], /\.hero-search \.search-wrap\s*\{[\s\S]*?flex:\s*0 0 auto/);
@@ -85,7 +93,7 @@ test('hero search resets its desktop flex height when stacked on phones', () => 
 });
 
 test('navbar search expands to the full header width only on phones', () => {
-  const css = readFileSync(new URL('../src/index.css', import.meta.url), 'utf8');
+  const css = readCss();
   const phoneRules = css.match(/@media \(max-width: 575\.98px\) \{[\s\S]*?\/\* ---------- boot loader/);
   assert.ok(phoneRules, 'phone-specific navbar search rules are present');
   assert.match(phoneRules[0], /\.site-header \.search-slot\s*\{\s*position:\s*static/);

@@ -20,7 +20,6 @@ export default function HomeContactSection() {
       return;
     }
     setSending(true);
-    // there is no backend — keep the existing toast behaviour but stay honest
     setTimeout(() => {
       showToast("Message captured — it stays in your browser and isn't sent to a server.", 'info');
       form.reset();
@@ -139,7 +138,7 @@ export default function HomeContactSection() {
                       <Icon name="send" size={18} /> {sending ? 'Sending...' : 'Send Message'}
                     </button>
                     <p className="contact-demo-note">
-                      <Icon name="info" size={12} /> Have a question or feedback? Send us a message and we’ll be happy to hear from you
+                      <Icon name="info" size={12} /> Demo only: messages are not delivered to a server.
                     </p>
                   </div>
                 </div>

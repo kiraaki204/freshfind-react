@@ -26,6 +26,7 @@ src/
 ├── data/          markets.json, produce.json — single source of truth
 ├── hooks/         shared state (bookmarks, geolocation, chat, filters, toasts)
 ├── pages/         one component per route
+├── styles/        tokens, layout and component CSS
 ├── utils/         schedule/season, geo/distance, market filtering
 ├── App.jsx        routes + providers
 └── main.jsx       entry point
@@ -41,8 +42,8 @@ Data files:
 - Card images reveal a dark glass detail action on hover/focus; touch devices
   show the action without a hover gesture. Save buttons remain independent.
 - The journal's market planner applies area/day filters directly to the map.
-  The map and directory always share the same results, including after location
-  permission is granted. Proximity never silently removes a matching pin.
+  The map and directory share the same results, including after location permission
+  is granted.
 - Market pictures are representative stock photography, not verified locations.
   Produce uses custom stylized imagery. Sources: `public/images/CREDITS.md`.
 
@@ -66,6 +67,4 @@ npm run build
 ```
 
 For an existing Chromium installation, set
-`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to its executable path. Browser tests mock
-speech services and external map tiles: they test UI/lifecycle behavior, not
-real microphone accuracy, voice sound quality, or third-party tile availability.
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` to its executable path. Browser tests mock speech services and external map tiles.

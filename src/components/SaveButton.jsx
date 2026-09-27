@@ -11,6 +11,7 @@ export default function SaveButton({ item, size = 'md' }) {
       type="button"
       className={`heart-btn${saved ? ' saved' : ''}${size === 'sm' ? ' sm' : ''}`}
       aria-label={`${saved ? 'Remove' : 'Save'} ${item.name}`}
+      aria-pressed={saved}
       onClick={(e) => {
         e.stopPropagation();
         toggleBookmark(item);

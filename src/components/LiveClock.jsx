@@ -9,5 +9,5 @@ export default function LiveClock({ className = '' }) {
     return () => clearInterval(t);
   }, []);
 
-  return <span className={`fw-semibold font-monospace ${className}`}>{formatClockTime(now)}</span>;
+  return <span aria-live="polite" aria-label={`Current time ${formatClockTime(now)}`} className={`fw-semibold font-monospace ${className}`}>{formatClockTime(now)}</span>;
 }
