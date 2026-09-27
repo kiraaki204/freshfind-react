@@ -157,131 +157,131 @@
 [data-theme="dark"] {
   color-scheme: dark;
 
-  /* legacy scale — flipped so low numbers are dark and high are light */
-  --green-50: #1b3128;
-  --green-100: #2b5039;
-  --green-200: #345b42;
-  --green-300: #4f7a5a;
-  --green-400: #8dbb80;
-  --green-500: #7fb07a;
-  --green-600: #8dbb80;
-  --green-700: #c5e879;
-  --green-800: #a9d45e;
-  --green-900: #172d25;
-  --green-950: #12241c;
-  --gray-50: #1d382c;
-  --gray-100: #234735;
-  --gray-200: #3c5a46;
-  --gray-400: #8a9e86;
-  --gray-500: #9dad9a;
-  --gray-600: #b4c4b1;
-  --gray-700: #c9d7c6;
-  --gray-800: #dfe8dc;
-  --gray-900: #f6f2e7;
+  /* legacy scale — flipped so low numbers are dark and high are light.
+     Tones are warm charcoal-with-a-hint-of-moss rather than saturated pine,
+     so the page reads as a dimmed paper journal, not a green cave. */
+  --green-50: #2a3031;
+  --green-100: #343b3a;
+  --green-200: #3d4544;
+  --green-300: #5d6b60;
+  --green-400: #9bb79a;
+  --green-500: #a9cba2;
+  --green-600: #9fc79a;
+  --green-700: #b6d6ad;
+  --green-800: #c3dfba;
+  --green-900: #262b2c;
+  --green-950: #1f2425;
+  --gray-50: #272c2e;
+  --gray-100: #2e3436;
+  --gray-200: #3d4448;
+  --gray-400: #8b918c;
+  --gray-500: #9ba19b;
+  --gray-600: #b2b7b0;
+  --gray-700: #c8ccc4;
+  --gray-800: #dcded6;
+  --gray-900: #edeae2;
 
-  /* surfaces, darkest → lightest */
-  --paper: #172d25;
-  --paper-2: #1d382c;
-  --cream: #234735;
+  /* surfaces, darkest → lightest: warm neutral greys with a faint sage cast */
+  --paper: #22282a;
+  --paper-2: #282e30;
+  --cream: #2f3538;
 
-  /* ink — pale ivory replaces green-black */
-  --ink: #f6f2e7;
-  --ink-soft: #c1d0bd;
+  /* ink — warm ivory */
+  --ink: #edeae2;
+  --ink-soft: #b7bdb6;
 
-  /* the brand greens become the accent: bright enough to read on pine */
-  --forest: #c5e879;
-  --forest-deep: #a9d45e;
-  --leaf: #8dbb80;
-  --leaf-deep: #9ecb8f;
-  --sage: #8dbb80;
-  --sage-dust: #4f7a5a;
-  --sage-pale: #2b5039;
-  --lime: #2b5039;
-  --lime-deep: #345b42;
-  --pistachio: #2b5039;
-  --mint: #234735;
+  /* muted botanical green stays the accent, but never neon */
+  --forest: #9fc79a;
+  --forest-deep: #b6d6ad;
+  --leaf: #a9cba2;
+  --leaf-deep: #bcd9b3;
+  --sage: #9bb79a;
+  --sage-dust: #5d6b60;
+  --sage-pale: #3a433d;
+  --lime: #37403b;
+  --lime-deep: #434d47;
+  --pistachio: #37403b;
+  --mint: #323a38;
 
-  /* seasonal pastels stay recognisable: dark tinted surfaces for cards,
-     light saturated inks for the labels sitting on them */
-  --butter: #46412c;
-  --honey: #e8c76a;
-  --peach: #4b3931;
-  --pink: #4a3644;
-  --blush: #43313e;
-  --rose: #dda4b7;
-  --tomato: #dda4b7;
-  --sky: #2e424e;
-  --lilac: #39364c;
-  --sand-line: #3c5a46;
+  /* seasonal pastels: soft tinted surfaces, light saturated inks on top */
+  --butter: #423c2e;
+  --honey: #e3c67f;
+  --peach: #46372f;
+  --pink: #443640;
+  --blush: #3e323b;
+  --rose: #ddaebb;
+  --tomato: #ddaebb;
+  --sky: #2f3f49;
+  --lilac: #3a3747;
+  --sand-line: #414749;
 
-  --ink-rose: #f2cbd6;
-  --ink-gold: #f0d79a;
-  --ink-clay: #f3bca3;
-  --ink-sky: #b9d2de;
-  --ink-alt: #c1d0bd;
-  --placeholder: #8fa38c;
-  --placeholder-2: #8fa38c;
-  --muted-line: #97aa94;
-  --muted-cool: #97aa94;
+  --ink-rose: #f1cfd8;
+  --ink-gold: #efd8a3;
+  --ink-clay: #f0c1ab;
+  --ink-sky: #bdd3dd;
+  --ink-alt: #c4c9c1;
+  --placeholder: #949a93;
+  --placeholder-2: #949a93;
+  --muted-line: #9ca29a;
+  --muted-cool: #9ca29a;
 
-  /* hairlines move from pale sage to deep moss so structure survives */
-  --line: #3c5a46;
-  --line-soft: #34503f;
-  --line-strong: #527a5f;
-  --ring: rgba(141, 187, 128, .5);
+  /* hairlines: warm graphite so structure survives without green banding */
+  --line: #3d4448;
+  --line-soft: #363c3f;
+  --line-strong: #566059;
+  --ring: rgba(159, 199, 154, .42);
 
   /* shadows need real darkness to read against a dark page */
-  --shadow-card: 0 6px 20px -8px rgba(0, 0, 0, .55), 0 1px 3px rgba(0, 0, 0, .32);
-  --shadow-soft: 0 14px 34px -18px rgba(0, 0, 0, .62);
-  --shadow-lift: 0 22px 46px -20px rgba(0, 0, 0, .66), 0 2px 6px rgba(0, 0, 0, .32);
+  --shadow-card: 0 6px 20px -8px rgba(0, 0, 0, .5), 0 1px 3px rgba(0, 0, 0, .28);
+  --shadow-soft: 0 14px 34px -18px rgba(0, 0, 0, .56);
+  --shadow-lift: 0 22px 46px -20px rgba(0, 0, 0, .6), 0 2px 6px rgba(0, 0, 0, .28);
 
-  --grad-ivory-blush: linear-gradient(180deg, #172d25 0%, #24302f 100%);
-  --grad-cream-pistachio: linear-gradient(180deg, #234735 0%, #1e3a30 100%);
-  --grad-sage-ivory: linear-gradient(180deg, #2b5039 0%, #172d25 100%);
-  --grad-ivory-peach: linear-gradient(180deg, #172d25 0%, #2a322d 100%);
+  --grad-ivory-blush: linear-gradient(180deg, #22282a 0%, #2b2a2f 100%);
+  --grad-cream-pistachio: linear-gradient(180deg, #2f3538 0%, #2a322f 100%);
+  --grad-sage-ivory: linear-gradient(180deg, #333c37 0%, #22282a 100%);
+  --grad-ivory-peach: linear-gradient(180deg, #22282a 0%, #2e2b28 100%);
 
-  /* the journal cover stays a solid deep-green object — a lime slab would
-     dominate the page — so its gradient gets its own deep values and the
-     light text on top keeps working unchanged */
-  --grad-cover: linear-gradient(100deg, #12301f 0%, #1a4030 55%, #245645 100%);
-  --wash-warm: #1b3128;
-  --wash-soft: #1e3429;
-  --wash-blush: #202f2c;
-  --wash-pistachio: #1e3e30;
-  --wash-fern: #254434;
-  --wash-butter: #3e3a28;
-  --sun-bg: #2b5039;
+  /* the journal cover stays a deeper solid object so it still reads as a
+     physical book sitting on the page */
+  --grad-cover: linear-gradient(100deg, #23342b 0%, #2c4034 55%, #38503f 100%);
+  --wash-warm: #262b2c;
+  --wash-soft: #292e2e;
+  --wash-blush: #2c2a2d;
+  --wash-pistachio: #2a322e;
+  --wash-fern: #2e3833;
+  --wash-butter: #383428;
+  --sun-bg: #45514a;
 
   /* journal seasonal chips: deep tinted wash, pale saturated ink */
-  --fj-spring-ink: #f7b8cd;  --fj-spring-wash: #402f38;
-  --fj-summer-ink: #f0d79a;  --fj-summer-wash: #3e3a28;
-  --fj-autumn-ink: #f3c4a8;  --fj-autumn-wash: #43332a;
-  --fj-winter-ink: #aecde4;  --fj-winter-wash: #2a3a48;
+  --fj-spring-ink: #f5bccd;  --fj-spring-wash: #3c3037;
+  --fj-summer-ink: #efd8a3;  --fj-summer-wash: #383428;
+  --fj-autumn-ink: #f1c7ac;  --fj-autumn-wash: #3e332b;
+  --fj-winter-ink: #b2cee2;  --fj-winter-wash: #2c3944;
 
   /* role tokens flip with the accent */
-  --on-accent: #172d25;
-  --on-accent-rgb: 23, 45, 37;
-  --glass-rgb: 35, 71, 53;
-  --hairline: rgba(255, 255, 255, .14);
-  --pill-wash: rgba(255, 255, 255, .12);
+  --on-accent: #1f2426;
+  --on-accent-rgb: 31, 36, 38;
+  --glass-rgb: 44, 50, 52;
+  --hairline: rgba(255, 255, 255, .12);
+  --pill-wash: rgba(255, 255, 255, .1);
   --shadow-rgb: 0, 0, 0;
-  --scrim: rgba(6, 18, 12, .62);
-  --leaf-rgb: 141, 187, 128;
+  --scrim: rgba(14, 17, 18, .6);
+  --leaf-rgb: 159, 199, 154;
 
-  --pistachio-rgb: 43, 80, 57;
-  --pink-rgb: 74, 54, 68;
-  --butter-rgb: 70, 65, 44;
-  --peach-rgb: 75, 57, 49;
-  --mint-rgb: 35, 71, 53;
-  --line-rgb: 60, 90, 70;
+  --pistachio-rgb: 55, 64, 59;
+  --pink-rgb: 68, 54, 64;
+  --butter-rgb: 66, 60, 46;
+  --peach-rgb: 70, 55, 47;
+  --mint-rgb: 50, 58, 56;
+  --line-rgb: 61, 68, 72;
 
-  --bs-body-color: #f6f2e7;
-  --bs-body-bg: #172d25;
-  --bs-dark-rgb: 246, 242, 231;
-  --bs-secondary-color: #c1d0bd;
-  --bs-border-color: #3c5a46;
-  --bs-link-color: #c5e879;
-  --bs-link-hover-color: #e2f5ac;
+  --bs-body-color: #edeae2;
+  --bs-body-bg: #22282a;
+  --bs-dark-rgb: 237, 234, 226;
+  --bs-secondary-color: #b7bdb6;
+  --bs-border-color: #3d4448;
+  --bs-link-color: #b6d6ad;
+  --bs-link-hover-color: #cfe7c6;
 }
 
 * { box-sizing: border-box; }
@@ -309,6 +309,12 @@ button:disabled { cursor: not-allowed; }
 }
 
 ::selection { background: var(--sage-pale); color: var(--forest-deep); }
+
+/* the document scrollbar is hidden (scrolling itself is untouched: wheel,
+   touchpad, touch, keyboard and anchor links all keep working). Inner
+   scrollable panels keep their slim styled scrollbar. */
+html, body { scrollbar-width: none; -ms-overflow-style: none; }
+html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display: none; }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--paper-2); }
@@ -536,33 +542,36 @@ button:disabled { cursor: not-allowed; }
   display: flex; align-items: center; justify-content: center;
 }
 
-/* the search box always drops out from beneath the header pill — it never
-   expands inline next to the toggle button */
+/* compact search: the input expands downward directly beneath the search
+   toggle button, staying aligned with it and never spanning the navbar */
+.search-slot { position: relative; display: inline-flex; }
 .header-search {
   display: flex;
   align-items: center;
   position: absolute;
-  top: calc(100% + 8px);
-  left: 0; right: 0;
-  width: auto;
+  top: calc(100% + 10px);
+  right: 0;
+  left: auto;
+  width: min(268px, calc(100vw - 40px));
+  max-width: 268px;
   z-index: 40;
-  padding: 10px 12px 12px;
+  padding: 8px;
   background: var(--cream);
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: 16px;
   box-shadow: var(--shadow-card);
   opacity: 0;
   visibility: hidden;
   overflow: hidden;
-  transform: translateY(-14px) scaleY(.75);
-  transform-origin: top center;
-  transition: transform .28s cubic-bezier(.33, 1, .38, 1), opacity .22s ease, visibility 0s linear .28s;
+  transform: translateY(-8px) scaleY(.8);
+  transform-origin: top right;
+  transition: transform .24s cubic-bezier(.33, 1, .38, 1), opacity .2s ease, visibility 0s linear .24s;
 }
 .header-search.open {
   opacity: 1;
   visibility: visible;
   transform: translateY(0) scaleY(1);
-  transition: transform .28s cubic-bezier(.33, 1, .38, 1), opacity .22s ease;
+  transition: transform .24s cubic-bezier(.33, 1, .38, 1), opacity .2s ease;
 }
 .header-search .search-wrap { width: 100%; }
 .header-search .form-control {
@@ -570,6 +579,9 @@ button:disabled { cursor: not-allowed; }
   border: 1px solid var(--line);
   border-radius: 999px;
   font-weight: 600;
+  font-size: 14px;
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
 /* focused state keeps the plain look — just the border, no glow or fill swap */
 .header-search .form-control:focus,
@@ -579,6 +591,9 @@ button:disabled { cursor: not-allowed; }
   box-shadow: none;
   outline: none;
 }
+/* the little magnifier inside the compact field scales with it */
+.header-search .search-wrap .s-ico { left: 12px; }
+.header-search .search-wrap input { padding-left: 36px; }
 
 .mobile-menu {
   display: none;
@@ -3647,4 +3662,93 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   font-weight: 700;
   letter-spacing: .06em;
   color: var(--ink-soft);
+}
+
+
+/* =====================================================================
+   Decorative hygiene — botanical doodles stay small, soft and behind
+   the content they decorate. They never intercept clicks.
+   ===================================================================== */
+.band-doodle, .produce-deco, .contact-deco, .about-deco, .fj-deco,
+.cta-doodle, .hero-doodle, .dir-hero .dir-doodle, .doodle-cluster,
+.ff-drift, .fj-pressed-flower, .fj-corner-doodle, .fj-cover-doodles {
+  pointer-events: none !important;
+  z-index: 0;
+}
+/* cap the drawn size of every corner/margin decoration so nothing reads
+   as oversized clip art on top of the copy */
+.band-doodle svg, .produce-deco svg, .contact-deco svg, .about-deco svg,
+.fj-deco svg, .cta-doodle svg, .dir-hero .dir-doodle svg {
+  width: clamp(26px, 4vw, 58px);
+  height: auto;
+  opacity: .6;
+}
+.cta-doodle, .band-doodle, .produce-deco, .contact-deco, .about-deco, .fj-deco { opacity: .8; }
+
+/* the readable layer always sits above the decorative one */
+.wrap, .fj-page, .contact-grid, .produce-grid, .site-footer .wrap { position: relative; z-index: 1; }
+
+/* below the tablet breakpoint the margins disappear, so the margin
+   decorations step aside entirely rather than sliding under the text */
+@media (max-width: 768px) {
+  .band-doodle, .produce-deco, .contact-deco, .about-deco, .fj-deco, .cta-doodle { display: none; }
+}
+
+/* =====================================================================
+   Scroll-driven botanical growth journey
+   A thin stem line in the outer page margin that draws itself with the
+   reader's scroll progress; the plant at its foot grows through four
+   stages. Entirely decorative, never interactive.
+   ===================================================================== */
+:root {
+  --journey-line: #b8cbb2;
+  --journey-plant: #8fae90;
+  --journey-seed: #d8b97a;
+}
+[data-theme="dark"] {
+  --journey-line: #6f8a70;
+  --journey-plant: #9bb79a;
+  --journey-seed: #c3a470;
+}
+
+.ff-journey {
+  position: fixed;
+  left: max(6px, calc((100vw - 80rem) / 2 - 62px));
+  top: calc(var(--header-h) + 34px);
+  bottom: 28px;
+  width: 56px;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .85;
+}
+.ff-journey-svg { width: 100%; height: 100%; display: block; }
+.ff-journey-line {
+  stroke: var(--journey-line);
+  transition: stroke-dashoffset .22s linear;
+}
+.ff-stage {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transition: opacity .32s ease, transform .32s ease;
+}
+.ff-stroke { stroke: var(--journey-plant); fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.ff-stroke-soft { stroke: var(--journey-plant); fill: var(--journey-plant); fill-opacity: .14; stroke-linecap: round; stroke-linejoin: round; }
+.ff-fill-soft { fill: var(--journey-seed); fill-opacity: .55; stroke: var(--journey-seed); stroke-width: 1; }
+
+/* narrow viewports: shrink and tuck the journey into the very edge so it
+   can never sit under content or create horizontal overflow */
+/* the full-size rail only shows when the page margin is genuinely wide
+   enough for it; otherwise it shrinks to a hairline at the very edge */
+@media (max-width: 1420px) {
+  .ff-journey { width: 26px; left: 2px; opacity: .55; }
+}
+@media (max-width: 720px) {
+  .ff-journey { width: 18px; left: 0; bottom: 96px; opacity: .4; }
+}
+@media (max-width: 380px) {
+  .ff-journey { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ff-journey-line, .ff-stage { transition: none; }
 }

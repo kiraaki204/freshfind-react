@@ -1,8 +1,8 @@
 import SupportModal from './SupportModal.jsx';
 
-/* Content preserved verbatim from the former standalone Terms of Service
-   page — the wording there was already accurate about the demo nature of
-   the app, third-party map services and browser-only storage. */
+/* Content preserved from the former standalone Terms of Service page — the
+   wording is accurate about the browser-only nature of the app, third-party
+   map services and local storage. */
 export default function TermsModal({ open, onClose }) {
   return (
     <SupportModal
@@ -15,17 +15,17 @@ export default function TermsModal({ open, onClose }) {
       <div className="ff-card p-3 mb-3">
         <h3 className="h6">1. About this application</h3>
         <p className="small text-muted mb-0">
-          FreshFind is a frontend demonstration application that showcases how a farmers'-market
-          discovery service could work. It runs entirely in your web browser: there is no backend,
+          FreshFind is a browser-based farmers'-market discovery journal. It runs entirely in your web
+          browser: there is no backend,
           no user accounts, and no data is submitted to any server operated by FreshFind.
         </p>
       </div>
 
       <div className="ff-card p-3 mb-3">
-        <h3 className="h6">2. Demonstration data</h3>
+        <h3 className="h6">2. Sample listings</h3>
         <p className="small text-muted mb-0">
           The markets, produce items, schedules, addresses and map coordinates shown in FreshFind
-          are sample data created for demonstration purposes. They are not verified real-world
+          are sample listings created for this journal. They are not verified real-world
           businesses or locations and should not be relied upon for travel or purchasing decisions.
         </p>
       </div>

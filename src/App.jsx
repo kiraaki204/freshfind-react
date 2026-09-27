@@ -11,6 +11,7 @@ import { ProduceFiltersProvider } from './hooks/useProduceFilters.jsx';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import ChatWidget from './components/ChatWidget.jsx';
+import BotanicalJourney from './components/BotanicalJourney.jsx';
 import HomePage from './pages/HomePage.jsx';
 import DirectoryPage from './pages/DirectoryPage.jsx';
 import { MarketModalProvider, MarketModalHost } from './hooks/useMarketModal.jsx';
@@ -73,6 +74,7 @@ export default function App() {
                 <ProduceDetailModalProvider>
                 <SupportModalProvider>
                 <ScrollHandler />
+                <BotanicalJourney />
                 <Header />
                 <main id="main-content" tabIndex={-1}>
                   <div id="page">

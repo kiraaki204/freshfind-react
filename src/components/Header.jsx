@@ -53,6 +53,7 @@ export default function Header() {
   const [query, setQuery] = useState('');
   const searchInputRef = useRef(null);
   const searchToggleRef = useRef(null);
+  const searchSlotRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -69,6 +70,16 @@ export default function Header() {
   // focus the input whenever the search box opens (desktop inline or mobile panel)
   useEffect(() => {
     if (searchOpen) searchInputRef.current?.focus();
+  }, [searchOpen]);
+
+  // clicking anywhere outside the search slot closes the compact panel
+  useEffect(() => {
+    if (!searchOpen) return undefined;
+    const onDocDown = (e) => {
+      if (!searchSlotRef.current?.contains(e.target)) setSearchOpen(false);
+    };
+    document.addEventListener('pointerdown', onDocDown);
+    return () => document.removeEventListener('pointerdown', onDocDown);
   }, [searchOpen]);
 
   const toggleSearch = () => {
@@ -137,44 +148,46 @@ export default function Header() {
           ))}
         </nav>
 
-        <form
-          id="header-search"
-          className={`header-search${searchOpen ? ' open' : ''}`}
-          role="search"
-          aria-label="Site search"
-          onSubmit={submitSearch}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape' && searchOpen) {
-              setSearchOpen(false);
-              searchToggleRef.current?.focus();
-            }
-          }}
-        >
-          <div className="search-wrap flex-grow-1">
-            <span className="s-ico"><Icon name="search" size={18} /></span>
-            <input
-              ref={searchInputRef}
-              type="text"
-              className="form-control"
-              placeholder="Search markets, locations or produce..."
-              aria-label="Search markets, locations or produce"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-            />
-          </div>
-        </form>
 
         <div className="header-actions">
-          <button
-            ref={searchToggleRef}
-            className="icon-btn search-toggle"
-            aria-label={searchOpen ? 'Close search' : 'Open search'}
-            aria-expanded={searchOpen}
-            aria-controls="header-search"
-            onClick={toggleSearch}
+          <div className="search-slot" ref={searchSlotRef}>
+            <button
+              ref={searchToggleRef}
+              className="icon-btn search-toggle"
+              aria-label={searchOpen ? 'Close search' : 'Open search'}
+              aria-expanded={searchOpen}
+              aria-controls="header-search"
+              onClick={toggleSearch}
+            >
+              <Icon name={searchOpen ? 'x' : 'search'} size={18} />
+            </button>
+          <form
+            id="header-search"
+            className={`header-search${searchOpen ? ' open' : ''}`}
+            role="search"
+            aria-label="Site search"
+            onSubmit={submitSearch}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape' && searchOpen) {
+                setSearchOpen(false);
+                searchToggleRef.current?.focus();
+              }
+            }}
           >
-            <Icon name={searchOpen ? 'x' : 'search'} size={18} />
-          </button>
+            <div className="search-wrap flex-grow-1">
+              <span className="s-ico"><Icon name="search" size={18} /></span>
+              <input
+                ref={searchInputRef}
+                type="text"
+                className="form-control"
+                placeholder="Search markets or produce…"
+                aria-label="Search markets, locations or produce"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+              />
+            </div>
+          </form>
+          </div>
           <button
             className="icon-btn theme-toggle"
             type="button"

@@ -22,9 +22,9 @@ export default function HomeContactSection() {
       return;
     }
     setSending(true);
-    // demo: no backend — keep the existing toast behaviour but be honest
+    // there is no backend — keep the existing toast behaviour but stay honest
     setTimeout(() => {
-      showToast("Message captured — this demo form doesn't send to a server.", 'info');
+      showToast("Message captured — it stays in your browser and isn't sent to a server.", 'info');
       form.reset();
       setSending(false);
     }, 300);
@@ -33,10 +33,10 @@ export default function HomeContactSection() {
   return (
     <section id="contact" className="contact-section band" aria-labelledby="contact-heading">
       <div className="contact-deco contact-deco--tr" aria-hidden="true">
-        <FlowerDoodle size={84} />
+        <FlowerDoodle size={50} />
       </div>
       <div className="contact-deco contact-deco--bl" aria-hidden="true">
-        <LeafSprig size={100} />
+        <LeafSprig size={58} />
       </div>
       <div className="container" style={{ maxWidth: '80rem' }}>
         {/* heading */}
@@ -74,9 +74,9 @@ export default function HomeContactSection() {
                 <li className="contact-item">
                   <span className="contact-ico" aria-hidden="true"><Icon name="pin" size={18} /></span>
                   <div>
-                    <div className="contact-item-label">Demo area</div>
+                    <div className="contact-item-label">Market area</div>
                     <div className="contact-item-value text-muted" style={{ fontSize: 14 }}>10 Market Square, Greenfield</div>
-                    <div className="contact-item-note">Showcase address — pin marks centre of demo markets, not a verified office.</div>
+                    <div className="contact-item-note">Sample address — the pin marks the centre of our listed markets, not a verified office.</div>
                   </div>
                 </li>
                 <li className="contact-item">
@@ -92,13 +92,13 @@ export default function HomeContactSection() {
                 <div className="contact-map-head">
                   <span className="contact-map-icon"><Icon name="pin" size={16} /></span>
                   <div>
-                    <div className="fw-semibold" style={{ fontSize: 14, color: 'var(--forest-deep)' }}>FreshFind demo area</div>
+                    <div className="fw-semibold" style={{ fontSize: 14, color: 'var(--forest-deep)' }}>FreshFind market area</div>
                     <div className="small text-muted">Centre of the {markets.length} sample markets</div>
                   </div>
                 </div>
-                <MiniMap name="FreshFind demo area" address="10 Market Square, Greenfield" lat={HQ_LAT} lng={HQ_LNG} />
+                <MiniMap name="FreshFind market area" address="10 Market Square, Greenfield" lat={HQ_LAT} lng={HQ_LNG} />
                 <p className="small text-muted mt-2 mb-0" style={{ fontSize: 12, lineHeight: 1.5 }}>
-                  Demo map: Leaflet + OpenStreetMap. The pin shows the middle of the demo market locations — not a verified FreshFind office.
+                  Map by Leaflet + OpenStreetMap. The pin shows the middle of our listed market locations — not a verified FreshFind office.
                 </p>
               </div>
             </div>
@@ -144,7 +144,7 @@ export default function HomeContactSection() {
                       <Icon name="send" size={18} /> {sending ? 'Sending...' : 'Send Message'}
                     </button>
                     <p className="contact-demo-note">
-                      <Icon name="info" size={12} /> Demo form — messages stay in your browser and aren&apos;t sent to a server.
+                      <Icon name="info" size={12} /> Messages stay in your browser and aren&apos;t sent to a server.
                       See{' '}
                       <button
                         type="button"
