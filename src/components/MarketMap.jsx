@@ -142,6 +142,26 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
         });
         const saved = bookmarksRef.current.some((b) => b.id === `market-${m.id}`);
         marker.bindPopup(popupHtml(m, saved), { maxWidth: 300, minWidth: 240 });
+        // the market card previews on hover instead of requiring a click; a
+        // short grace period lets the pointer travel into the popup without
+        // it vanishing, and (on touch screens) a tap still selects the pin
+        let hoverTimer = null;
+        const cancelHover = () => { clearTimeout(hoverTimer); hoverTimer = null; };
+        const scheduleClose = () => {
+          cancelHover();
+          hoverTimer = setTimeout(() => marker.closePopup(), 250);
+        };
+        marker.on('mouseover', () => {
+          cancelHover();
+          if (!marker.isPopupOpen()) marker.openPopup();
+          const el = marker.getPopup() && marker.getPopup().getElement();
+          if (el && !el.dataset.ffHoverWired) {
+            el.dataset.ffHoverWired = '1';
+            el.addEventListener('mouseenter', cancelHover);
+            el.addEventListener('mouseleave', scheduleClose);
+          }
+        });
+        marker.on('mouseout', scheduleClose);
         marker.on('click', () => onSelectRef.current && onSelectRef.current(m.id));
         marker.addTo(map);
       }
@@ -255,7 +275,7 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
             <Icon name="pin" size={13} />{' '}
             {displayed.length}
             {` matching market${displayed.length !== 1 ? 's' : ''}`}{' '}
-            · tap a marker
+            · hover a marker
           </span>
           <span className="ffmap-legend">
             <i className="lg-pin" /> Market{user ? <>&nbsp;<i className="lg-you" /> You</> : ''}

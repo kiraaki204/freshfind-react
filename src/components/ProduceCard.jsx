@@ -61,9 +61,6 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
             <Icon name="pin" size={12} /> Available at {marketCount} market{marketCount > 1 ? 's' : ''}
           </p>
         )}
-        <span className="produce-card-cta" aria-hidden="true">
-          peek inside <Icon name="chevron" size={13} />
-        </span>
       </div>
     </article>
   );

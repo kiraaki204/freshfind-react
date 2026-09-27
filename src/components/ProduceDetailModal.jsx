@@ -54,8 +54,7 @@ export default function ProduceDetailModal({ produce, onClose }) {
       <div className="mm-dialog produce-detail-dialog" role="dialog" aria-modal="true" aria-labelledby={titleId} ref={dialogRef}>
         <header className="mm-head produce-detail-head">
           <div>
-            <span className="chip" style={{ background: 'rgba(255,253,247,.92)', color: '#355b43' }}>{p.category}</span>
-            <h2 id={titleId} className="h5 mt-2 mb-1" style={{ lineHeight: 1.2 }}>{p.emoji} {p.name}</h2>
+            <h2 id={titleId} className="h5 mb-1" style={{ lineHeight: 1.2 }}>{p.emoji} {p.name}</h2>
             <p className="small text-muted mb-0" style={{ maxWidth: '28rem' }}>{p.description.slice(0, 110)}…</p>
           </div>
           <div className="d-flex align-items-center gap-1">
@@ -73,12 +72,6 @@ export default function ProduceDetailModal({ produce, onClose }) {
             ) : (
               <div className="produce-detail-emoji" aria-hidden="true"><span style={{ fontSize: '5rem' }}>{p.emoji}</span></div>
             )}
-            <div className="produce-detail-badge">
-              <span className="chip">{p.category}</span>
-              {hasMeaningfulSeason(p) && p.season.slice(0, 3).map((s) => (
-                <span key={s} className={`chip season-${s.toLowerCase()}`}>{s}</span>
-              ))}
-            </div>
           </div>
 
           <div className="mm-content">

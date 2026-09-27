@@ -202,7 +202,10 @@ export default function ChatWidget() {
     const ctxAtSend = ctx;
     setMsgs((m) => [...m, { id: uid(), sender: 'user', text, timestamp: new Date() }]);
     setInput('');
-    if (inputRef.current) inputRef.current.style.height = 'auto';
+    if (inputRef.current) {
+      inputRef.current.style.height = 'auto';
+      inputRef.current.style.overflowY = 'hidden';
+    }
     setTyping(true);
 
     const think = 450 + Math.min(text.length * 12, 700);
@@ -278,10 +281,14 @@ export default function ChatWidget() {
     openChat(false);
   };
 
+  /* the box grows with the draft; a scrollbar appears only once the text
+     outgrows the max height — an empty or one-line draft never shows one */
   const autoResize = (e) => {
     setInput(e.target.value);
-    e.target.style.height = 'auto';
-    e.target.style.height = `${Math.min(e.target.scrollHeight, 76)}px`;
+    const el = e.target;
+    el.style.height = 'auto';
+    el.style.height = `${Math.min(el.scrollHeight, 76)}px`;
+    el.style.overflowY = el.scrollHeight > 76 ? 'auto' : 'hidden';
   };
 
   const last = msgs.length - 1;
