@@ -9,6 +9,12 @@ import { useEffect, useRef } from 'react';
    seed → seedling → young plant → mature plant — cross-fading smoothly so
    scrolling back up reverses the growth and scrolling down resumes it.
 
+   The line and the plants deliberately use separate SVG viewports. The rail
+   is very tall and narrow, so putting the small stages in its 72 × 620
+   viewBox made the seed and seedlings scale down to only a few pixels on
+   responsive layouts. The stage viewport keeps every illustration legible
+   without changing the right-edge rail placement.
+
    Implementation notes:
    - no state updates on scroll: progress is written straight to the DOM
      inside a requestAnimationFrame tick,
@@ -25,6 +31,21 @@ function ramp(p, a, b) {
   if (p >= b) return 1;
   const t = (p - a) / (b - a);
   return t * t * (3 - 2 * t);
+}
+
+function stageOpacities(progress) {
+  const seedToSeedling = ramp(progress, 0.06, 0.22);
+  const seedlingToYoung = ramp(progress, 0.38, 0.56);
+  const youngToMature = ramp(progress, 0.70, 0.88);
+
+  // Adjacent stages share one cross-fade. This keeps the total visible ink
+  // stable and prevents the later, larger drawings from showing too early.
+  return [
+    1 - seedToSeedling,
+    seedToSeedling * (1 - seedlingToYoung),
+    seedlingToYoung * (1 - youngToMature),
+    youngToMature,
+  ];
 }
 
 export default function BotanicalJourney() {
@@ -47,25 +68,32 @@ export default function BotanicalJourney() {
     const apply = () => {
       frame = 0;
       const doc = document.documentElement;
-      const scrollable = (doc.scrollHeight || 0) - window.innerHeight;
-      const p = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+      const body = document.body;
+      const pageHeight = Math.max(
+        doc.scrollHeight,
+        doc.offsetHeight,
+        body?.scrollHeight || 0,
+        body?.offsetHeight || 0,
+      );
+      const viewportHeight = doc.clientHeight || window.innerHeight;
+      const scrollable = pageHeight - viewportHeight;
+      const scrollTop = window.scrollY ?? doc.scrollTop ?? body?.scrollTop ?? 0;
+      const p = scrollable > 0 ? Math.min(1, Math.max(0, scrollTop / scrollable)) : 0;
       if (Math.abs(p - last) < 0.0015) return;
       last = p;
 
       stem.style.strokeDashoffset = `${length * (1 - Math.max(0.04, p))}`;
       root.style.setProperty('--journey-progress', p.toFixed(4));
 
-      /* overlapping ramps → one continuous growth rather than four swaps */
-      const seed = 1 - ramp(p, 0.08, 0.24);
-      const seedling = ramp(p, 0.08, 0.26) * (1 - ramp(p, 0.36, 0.52));
-      const young = ramp(p, 0.36, 0.52) * (1 - ramp(p, 0.62, 0.78));
-      const mature = ramp(p, 0.62, 0.78);
-      const values = [seed, seedling, young, mature];
+      const values = stageOpacities(p);
       stageRefs.current.forEach((el, i) => {
         if (!el) return;
-        const v = values[i];
-        el.style.opacity = v.toFixed(3);
-        el.style.transform = `scale(${(0.82 + 0.18 * v).toFixed(3)})`;
+        const value = values[i];
+        el.style.opacity = value.toFixed(3);
+        el.style.transform = `scale(${(0.88 + 0.12 * value).toFixed(3)})`;
+        // Exclude fully transparent groups from SVG painting. In particular,
+        // the last-painted mature plant cannot appear before its cross-fade.
+        el.style.visibility = value > 0.001 ? 'visible' : 'hidden';
       });
     };
 
@@ -85,13 +113,14 @@ export default function BotanicalJourney() {
   }, []);
 
   const setStage = (i) => (el) => { stageRefs.current[i] = el; };
+  const initialHidden = { opacity: 0, visibility: 'hidden', transform: 'scale(.88)' };
 
   return (
     <div className="ff-journey" ref={rootRef} aria-hidden="true">
       <svg
         className="ff-journey-svg"
         viewBox="0 0 72 620"
-        preserveAspectRatio="xMidYMax meet"
+        preserveAspectRatio="none"
         fill="none"
         aria-hidden="true"
         focusable="false"
@@ -100,46 +129,52 @@ export default function BotanicalJourney() {
         <path
           ref={stemRef}
           className="ff-journey-line"
-          d="M36 6 C30 70 42 108 37 168 C32 228 44 264 38 320 C33 372 43 408 37 452 C33 452 37 462 37 470"
+          d="M36 6 C30 70 42 108 37 168 C32 228 44 264 38 320 C33 372 43 408 37 452 C33 478 39 510 36 548"
           strokeWidth="1.6"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
         />
+      </svg>
 
-        {/* --- stage 1 · seed --- */}
-        <g className="ff-stage" ref={setStage(0)}>
-          <ellipse className="ff-fill-soft" cx="36" cy="556" rx="7" ry="9.5" transform="rotate(-12 36 556)" />
-          <path className="ff-stroke" d="M33 550 C35.5 554 36.6 559 36 563" strokeWidth="1" />
+      <svg
+        className="ff-journey-stages"
+        viewBox="0 0 72 116"
+        preserveAspectRatio="xMidYMax meet"
+        fill="none"
+        aria-hidden="true"
+        focusable="false"
+      >
+        {/* CSS/inline defaults make the seed the only stage on first paint,
+            before the effect has measured the document. */}
+        <g className="ff-stage" data-stage="seed" ref={setStage(0)} style={{ opacity: 1, visibility: 'visible', transform: 'scale(1)' }}>
+          <ellipse className="ff-fill-soft" cx="36" cy="99" rx="9" ry="12" transform="rotate(-12 36 99)" />
+          <path className="ff-stroke-seed" d="M32 91 C35.5 96 37 102 36 108" />
         </g>
 
-        {/* --- stage 2 · seedling --- */}
-        <g className="ff-stage" ref={setStage(1)}>
-          <path className="ff-stroke" d="M36 566 C36 552 36.6 542 37 534" strokeWidth="1.5" />
-          <path className="ff-stroke-soft" d="M36.4 546 C30 545 25.6 540.6 25 534 C31.4 535 35.4 539.4 36.4 546 Z" strokeWidth="1.1" />
-          <path className="ff-stroke-soft" d="M37.2 540 C43 538.4 46.6 533.6 46.6 527.4 C41 529 37.6 533.6 37.2 540 Z" strokeWidth="1.1" />
+        <g className="ff-stage" data-stage="seedling" ref={setStage(1)} style={initialHidden}>
+          <path className="ff-stroke" d="M36 106 C36 90 36.7 75 37.5 61" strokeWidth="2" />
+          <path className="ff-stroke-soft" d="M36.6 84 C26.5 83 19.5 76.5 19 67 C28.6 68.3 35 74.8 36.6 84 Z" strokeWidth="1.5" />
+          <path className="ff-stroke-soft" d="M37.2 76 C46.2 73.8 52 66.8 52 57.5 C43.2 60 37.8 67 37.2 76 Z" strokeWidth="1.5" />
         </g>
 
-        {/* --- stage 3 · young plant --- */}
-        <g className="ff-stage" ref={setStage(2)}>
-          <path className="ff-stroke" d="M36 566 C36 544 37 524 38 506" strokeWidth="1.5" />
-          <path className="ff-stroke-soft" d="M36.3 552 C29 551 23.4 545.6 22.8 538 C30.2 539.2 35.2 544.4 36.3 552 Z" strokeWidth="1.1" />
-          <path className="ff-stroke-soft" d="M37 538 C44.4 536.4 49.4 530.6 49.6 523 C42.4 524.8 37.6 530.4 37 538 Z" strokeWidth="1.1" />
-          <path className="ff-stroke-soft" d="M37.6 522 C31.4 520.6 27 515.6 26.6 509 C32.8 510.6 37 515.6 37.6 522 Z" strokeWidth="1.1" />
-          <path className="ff-stroke-soft" d="M38 510 C43.4 508.4 46.8 503.6 47 497.4 C41.6 499 38.4 503.8 38 510 Z" strokeWidth="1.1" />
+        <g className="ff-stage" data-stage="young" ref={setStage(2)} style={initialHidden}>
+          <path className="ff-stroke" d="M36 106 C36 81 37.2 57 38.5 32" strokeWidth="2" />
+          <path className="ff-stroke-soft" d="M36.3 91 C25.8 90 18 83 17.2 72.5 C27.7 74 34.8 81 36.3 91 Z" strokeWidth="1.5" />
+          <path className="ff-stroke-soft" d="M37 75 C47.5 73 54.5 65.2 54.8 54.5 C44.5 57 37.8 64.8 37 75 Z" strokeWidth="1.5" />
+          <path className="ff-stroke-soft" d="M37.8 57.5 C29.2 55.8 23.2 49.2 22.7 40.2 C31.2 42.2 37 48.9 37.8 57.5 Z" strokeWidth="1.5" />
+          <path className="ff-stroke-soft" d="M38.2 42 C45.5 40 50.2 33.5 50.5 25.2 C43.2 27.3 38.8 33.8 38.2 42 Z" strokeWidth="1.5" />
         </g>
 
-        {/* --- stage 4 · mature plant --- */}
-        <g className="ff-stage" ref={setStage(3)}>
-          <path className="ff-stroke" d="M36 566 C36 540 37.4 512 38.6 482" strokeWidth="1.6" />
-          <path className="ff-stroke-soft" d="M36.2 556 C28 555 21.6 549 21 540.4 C29.4 541.8 35 547.6 36.2 556 Z" strokeWidth="1.1" />
-          <path className="ff-stroke-soft" d="M37 542 C45.2 540.2 50.8 533.8 51 525.2 C42.8 527.2 37.6 533.4 37 542 Z" strokeWidth="1.1" />
-          <path className="ff-stroke-soft" d="M37.6 526 C30.6 524.6 25.6 519 25.2 511.4 C32.2 513.2 37 518.6 37.6 526 Z" strokeWidth="1.1" />
-          <path className="ff-stroke-soft" d="M38.2 510 C44.8 508.4 49.2 502.8 49.4 495.6 C42.8 497.6 38.8 502.8 38.2 510 Z" strokeWidth="1.1" />
-          <path className="ff-stroke-soft" d="M38.6 494 C33 492.8 29.2 488 28.8 481.6 C34.4 483.2 38.2 487.8 38.6 494 Z" strokeWidth="1.1" />
-          {/* two small side branches keep it botanical rather than symmetrical */}
-          <path className="ff-stroke-soft" d="M37.2 530 C42 524 45 518.6 45.6 512" strokeWidth=".9" />
-          <path className="ff-stroke-soft" d="M36.6 546 C31.6 540.6 28.8 535.6 28 529.6" strokeWidth=".9" />
-          <circle className="ff-fill-soft" cx="38.8" cy="479" r="2.6" />
+        <g className="ff-stage" data-stage="mature" ref={setStage(3)} style={initialHidden}>
+          <path className="ff-stroke" d="M36 106 C36 77 37.5 43 39 12" strokeWidth="2.1" />
+          <path className="ff-stroke-soft" d="M36.2 95 C24.8 94 16 86 15 74 C26.7 76 34.5 83.8 36.2 95 Z" strokeWidth="1.5" />
+          <path className="ff-stroke-soft" d="M37 80 C48.5 77.5 56.2 68.5 56.5 56.5 C45 59.3 37.8 68 37 80 Z" strokeWidth="1.5" />
+          <path className="ff-stroke-soft" d="M37.7 63 C28 61 21 53.2 20.5 42.7 C30.2 45.2 37 52.7 37.7 63 Z" strokeWidth="1.5" />
+          <path className="ff-stroke-soft" d="M38.4 46 C47.5 43.8 53.5 36 53.8 26 C44.7 28.7 39.1 36 38.4 46 Z" strokeWidth="1.5" />
+          <path className="ff-stroke-soft" d="M38.9 29 C31.2 27.2 26 20.7 25.5 12 C33.2 14.2 38.4 20.5 38.9 29 Z" strokeWidth="1.5" />
+          <path className="ff-stroke-soft" d="M37.3 67 C44 59 48 51.5 48.8 42.5" strokeWidth="1.2" />
+          <path className="ff-stroke-soft" d="M36.7 84 C29.8 76.8 26 70 25 62" strokeWidth="1.2" />
+          <circle className="ff-fill-soft" cx="39.2" cy="9" r="3.5" />
         </g>
       </svg>
     </div>
