@@ -16,17 +16,31 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
     await expect(page.locator('.why-card')).toHaveCount(0);
 
     const journal = page.locator('#journal');
+    const mobile = viewport.width < 768;
     await journal.getByRole('button', { name: 'Open The FreshFind Field Journal' }).click();
     await expect(journal.getByRole('heading', { name: 'Why FreshFind?' })).toHaveCount(0);
     await journal.getByRole('button', { name: 'Go to spread 5: Your Market Field Guide' }).click();
 
-    const lastPage = journal.locator(viewport.width < 768 ? '.fj-sheet-page' : '.fj-page--right .fj-page-inner').last();
+    if (mobile) {
+      // the turnover pad shows one page at a time: jumping to the final
+      // spread lands on its first side, the tips sheet…
+      await expect(journal.getByRole('heading', { name: 'Pocket tips for market day' })).toBeVisible();
+      await expect(journal.getByRole('heading', { name: 'Why FreshFind?' })).toHaveCount(0);
+      await journal.getByRole('button', { name: 'Turn to the next spread' }).click();
+    }
+
+    const lastPage = journal.locator(mobile ? '.fj-sheet-page' : '.fj-page--right .fj-page-inner').last();
     await expect(lastPage.getByRole('heading', { name: 'Why FreshFind?' })).toBeVisible();
     for (const [title, description] of benefits) {
       await expect(lastPage.getByRole('heading', { name: title, exact: true })).toBeVisible();
       await expect(lastPage.getByText(description, { exact: true })).toBeVisible();
     }
-    await expect(journal.getByRole('heading', { name: 'Pocket tips for market day' })).toBeVisible();
+    if (mobile) {
+      // …while the book keeps both sides of a spread visible at once
+      await expect(journal.getByRole('heading', { name: 'Pocket tips for market day' })).toHaveCount(0);
+    } else {
+      await expect(journal.getByRole('heading', { name: 'Pocket tips for market day' })).toBeVisible();
+    }
     await expect(journal.getByRole('button', { name: 'Turn to the next spread' })).toBeDisabled();
     await expect(lastPage.getByRole('button', { name: 'Browse the Market Directory' })).toBeVisible();
     await expect(lastPage.getByRole('button', { name: 'Explore the Produce Guide' })).toBeVisible();

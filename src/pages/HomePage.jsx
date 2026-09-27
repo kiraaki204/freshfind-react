@@ -137,8 +137,6 @@ export default function HomePage({ visitorCount }) {
                 <img src="/images/produce-tomatoes.jpg" alt="" loading="lazy" />
                 <figcaption>today&rsquo;s haul</figcaption>
               </figure>
-              <span className="hero-sticker-badge hero-sticker-badge--a">★ fresh picks</span>
-              <span className="hero-sticker-badge hero-sticker-badge--b">100% local-ish</span>
               <span className="hero-doodle hero-doodle--1"><Sparkle size={34} /></span>
               <span className="hero-doodle hero-doodle--2"><FlowerDoodle size={52} /></span>
               <span className="hero-doodle hero-doodle--3"><TomatoDoodle size={56} /></span>

@@ -23,6 +23,9 @@ const SPREAD_TITLES = [
   'Your Market Field Guide',
 ];
 const SPREAD_COUNT = SPREAD_TITLES.length;
+/* two sheet-sides per spread: the desktop book shows them side by side while
+   the mobile turnover pad walks through the same pages one at a time */
+const PAGE_COUNT = SPREAD_COUNT * 2;
 
 const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
 const SEASON_STYLE = {
@@ -410,7 +413,8 @@ const RIGHT_PAGES = [StoryRight, HarvestRight, MarketsRight, SeasonsRight, Guide
 /* =============================================================== book */
 export default function HomeJournalSection() {
   const [phase, setPhase] = useState('cover'); // cover | opening | open | closing
-  const [spread, setSpread] = useState(0);
+  const [page, setPage] = useState(0); // 0–9: the pad page the reader is on
+  const spread = Math.floor(page / 2); // the book spread those pages belong to
   const [turning, setTurning] = useState(null); // { dir, target } while a leaf flips
   const [leafGo, setLeafGo] = useState(false);
   const [pick, setPick] = useState(null); // selected produce sticker id
@@ -426,7 +430,11 @@ export default function HomeJournalSection() {
   useEffect(() => {
     const mm = window.matchMedia('(max-width: 767.98px)');
     const rm = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const onMobile = (e) => setIsMobile(e.matches);
+    const onMobile = (e) => {
+      setIsMobile(e.matches);
+      // single pad pages fold back into a two-page spread on larger screens
+      if (!e.matches) setPage((p) => Math.floor(p / 2) * 2);
+    };
     const onMotion = (e) => setReducedMotion(e.matches);
     mm.addEventListener('change', onMobile);
     rm.addEventListener('change', onMotion);
@@ -444,19 +452,24 @@ export default function HomeJournalSection() {
     }
   };
 
+  const describePage = (p) =>
+    isMobile
+      ? `Page ${p + 1} of ${PAGE_COUNT}: ${SPREAD_TITLES[Math.floor(p / 2)]}.`
+      : `Spread ${p / 2 + 1} of ${SPREAD_COUNT}: ${SPREAD_TITLES[p / 2]}.`;
+
   /* ---- cover open/close ------------------------------------------------ */
   const openBook = () => {
     if (phase !== 'cover') return;
     if (reducedMotion) {
       setPhase('open');
-      announce('The FreshFind Field Journal is open. Spread 1 of 5: Our Story.');
+      announce(`The FreshFind Field Journal is open. ${describePage(0)}`);
       return;
     }
     setPhase('opening');
     clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
       setPhase('open');
-      announce('The FreshFind Field Journal is open. Spread 1 of 5: Our Story.');
+      announce(`The FreshFind Field Journal is open. ${describePage(0)}`);
     }, 700);
   };
 
@@ -464,7 +477,7 @@ export default function HomeJournalSection() {
     if (phase !== 'open' || turning) return;
     if (reducedMotion) {
       setPhase('cover');
-      setSpread(0);
+      setPage(0);
       announce('The FreshFind Field Journal is closed.');
       return;
     }
@@ -472,7 +485,7 @@ export default function HomeJournalSection() {
     clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
       setPhase('cover');
-      setSpread(0);
+      setPage(0);
       announce('The FreshFind Field Journal is closed.');
     }, 600);
   };
@@ -480,16 +493,18 @@ export default function HomeJournalSection() {
   /* ---- page turns ------------------------------------------------------ */
   const commitTurn = (target) => {
     clearTimeout(timerRef.current);
-    setSpread(target);
+    setPage(target);
     setTurning(null);
     setLeafGo(false);
-    announce(`Spread ${target + 1} of ${SPREAD_COUNT}: ${SPREAD_TITLES[target]}.`);
+    announce(describePage(target));
   };
 
   const startTurn = (dir) => {
     if (phase !== 'open' || turning) return;
-    const target = dir === 'next' ? spread + 1 : spread - 1;
-    if (target < 0 || target >= SPREAD_COUNT) return;
+    // the book flips a full two-page spread; the pad turns one page
+    const step = isMobile ? 1 : 2;
+    const target = dir === 'next' ? page + step : page - step;
+    if (target < 0 || target >= PAGE_COUNT) return;
     if (reducedMotion || isMobile) {
       commitTurn(target); // instant, safe for rapid interaction
       return;
@@ -509,8 +524,8 @@ export default function HomeJournalSection() {
 
   const goTo = (i) => {
     if (phase !== 'open' || turning || i === spread) return;
-    setSpread(i);
-    announce(`Spread ${i + 1} of ${SPREAD_COUNT}: ${SPREAD_TITLES[i]}.`);
+    setPage(i * 2);
+    announce(describePage(i * 2));
   };
 
   const onSectionKey = (e) => {
@@ -523,16 +538,21 @@ export default function HomeJournalSection() {
   const busy = turning !== null || phase === 'opening' || phase === 'closing';
 
   /* page bodies — during a flip the base shows the incoming pages */
-  const LeftBody = turning && turning.dir === 'prev' ? LEFT_PAGES[turning.target] : LEFT_PAGES[spread];
-  const RightBody = turning && turning.dir === 'next' ? RIGHT_PAGES[turning.target] : RIGHT_PAGES[spread];
+  const leftIdx = turning && turning.dir === 'prev' ? turning.target / 2 : spread;
+  const rightIdx = turning && turning.dir === 'next' ? turning.target / 2 : spread;
+  const LeftBody = LEFT_PAGES[leftIdx];
+  const RightBody = RIGHT_PAGES[rightIdx];
+  /* the turnover pad shows exactly one side of the current spread */
+  const MobileBody = page % 2 === 0 ? LEFT_PAGES[spread] : RIGHT_PAGES[spread];
   let LeafFront = null;
   let LeafBack = null;
   if (turning) {
-    if (turning.dir === 'next') { LeafFront = RIGHT_PAGES[spread]; LeafBack = LEFT_PAGES[turning.target]; }
-    else { LeafFront = RIGHT_PAGES[turning.target]; LeafBack = LEFT_PAGES[spread]; }
+    if (turning.dir === 'next') { LeafFront = RIGHT_PAGES[spread]; LeafBack = LEFT_PAGES[turning.target / 2]; }
+    else { LeafFront = RIGHT_PAGES[turning.target / 2]; LeafBack = LEFT_PAGES[spread]; }
   }
   const leafFrom = turning && turning.dir === 'prev' ? -165 : 0;
   const leafTo = turning && turning.dir === 'next' ? -165 : 0;
+  const lastPage = isMobile ? PAGE_COUNT - 1 : PAGE_COUNT - 2;
 
   return (
     <section id="journal" className="home-journal band" aria-labelledby="journal-heading" ref={sectionRef} onKeyDown={onSectionKey}>
@@ -589,13 +609,10 @@ export default function HomeJournalSection() {
           <div className={`fj-book-stage${phase === 'opening' ? ' is-opening' : ''}${phase === 'closing' ? ' is-closing' : ''}`}>
             <div className={`fj-book${isMobile ? ' fj-book--mobile' : ''}`}>
               {isMobile ? (
-                <div className="fj-sheet" key={spread}>
+                /* turnover pad — a single page at a time, same paper styling */
+                <div className="fj-sheet" key={page}>
                   <div className="fj-sheet-page">
-                    <LeftBody pick={pick} onPick={setPick} selected={pick} onCloseBook={closeBook} />
-                  </div>
-                  <div className="fj-sheet-divider" aria-hidden="true" />
-                  <div className="fj-sheet-page">
-                    <RightBody pick={pick} onPick={setPick} selected={pick} onCloseBook={closeBook} />
+                    <MobileBody pick={pick} onPick={setPick} selected={pick} onCloseBook={closeBook} />
                   </div>
                 </div>
               ) : (
@@ -660,11 +677,13 @@ export default function HomeJournalSection() {
 
             {/* controls */}
             <div className="fj-controls">
-              <button className="fj-btn" onClick={() => startTurn('prev')} disabled={busy || spread === 0} aria-label="Turn to the previous spread">
+              <button className="fj-btn" onClick={() => startTurn('prev')} disabled={busy || page === 0} aria-label="Turn to the previous spread">
                 <Icon name="chevronL" size={15} /> Previous
               </button>
               <div className="fj-track" role="group" aria-label="Journal spreads">
-                <span className="fj-progress">Spread {spread + 1} of {SPREAD_COUNT}</span>
+                <span className="fj-progress">
+                  {isMobile ? `Page ${page + 1} of ${PAGE_COUNT}` : `Spread ${spread + 1} of ${SPREAD_COUNT}`}
+                </span>
                 <div className="fj-dots">
                   {SPREAD_TITLES.map((t, i) => (
                     <button
@@ -678,7 +697,7 @@ export default function HomeJournalSection() {
                   ))}
                 </div>
               </div>
-              <button className="fj-btn" onClick={() => startTurn('next')} disabled={busy || spread === SPREAD_COUNT - 1} aria-label="Turn to the next spread">
+              <button className="fj-btn" onClick={() => startTurn('next')} disabled={busy || page >= lastPage} aria-label="Turn to the next spread">
                 Next <Icon name="chevron" size={15} />
               </button>
               <button className="fj-btn fj-btn--close" onClick={closeBook} disabled={busy} aria-label="Close the journal and return to its cover">

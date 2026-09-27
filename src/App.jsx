@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import AppLoader from './components/AppLoader.jsx';
 import { ToastProvider } from './hooks/useToast.jsx';
 import { BookmarksProvider } from './hooks/useBookmarks.jsx';
 import { GeoProvider } from './hooks/useGeolocation.jsx';
@@ -38,6 +39,27 @@ function ScrollHandler() {
 export default function App() {
   const [visitorCount] = useState(() => 12458 + Math.floor(Math.random() * 100));
 
+  /* boot loader: shows on first paint, waits for the window load and a
+     minimum dwell time, fades out, then unmounts */
+  const [booting, setBooting] = useState(true);
+  const [bootLeaving, setBootLeaving] = useState(false);
+  useEffect(() => {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const minDwell = new Promise((resolve) => setTimeout(resolve, reduced ? 400 : 1500));
+    const loaded = new Promise((resolve) => {
+      if (document.readyState === 'complete') resolve();
+      else window.addEventListener('load', resolve, { once: true });
+      setTimeout(resolve, 3200); // never trap anyone behind the loader
+    });
+    let alive = true;
+    Promise.all([minDwell, loaded]).then(() => {
+      if (!alive) return;
+      setBootLeaving(true);
+      setTimeout(() => { if (alive) setBooting(false); }, 480);
+    });
+    return () => { alive = false; };
+  }, []);
+
   return (
     <ToastProvider>
       <BookmarksProvider>
@@ -75,6 +97,7 @@ export default function App() {
                 </main>
                 <Footer visitorCount={visitorCount} />
                 <ChatWidget />
+                {booting && <AppLoader leaving={bootLeaving} />}
                 {/* market modal renders down here so it can use BOTH the
                     market and the produce-detail modal contexts (it opens
                     produce details from its produce tiles) */}
