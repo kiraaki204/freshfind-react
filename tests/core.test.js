@@ -75,3 +75,11 @@ test('header stacks above leaflet maps so contact map cannot cover the nav', () 
   assert.match(miniMap?.[0] ?? '', /isolation:\s*isolate/);
   assert.match(miniMap?.[0] ?? '', /z-index:\s*0/);
 });
+
+test('hero search resets its desktop flex height when stacked on phones', () => {
+  const css = readFileSync(new URL('../src/index.css', import.meta.url), 'utf8');
+  const phoneRules = css.match(/@media \(max-width: 575\.98px\) \{[\s\S]*?\.site-header/);
+  assert.ok(phoneRules, 'phone-specific hero rules are present');
+  assert.match(phoneRules[0], /\.hero-search \.search-wrap\s*\{[\s\S]*?flex:\s*0 0 auto/);
+  assert.match(phoneRules[0], /\.hero-search \.btn-green\s*\{[\s\S]*?width:\s*100%/);
+});
