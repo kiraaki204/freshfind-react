@@ -21,7 +21,7 @@ const QUICK_ACTIONS = [
   { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: 'var(--pistachio)', tint: 'var(--wash-pistachio)' },
   { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: 'var(--peach)', tint: 'var(--wash-blush)' },
   { ico: 'basket', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: 'var(--butter)', tint: 'var(--wash-butter)' },
-  { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: 'var(--pink)', tint: 'var(--blush)' },
+  { ico: 'chat', label: 'Ask FreshFind', desc: 'Chat about markets and produce', to: 'chat', bg: 'var(--pink)', tint: 'var(--blush)' },
 ];
 
 const SEASONS = [
@@ -90,7 +90,6 @@ export default function HomePage({ visitorCount }) {
               <div className="live-pill">
                 <span className="pulse-dot" /> {live}
               </div>
-              <br />
               <span className="hero-kicker">
                 the farmers-market journal <Squiggle width={64} height={10} />
               </span>

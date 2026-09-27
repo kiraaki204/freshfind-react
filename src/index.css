@@ -804,35 +804,47 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .hero-blob--2 { bottom: 10%; left: 2%; opacity: .5; }
 .hero-blob--3 { top: 16%; left: 44%; opacity: .35; }
 @media (max-width: 991.98px) { .hero-blob--3 { display: none; } }
+/* on narrow screens the copy fills the width, so the corner botanicals step
+   back rather than sitting under the heading */
+@media (max-width: 767.98px) {
+  .hero-blob { transform: scale(.75); transform-origin: center; }
+  .hero-blob--1 { opacity: .32; }
+  .hero-blob--2 { opacity: .3; }
+}
 
 .hero-copy {
   position: relative;
   z-index: 1;
+  width: 100%;
   max-width: 80rem;
   margin: 0 auto;
-  padding: 3.5rem 1rem 4.5rem;
+  padding: clamp(2.6rem, 5vw, 4rem) clamp(1rem, 3vw, 1.5rem) clamp(3.4rem, 6vw, 5rem);
 }
 .hero-grid {
   display: grid;
-  gap: 2.5rem;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
   align-items: center;
 }
+/* every track may shrink below its content's intrinsic width */
+.hero-grid > * { min-width: 0; }
 @media (min-width: 992px) {
-  .hero-grid { grid-template-columns: 1.05fr .95fr; gap: 1rem; }
-  .hero-copy { padding: 4rem 1.5rem 5rem; }
+  .hero-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(1rem, 3vw, 2rem); }
 }
 
 .hero-kicker {
   font-family: var(--font-hand);
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 1rem + 1vw, 1.5rem);
   color: var(--rose);
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
   margin-bottom: 6px;
 }
+.hero-kicker svg { flex: 0 0 auto; }
 .hero-copy h1 {
-  font-size: clamp(2.7rem, 6.4vw, 4.6rem);
+  font-size: clamp(2.1rem, 6.4vw, 4.6rem);
+  overflow-wrap: break-word;
   font-weight: 800;
   color: var(--forest-deep);
   line-height: 1;
@@ -863,7 +875,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 12'%3E%3Cpath d='M3 8 C40 2 70 11 105 6 C140 1 170 10 197 5' fill='none' stroke='%23B8CBB2' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat center / 100% 100%;
 }
 .hero-lede {
-  font-size: 1.06rem;
+  font-size: clamp(1rem, .96rem + .3vw, 1.06rem);
   color: var(--ink-soft);
   max-width: 30rem;
   line-height: 1.6;
@@ -890,7 +902,9 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 /* chunky sticker search */
 .hero-search {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
+  width: 100%;
   max-width: 34rem;
   background: var(--cream);
   border: 1px solid var(--line);
@@ -898,7 +912,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   padding: 8px;
   box-shadow: var(--shadow-lift);
 }
-.hero-search .search-wrap { flex: 1; }
+.hero-search .search-wrap { flex: 1 1 12rem; min-width: 0; }
 .hero-search .form-control {
   border: none;
   background: transparent;
@@ -911,9 +925,11 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .hero-search .form-control::placeholder { color: var(--placeholder); font-weight: 500; }
 .hero-search .form-control:focus { box-shadow: none; border: none; background: var(--cream); outline: none; }
 .hero-search .form-control:focus-visible { outline: 2px solid var(--sage-dust); outline-offset: -2px; }
-.hero-search .btn-green { border-radius: 16px; padding: 0 24px; font-size: 15px; }
+.hero-search .btn-green { flex: 0 0 auto; border-radius: 16px; padding: 0 24px; font-size: 15px; white-space: nowrap; }
 .hero-alt {
   margin-top: 14px;
+  max-width: 100%;
+  text-align: left;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -954,7 +970,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .hero-stat:nth-child(3) svg { color: var(--honey); }
 
 /* hero collage */
-.hero-collage { position: relative; min-height: 420px; display: none; }
+.hero-collage { position: relative; min-height: clamp(340px, 34vw, 440px); display: none; }
 @media (min-width: 992px) { .hero-collage { display: block; } }
 .hero-photo-main {
   position: absolute;
@@ -986,10 +1002,11 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .hero-doodle--3 { top: 2%; left: 38%; animation: wiggle 5s ease-in-out infinite; }
 
 /* mobile collage strip */
-.hero-strip { display: flex; gap: 12px; margin-top: 22px; overflow: hidden; }
+.hero-strip { display: flex; gap: clamp(8px, 2.5vw, 12px); margin-top: 22px; }
 @media (min-width: 992px) { .hero-strip { display: none; } }
 .hero-strip img {
-  width: 96px; height: 96px; object-fit: cover; flex-shrink: 0;
+  flex: 1 1 0; min-width: 0; max-width: 112px;
+  width: auto; height: auto; aspect-ratio: 1 / 1; object-fit: cover;
   border: 3px solid var(--cream); box-shadow: var(--shadow-card);
 }
 .hero-strip img:nth-child(1) { border-radius: 46% 54% 52% 48% / 55% 48% 52% 45%; transform: rotate(-4deg); }
@@ -1641,6 +1658,21 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   border-radius: 12px; padding: 5px 12px; font-size: 12px; font-weight: 700; color: var(--forest-deep);
   box-shadow: 0 4px 12px -4px rgba(var(--shadow-rgb), .2); pointer-events: none; max-width: calc(100% - 20px);
 }
+
+/* the tile credit OpenStreetMap requires, kept inside the map as a quiet
+   corner note instead of a caption strip underneath it */
+.ffmap .leaflet-control-attribution,
+.mini-map .leaflet-control-attribution {
+  background: rgba(var(--glass-rgb), .78);
+  color: var(--ink-soft);
+  font-size: 10px;
+  line-height: 1.4;
+  padding: 1px 6px;
+  border-radius: 8px 0 0 0;
+  margin: 0;
+}
+.ffmap .leaflet-control-attribution a,
+.mini-map .leaflet-control-attribution a { color: var(--forest-deep); }
 
 .ff-pin-icon, .ff-user-icon { background: none; border: none; }
 .ff-pin-icon svg { display: block; filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
@@ -3576,7 +3608,6 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 
 @media (max-width: 575.98px) {
-  .hero-copy { padding: 2.6rem 1rem 3.4rem; }
   .hero-search { flex-direction: column; border-radius: 20px; }
   .hero-search .btn-green { width: 100%; padding: 12px; border-radius: 14px; }
   .site-header { padding: 8px 8px 0; }
