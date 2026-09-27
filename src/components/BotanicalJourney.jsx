@@ -103,6 +103,7 @@ export default function BotanicalJourney() {
           d="M36 6 C30 70 42 108 37 168 C32 228 44 264 38 320 C33 372 43 408 37 452 C33 452 37 462 37 470"
           strokeWidth="1.6"
           strokeLinecap="round"
+          vectorEffect="non-scaling-stroke"
         />
 
         {/* --- stage 1 · seed --- */}
