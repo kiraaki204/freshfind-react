@@ -3608,8 +3608,20 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 
 @media (max-width: 575.98px) {
-  /* The search field is stacked on phones. Reset the desktop flex basis as
-     well: in a column flex container `12rem` becomes the field's height,
+  /* Let the navbar search panel use the full header width on phones. Making
+     the slot static anchors the absolutely positioned form to .header-inner;
+     the desktop panel keeps its compact 268px width above this breakpoint. */
+  .site-header .search-slot { position: static; }
+  .site-header .header-search {
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: none;
+    transform-origin: top center;
+  }
+
+  /* The hero search field is stacked on phones. Reset the desktop flex basis
+     as well: in a column flex container `12rem` becomes the field's height,
      leaving a large empty gap above the button. */
   .hero-search {
     flex-direction: column;
