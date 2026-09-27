@@ -14,8 +14,8 @@ import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
 
 const WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-/** Market details in an accessible dialog instead of a separate page.
-    All content comes from the shared market/produce data. */
+
+
 export default function MarketModal({ marketId, onClose }) {
   const navigate = useNavigate();
   const { openProduce } = useProduceDetailModal();
@@ -28,7 +28,7 @@ export default function MarketModal({ marketId, onClose }) {
   const lightboxRef = useRef(null);
   lightboxRef.current = lightboxSrc;
 
-  // scroll lock, initial focus, focus trap, escape, focus restore
+
   useEffect(() => {
     if (!open) return undefined;
     const previouslyFocused = document.activeElement;
@@ -39,7 +39,7 @@ export default function MarketModal({ marketId, onClose }) {
     const onKey = (e) => {
       if (e.key === 'Escape') {
         e.stopPropagation();
-        // first Escape closes the gallery, the next closes the dialog
+
         if (lightboxRef.current) setLightboxSrc(null);
         else onClose();
         return;
@@ -67,7 +67,7 @@ export default function MarketModal({ marketId, onClose }) {
   const saveItem = { id: `market-${m.id}`, type: 'market', name: m.name, location: m.location };
   const items = produceData.filter((p) => m.produce.includes(p.id));
   const today = DAY_NAMES[new Date().getDay()];
-  // navigating elsewhere from inside the dialog closes it first
+
   const closeAndGo = (to) => { onClose(); navigate(to); };
 
   return (
@@ -172,8 +172,8 @@ export default function MarketModal({ marketId, onClose }) {
                 <div className="row g-2">
                   {items.map((p) => (
                     <div key={p.id} className="col-6 col-md-4">
-                      {/* produce detail stacks above this market modal;
-                          closing it returns here */}
+
+
                       <button
                         className="produce-tile"
                         aria-label={`${p.name} — view details`}

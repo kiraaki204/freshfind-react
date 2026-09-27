@@ -1,6 +1,6 @@
-/* Delicate hand-drawn botanical doodles for the FreshFind journal brand.
-   Thin strokes, muted sage / dusty pink / soft gold palette.
-   Pure inline SVG — no external assets. All decorative (aria-hidden). */
+
+
+
 
 const BASE = {
   fill: 'none',
@@ -44,8 +44,8 @@ export function FlowerDoodle({ size = 40, color = '#C98A99', center = '#D8B97A',
 }
 
 export function LeafSprig({ size = 56, color = '#8FAE90', className = '', style }) {
-  /* refined sprig: one slender arching stem with three tapered leaves and a
-     small bud — thin strokes, faint fill, no clip-art bulk */
+
+
   return (
     <svg viewBox="0 0 60 70" width={size} height={size} className={className} style={style} {...BASE} stroke={color} strokeWidth="1.2">
       <path d="M33 66 C31.5 48 30.5 30 35.5 10" />
@@ -163,12 +163,12 @@ export function LeafPair({ size = 40, color = '#8FAE90', className = '', style }
   );
 }
 
-/* ---------- tiny floating botanicals ----------
-   Much smaller and lighter than the doodles above: these are meant to
-   drift slowly through the empty margins of spacious sections. Strokes
-   are thinner and the shapes simpler so they read as weightless rather
-   than as illustrations. Colour defaults to currentColor so the .ff-drift
-   wrapper can pick it up from the existing palette tokens. */
+
+
+
+
+
+
 
 export function DriftLeaf({ size = 26, color = 'currentColor', className = '', style }) {
   return (
@@ -198,7 +198,7 @@ export function DriftSprig({ size = 28, color = 'currentColor', className = '', 
   );
 }
 
-/* 12-point starburst used behind rating / badge stickers */
+
 export function StarBurst({ size = 64, color = '#F8EFD5', className = '', style }) {
   return (
     <svg viewBox="0 0 80 80" width={size} height={size} className={className} style={style} aria-hidden="true" focusable="false">
@@ -213,7 +213,7 @@ export function StarBurst({ size = 64, color = '#F8EFD5', className = '', style 
   );
 }
 
-/* Scattered sparkle cluster for section corners */
+
 export function SparkleCluster({ className = '', style, color = '#D8B97A' }) {
   return (
     <span className={`doodle-cluster ${className}`} style={style} aria-hidden="true">

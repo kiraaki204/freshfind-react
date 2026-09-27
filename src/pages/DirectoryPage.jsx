@@ -23,20 +23,20 @@ export default function DirectoryPage() {
   const { filters, update, popupRequest, clearPopupRequest } = useDirectoryFilters();
   const { geo, locate } = useGeolocation();
   const [showFilters, setShowFilters] = useState(false);
-  const [selection, setSelection] = useState(null); // { id, nonce }
+  const [selection, setSelection] = useState(null);
   const cardRefs = useRef({});
 
   const list = applyMarketFilters(markets, filters, geo);
   const areas = [...new Set(markets.map((m) => m.area))].sort();
   const activeCount = [filters.area, filters.day, filters.produce].filter(Boolean).length;
 
-  // drop the selection when filters/search hide the selected market
+
   useEffect(() => {
     if (selection && !list.some((m) => m.id === selection.id)) setSelection(null);
   }, [list, selection]);
 
-  // marker clicked (or chatbot request) → highlight the card and reveal it;
-  // the nonce makes each selection a one-shot "focus the map" instruction
+
+
   const selectMarket = (id) => {
     setSelection({ id, nonce: Date.now() });
     const el = cardRefs.current[id];

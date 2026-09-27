@@ -1,14 +1,14 @@
 import { useNavigate } from 'react-router-dom';
 import SupportModal from './SupportModal.jsx';
 
-/* FreshFind Privacy Policy. The wording below is the approved policy text and
-   is rendered inside the existing support-modal shell (scrollable body, close
-   button, focus trap) so the policy keeps the site's design system. */
+
+
+
 
 export default function PrivacyModal({ open, onClose }) {
   const navigate = useNavigate();
 
-  // internal navigation closes the modal first, then scrolls to the section
+
   const goContact = () => {
     onClose();
     navigate('/#contact');

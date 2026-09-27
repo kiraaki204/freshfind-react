@@ -5,10 +5,10 @@ import TermsModal from '../components/TermsModal.jsx';
 import PrivacyModal from '../components/PrivacyModal.jsx';
 import SavedItemsModal from '../components/SavedItemsModal.jsx';
 
-/* Shared app-modal system: FAQ, Help Center, Terms of Service, Privacy
-   Policy and Saved Items open as accessible dialogs over the current page
-   instead of navigating to standalone routes. Any part of the app (footer,
-   header, contact section, chatbot, other modals) can request one by id. */
+
+
+
+
 const SupportModalContext = createContext(null);
 
 const VALID = new Set(['faq', 'help', 'terms', 'privacy', 'saved']);

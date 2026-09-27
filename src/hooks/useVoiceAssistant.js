@@ -25,10 +25,10 @@ export default function useVoiceAssistant() {
   const finishRef = useRef(null);
   const speechToken = useRef(0);
   const speechIdRef = useRef(null);
-  const utterRef = useRef(null); // retain the active utterance for browser GC
+  const utterRef = useRef(null);
 
   useEffect(() => {
-    try { localStorage.setItem('freshfind_voice', JSON.stringify(preferences)); } catch { /* private mode */ }
+    try { localStorage.setItem('freshfind_voice', JSON.stringify(preferences)); } catch {   }
   }, [preferences]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function useVoiceAssistant() {
     const rec = recRef.current;
     recRef.current = null;
     finishRef.current = null;
-    try { rec?.abort(); } catch { /* already stopped */ }
+    try { rec?.abort(); } catch {   }
     setMicState('idle');
   }, [clearTimers]);
 
@@ -69,15 +69,15 @@ export default function useVoiceAssistant() {
     clearTimeout(micTimer.current);
     setMicState('finishing');
     const finish = finishRef.current;
-    // Some implementations don't dispatch onend after stop().
-    finishTimer.current = setTimeout(() => { finish?.(); try { rec.abort(); } catch { /* stopped */ } }, 1500);
+
+    finishTimer.current = setTimeout(() => { finish?.(); try { rec.abort(); } catch {   } }, 1500);
     try { rec.stop(); } catch { finish?.(); }
   }, []);
 
   const startMic = useCallback(({ onInterim, onFinal } = {}) => {
     if (!SR) { setMicError('Voice input is unavailable in this browser. You can type instead.'); return false; }
     cancelMic();
-    stopSpeak(); // never transcribe the assistant's own voice
+    stopSpeak();
     const token = ++micToken.current;
     let transcript = '';
     let finished = false;
@@ -86,7 +86,7 @@ export default function useVoiceAssistant() {
     recRef.current = rec;
     rec.lang = preferences.language;
     rec.interimResults = true;
-    rec.continuous = true; // don't cut off after the first short phrase
+    rec.continuous = true;
     rec.maxAlternatives = 3;
     const finish = () => {
       if (token !== micToken.current || finished) return;
@@ -95,15 +95,15 @@ export default function useVoiceAssistant() {
       recRef.current = null;
       finishRef.current = null;
       setMicState('idle');
-      // Dictation is always a draft. The user reviews it before sending.
+
       if (transcript.trim()) onFinal?.(transcript.trim());
       else if (!failed) setMicError(ERRORS['no-speech']);
     };
     finishRef.current = finish;
     rec.onresult = (event) => {
       if (token !== micToken.current || finished) return;
-      // Results contain the whole session: rebuild rather than duplicating
-      // final words or discarding earlier phrases on subsequent callbacks.
+
+
       transcript = Array.from(event.results, (result) => result[0].transcript.trim()).join(' ');
       onInterim?.(transcript);
     };

@@ -12,7 +12,7 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
   const showImage = p.image && !imgError;
 
   const handleSelect = () => {
-    // details open in the shared produce modal, not a separate page
+
     if (onSelect) onSelect(p);
     else openProduce(p.id);
   };

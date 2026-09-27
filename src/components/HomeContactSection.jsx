@@ -20,7 +20,7 @@ export default function HomeContactSection() {
       return;
     }
     setSending(true);
-    // there is no backend — keep the existing toast behaviour but stay honest
+
     setTimeout(() => {
       showToast("Message captured — it stays in your browser and isn't sent to a server.", 'info');
       form.reset();
@@ -37,7 +37,7 @@ export default function HomeContactSection() {
         <LeafSprig size={58} />
       </div>
       <div className="container" style={{ maxWidth: '80rem' }}>
-        {/* heading */}
+
         <div className="contact-head">
           <div className="contact-eyebrow">
             <span className="contact-eyebrow-dot" aria-hidden="true" />
@@ -51,7 +51,7 @@ export default function HomeContactSection() {
         </div>
 
         <div className="row g-4 align-items-stretch">
-          {/* Area A — contact details + map */}
+
           <div className="col-lg-5 d-flex">
             <div className="contact-info-wrap w-100">
               <ul className="contact-list" aria-label="Contact details">
@@ -99,7 +99,7 @@ export default function HomeContactSection() {
             </div>
           </div>
 
-          {/* Area B — introduction + contact form */}
+
           <div className="col-lg-7 d-flex flex-column gap-3">
             <div className="contact-intro">
               <h3 className="h5 mb-2">Reach out to FreshFind</h3>

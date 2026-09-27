@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Icon from './Icon.jsx';
 import SupportModal from './SupportModal.jsx';
 
-/* Content preserved from the former standalone Help Center page. */
+
 const GUIDES = [
   {
     icon: 'search',
@@ -39,7 +39,7 @@ const GUIDES = [
 export default function HelpCenterModal({ open, onClose }) {
   const navigate = useNavigate();
 
-  // an action that navigates elsewhere always closes the modal first
+
   const closeAndGo = (to) => {
     onClose();
     navigate(to);

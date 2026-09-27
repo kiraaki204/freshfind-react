@@ -9,9 +9,9 @@ import { useGeolocation } from '../hooks/useGeolocation.jsx';
 import { useBookmarks } from '../hooks/useBookmarks.jsx';
 import Icon from './Icon.jsx';
 
-/* Interactive street map (Leaflet + OpenStreetMap tiles). Every marker comes
-   from the lat/lng stored in the market data — never invented — and the user
-   dot only ever comes from the browser geolocation API. */
+
+
+
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => (
   { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
@@ -37,8 +37,8 @@ function popupHtml(m, saved) {
     </div>`;
 }
 
-/* Survives list↔map toggles (which remount the map) so a selection that was
-   already focused — or whose popup the user closed — is not re-opened. */
+
+
 let lastFocusNonce = null;
 
 export default function MarketMap({ markets, popupRequest = null, onPopupConsumed, selection = null, onSelectMarket }) {
@@ -53,9 +53,9 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
   const fitKeyRef = useRef(null);
   const pendingFocusRef = useRef(null);
   const [L, setL] = useState(null);
-  const [mapStatus, setMapStatus] = useState('loading'); // loading | ready | error
+  const [mapStatus, setMapStatus] = useState('loading');
 
-  // latest values for listeners created once at map init
+
   const openMarketRef = useRef(openMarket);
   const toggleRef = useRef(toggleBookmark);
   const bookmarksRef = useRef(bookmarks);
@@ -73,7 +73,7 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
   const userKey = user ? `${user.lat},${user.lng}` : '';
   const selectedId = selection ? selection.id : null;
 
-  // load Leaflet once (dynamic import keeps it SSR-safe)
+
   useEffect(() => {
     let cancelled = false;
     loadLeaflet()
@@ -82,15 +82,15 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
     return () => { cancelled = true; };
   }, []);
 
-  // create the map once Leaflet and the container are available
+
   useEffect(() => {
     if (!L || !containerRef.current || mapRef.current) return undefined;
     const map = L.map(containerRef.current, { zoomControl: false, minZoom: 3, maxZoom: 18 });
     addBaseTiles(L, map);
-    L.control.zoom({ position: 'topright' }).addTo(map); // same corner as the old controls
+    L.control.zoom({ position: 'topright' }).addTo(map);
     mapRef.current = map;
 
-    // one delegated listener serves every popup's buttons
+
     const onClick = (e) => {
       const viewBtn = e.target.closest('[data-ff-view]');
       if (viewBtn) {
@@ -124,7 +124,7 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
     };
   }, [L]);
 
-  // keep markers in sync with the displayed markets
+
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !L || mapStatus !== 'ready') return;
@@ -132,7 +132,7 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
     const existing = markersRef.current;
     const next = {};
     displayed.forEach((m) => {
-      if (!isValidCoord(m.lat, m.lng)) return; // never place a marker at a guess
+      if (!isValidCoord(m.lat, m.lng)) return;
       let marker = existing[m.id];
       if (!marker) {
         marker = L.marker([m.lat, m.lng], {
@@ -142,9 +142,9 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
         });
         const saved = bookmarksRef.current.some((b) => b.id === `market-${m.id}`);
         marker.bindPopup(popupHtml(m, saved), { maxWidth: 300, minWidth: 240 });
-        // the market card previews on hover instead of requiring a click; a
-        // short grace period lets the pointer travel into the popup without
-        // it vanishing, and (on touch screens) a tap still selects the pin
+
+
+
         let hoverTimer = null;
         const cancelHover = () => { clearTimeout(hoverTimer); hoverTimer = null; };
         const scheduleClose = () => {
@@ -172,24 +172,24 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
     });
     markersRef.current = next;
 
-    // re-frame only when the set of displayed markets (or the user) changes,
-    // so manual panning is never hijacked mid-interaction
+
+
     const key = `${displayKey}|${userKey}`;
     if (key !== fitKeyRef.current) {
       fitKeyRef.current = key;
       const frame = displayed.length ? displayed : allMarkets;
       const pts = frame.filter((m) => isValidCoord(m.lat, m.lng)).map((m) => [m.lat, m.lng]);
-      // Frame all results, not a potentially distant visitor location.
+
       if (!displayed.length && user) pts.push([user.lat, user.lng]);
       if (pts.length) {
-        // A fresh filter must win over a previous pan/fly animation.
+
         map.stop();
         map.fitBounds(pts, { padding: [48, 48], maxZoom: 14, animate: false });
       }
     }
-  }, [L, mapStatus, displayKey, userKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [L, mapStatus, displayKey, userKey]);
 
-  // selected-market pin gets the green highlight
+
   useEffect(() => {
     if (!L) return;
     Object.entries(markersRef.current).forEach(([id, marker]) => {
@@ -197,7 +197,7 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
     });
   }, [L, selectedId, displayKey]);
 
-  // user location marker (blue dot, distinct from the red market pins)
+
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !L || mapStatus !== 'ready') return;
@@ -213,15 +213,15 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
         zIndexOffset: 500,
       }).addTo(map);
     }
-  }, [L, mapStatus, userKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [L, mapStatus, userKey]);
 
-  // a fresh selection (card click, marker click or chatbot request) → fly to
-  // the marker and open its popup; each nonce is consumed exactly once
+
+
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !selection || selection.nonce === lastFocusNonce) return;
     const marker = markersRef.current[selection.id];
-    if (!marker) return; // not ready yet — the nonce stays unconsumed
+    if (!marker) return;
     lastFocusNonce = selection.nonce;
     if (!marker.isPopupOpen()) {
       map.flyTo(marker.getLatLng(), Math.max(map.getZoom(), 14), { duration: 0.6 });
@@ -229,15 +229,15 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
     }
   }, [selection, mapStatus, displayKey]);
 
-  // the chatbot can ask for a specific market's popup ("map of riverside");
-  // one-shot: apply and clear, so closing it or toggling views never re-opens it
+
+
   useEffect(() => {
     if (!popupRequest) return;
     const id = Number(popupRequest.id);
     if (mapStatus === 'ready') {
       if (onSelectRef.current) onSelectRef.current(id);
     } else {
-      pendingFocusRef.current = id; // map still loading — apply once ready
+      pendingFocusRef.current = id;
     }
     if (onPopupConsumed) onPopupConsumed();
   }, [popupRequest, onPopupConsumed, mapStatus]);

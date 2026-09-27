@@ -27,7 +27,7 @@ export default function HomeProduceSection() {
   }, [active]);
 
   const openBrowse = () => {
-    // preserve homepage preview category when opening the full browser
+
     if (active !== 'All' && browseCategory === 'All' && !browseSearch) {
       setBrowseCategory(active);
     }
@@ -36,7 +36,7 @@ export default function HomeProduceSection() {
 
   const closeBrowse = () => {
     setBrowseOpen(false);
-    // restore focus to trigger
+
     setTimeout(() => exploreRef.current?.focus(), 60);
   };
 
@@ -44,13 +44,13 @@ export default function HomeProduceSection() {
     setDetailProduce(produce);
   };
 
-  // clicking a produce in the browse grid should open its detail on top of the browse modal
-  // the detail modal sits above the browse backdrop; closing it returns to browse
+
+
 
   return (
     <>
       <section id="produce" className="home-produce" aria-labelledby="produce-heading">
-        {/* decorative hand-drawn doodles */}
+
         <div className="produce-deco produce-deco--leaf" aria-hidden="true">
           <svg viewBox="0 0 120 120" width="120" height="120" fill="none" stroke="#8fae90" strokeWidth="1.2" strokeLinecap="round">
             <path d="M60 10 C30 28 18 52 60 108 C102 52 90 28 60 10Z" opacity="0.12" />

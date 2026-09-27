@@ -10,11 +10,11 @@ import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
 import Icon from './Icon.jsx';
 import FilterSelect from './FilterSelect.jsx';
 
-/* The FreshFind Field Journal — a hand-drawn botanical scrapbook embedded
-   in the homepage. Pure React state + CSS: cover flip, 3D page turns for
-   the desktop two-page spread, a single-sheet layout on mobile, and fully
-   keyboard/touch accessible controls. All content derives from the shared
-   markets/produce data — nothing is invented here. */
+
+
+
+
+
 
 const SPREAD_TITLES = [
   'Our Story',
@@ -24,8 +24,8 @@ const SPREAD_TITLES = [
   'Your Market Field Guide',
 ];
 const SPREAD_COUNT = SPREAD_TITLES.length;
-/* two sheet-sides per spread: the desktop book shows them side by side while
-   the mobile turnover pad walks through the same pages one at a time */
+
+
 const PAGE_COUNT = SPREAD_COUNT * 2;
 
 const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
@@ -39,7 +39,7 @@ const SEASON_STYLE = {
 const dayAbbr = (days) => days.map((d) => d.slice(0, 3)).join(' · ');
 const bySeason = (s) => produceData.filter((p) => p.season.includes(s));
 
-/* ------------------------------------------------------- tiny doodles */
+
 const DOODLE_PROPS = { fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true, focusable: false };
 
 const Sprig = ({ color = 'var(--sage)', ...rest }) => (
@@ -93,7 +93,7 @@ const SwirlDoodle = ({ color = 'var(--sage)', ...rest }) => (
   </svg>
 );
 
-/* -------------------------------------------------- spread page parts */
+
 function JournalHead({ eyebrow, title, children }) {
   return (
     <div className="fj-page-head">
@@ -107,7 +107,7 @@ function JournalHead({ eyebrow, title, children }) {
   );
 }
 
-/* Spread 1 — About Us: Our Story (reuses the homepage About copy) */
+
 function StoryLeft() {
   return (
     <>
@@ -170,7 +170,7 @@ function StoryRight() {
   );
 }
 
-/* Spread 2 — Notes from the Harvest (featured produce stickers) */
+
 const FEATURED = produceData.filter((p) => p.featured);
 
 function HarvestLeft({ selected, onPick }) {
@@ -242,7 +242,7 @@ function ProduceSticker({ p, i, selected, onPick }) {
   );
 }
 
-/* Spread 3 — Meet Your Local Markets (all 8, buttons open the market modal) */
+
 function MarketEntry({ m }) {
   const { openMarket } = useMarketModal();
   return (
@@ -290,7 +290,7 @@ function MarketsRight() {
   );
 }
 
-/* Spread 4 — A Year of Fresh Finds (all derived from produce.json) */
+
 function SeasonCard({ season }) {
   const st = SEASON_STYLE[season];
   const items = bySeason(season);
@@ -339,7 +339,7 @@ function SeasonsRight() {
   );
 }
 
-/* Spread 5 — Your Market Field Guide (tips + why FreshFind + ways back to the app) */
+
 const WHY_FRESHFIND = [
   { ico: 'checkc', t: 'Accurate Information', d: 'Market details, schedules and produce all in one place.' },
   { ico: 'leaf', t: 'Seasonal Guidance', d: "Know what's likely to be available before you visit." },
@@ -408,18 +408,18 @@ function GuideRight({ onCloseBook }) {
   );
 }
 
-/* page body lookup — keeps the book renderer declarative */
+
 const LEFT_PAGES = [StoryLeft, HarvestLeft, MarketsLeft, SeasonsLeft, GuideLeft];
 const RIGHT_PAGES = [StoryRight, HarvestRight, MarketsRight, SeasonsRight, GuideRight];
 
-/* =============================================================== book */
+
 export default function HomeJournalSection() {
-  const [phase, setPhase] = useState('cover'); // cover | opening | open | closing
-  const [page, setPage] = useState(0); // 0–9: the pad page the reader is on
-  const spread = Math.floor(page / 2); // the book spread those pages belong to
-  const [turning, setTurning] = useState(null); // { dir, target } while a leaf flips
+  const [phase, setPhase] = useState('cover');
+  const [page, setPage] = useState(0);
+  const spread = Math.floor(page / 2);
+  const [turning, setTurning] = useState(null);
   const [leafGo, setLeafGo] = useState(false);
-  const [pick, setPick] = useState(null); // selected produce sticker id
+  const [pick, setPick] = useState(null);
 
   const sectionRef = useRef(null);
   const timerRef = useRef(null);
@@ -434,7 +434,7 @@ export default function HomeJournalSection() {
     const rm = window.matchMedia('(prefers-reduced-motion: reduce)');
     const onMobile = (e) => {
       setIsMobile(e.matches);
-      // single pad pages fold back into a two-page spread on larger screens
+
       if (!e.matches) setPage((p) => Math.floor(p / 2) * 2);
     };
     const onMotion = (e) => setReducedMotion(e.matches);
@@ -459,7 +459,7 @@ export default function HomeJournalSection() {
       ? `Page ${p + 1} of ${PAGE_COUNT}: ${SPREAD_TITLES[Math.floor(p / 2)]}.`
       : `Spread ${p / 2 + 1} of ${SPREAD_COUNT}: ${SPREAD_TITLES[p / 2]}.`;
 
-  /* ---- cover open/close ------------------------------------------------ */
+
   const openBook = () => {
     if (phase !== 'cover') return;
     if (reducedMotion) {
@@ -492,7 +492,7 @@ export default function HomeJournalSection() {
     }, 600);
   };
 
-  /* ---- page turns ------------------------------------------------------ */
+
   const commitTurn = (target) => {
     clearTimeout(timerRef.current);
     setPage(target);
@@ -503,18 +503,18 @@ export default function HomeJournalSection() {
 
   const startTurn = (dir) => {
     if (phase !== 'open' || turning) return;
-    // the book flips a full two-page spread; the pad turns one page
+
     const step = isMobile ? 1 : 2;
     const target = dir === 'next' ? page + step : page - step;
     if (target < 0 || target >= PAGE_COUNT) return;
     if (reducedMotion || isMobile) {
-      commitTurn(target); // instant, safe for rapid interaction
+      commitTurn(target);
       return;
     }
     setTurning({ dir, target });
-    // mount the leaf at its start angle, then kick it to the end angle
+
     requestAnimationFrame(() => requestAnimationFrame(() => setLeafGo(true)));
-    // safety net in case transitionend never fires
+
     clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => commitTurn(target), 900);
   };
@@ -539,12 +539,12 @@ export default function HomeJournalSection() {
   const bookOpen = phase === 'open' || phase === 'opening' || phase === 'closing';
   const busy = turning !== null || phase === 'opening' || phase === 'closing';
 
-  /* page bodies — during a flip the base shows the incoming pages */
+
   const leftIdx = turning && turning.dir === 'prev' ? turning.target / 2 : spread;
   const rightIdx = turning && turning.dir === 'next' ? turning.target / 2 : spread;
   const LeftBody = LEFT_PAGES[leftIdx];
   const RightBody = RIGHT_PAGES[rightIdx];
-  /* the turnover pad shows exactly one side of the current spread */
+
   const MobileBody = page % 2 === 0 ? LEFT_PAGES[spread] : RIGHT_PAGES[spread];
   let LeafFront = null;
   let LeafBack = null;
@@ -579,7 +579,7 @@ export default function HomeJournalSection() {
           </p>
         </div>
 
-        {/* --------------------------------------------------- CLOSED COVER */}
+
         {phase === 'cover' && (
           <div className="fj-cover-stage">
             <button className="fj-cover" onClick={openBook} aria-label="Open The FreshFind Field Journal">
@@ -606,12 +606,12 @@ export default function HomeJournalSection() {
           </div>
         )}
 
-        {/* ---------------------------------------------------------- BOOK */}
+
         {bookOpen && (
           <div className={`fj-book-stage${phase === 'opening' ? ' is-opening' : ''}${phase === 'closing' ? ' is-closing' : ''}`}>
             <div className={`fj-book${isMobile ? ' fj-book--mobile' : ''}`}>
               {isMobile ? (
-                /* turnover pad — a single page at a time, same paper styling */
+
                 <div className="fj-sheet" key={page}>
                   <div className="fj-sheet-page">
                     <MobileBody pick={pick} onPick={setPick} selected={pick} onCloseBook={closeBook} />
@@ -657,7 +657,7 @@ export default function HomeJournalSection() {
               )}
             </div>
 
-            {/* flipping cover overlay while opening/closing */}
+
             {phase !== 'open' && (
               <div className="fj-cover-overlay" aria-hidden="true">
                 <div className={`fj-cover fj-cover--overlay${phase === 'opening' ? ' flip-out' : ' flip-in'}`}>
@@ -677,7 +677,7 @@ export default function HomeJournalSection() {
               </div>
             )}
 
-            {/* controls */}
+
             <div className="fj-controls">
               <button className="fj-btn" onClick={() => startTurn('prev')} disabled={busy || page === 0} aria-label="Turn to the previous spread">
                 <Icon name="chevronL" size={15} /> Previous

@@ -13,7 +13,7 @@ const QUICK_LINKS = [
   { label: 'Contact Us', to: '/#contact' },
 ];
 
-/* Support pages open as modals over the current page, not separate routes */
+
 const SUPPORT_LINKS = [
   { label: 'FAQ', modal: 'faq' },
   { label: 'Help Center', modal: 'help' },

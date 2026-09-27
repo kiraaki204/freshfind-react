@@ -10,8 +10,8 @@ import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
 import Icon from './Icon.jsx';
 import SupportModal from './SupportModal.jsx';
 
-/* Content preserved from the former standalone Saved Items page —
-   notes, export and removal all keep working inside the modal. */
+
+
 function exportBookmarks(bookmarks) {
   const lines = ['FreshFind Saved Items', `Exported: ${new Date().toLocaleString()}`, ''];
   bookmarks.forEach((b) => {
@@ -92,7 +92,7 @@ export default function SavedItemsModal({ open, onClose }) {
     showToast('Note saved for this session. 📝');
   };
 
-  // opening another modal or a different section — close this one first
+
   const closeThen = (fn) => {
     onClose();
     setTimeout(fn, 80);

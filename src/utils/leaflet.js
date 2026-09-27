@@ -1,5 +1,5 @@
-/* Shared Leaflet helpers. Leaflet is loaded with a dynamic import because
-   it touches browser globals at module scope (SSR-hostile otherwise). */
+
+
 
 let leafletPromise = null;
 
@@ -13,23 +13,23 @@ export const OSM_TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 export const OSM_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
 
-/** Adds the OpenStreetMap tile layer (the only tile source the app uses).
-    The Leaflet branding prefix is dropped from the attribution control; the
-    OpenStreetMap credit the tiles require is kept, tucked into the corner of
-    the map itself. */
+
+
+
+
 export function addBaseTiles(L, map) {
   if (map.attributionControl) map.attributionControl.setPrefix(false);
   return L.tileLayer(OSM_TILE_URL, { maxZoom: 19, attribution: OSM_ATTRIBUTION }).addTo(map);
 }
 
-/** Only place a marker for coordinates that are actually usable. */
+
 export function isValidCoord(lat, lng) {
   return Number.isFinite(lat) && Number.isFinite(lng) && Math.abs(lat) <= 90 && Math.abs(lng) <= 180;
 }
 
-/* The same red pin the old hand-rolled map used (kept as an SVG divIcon so
-   Leaflet's default PNG icons — which bundlers commonly break — are never
-   loaded). The selected variant uses the app's green. */
+
+
+
 const PIN_PATH = 'M12 2C7.9 2 4.5 5.3 4.5 9.4c0 5.4 7.5 12.6 7.5 12.6s7.5-7.2 7.5-12.6C19.5 5.3 16.1 2 12 2z';
 
 export function marketPinIcon(L, active = false) {
@@ -46,8 +46,8 @@ export function marketPinIcon(L, active = false) {
   });
 }
 
-/* Blue pulsing dot for the user's own position — deliberately distinct from
-   the red market pins. */
+
+
 export function userDotIcon(L) {
   return L.divIcon({
     className: 'ff-user-icon',

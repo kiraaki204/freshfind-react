@@ -34,7 +34,7 @@ function scrollToHash(hash) {
   }
   const el = document.getElementById(id);
   if (el) {
-    // CSS scroll-margin-top on the section handles the fixed header offset
+
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
@@ -61,18 +61,18 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // close the mobile menu and the mobile search panel on navigation
+
   useEffect(() => {
     setMenuOpen(false);
     setSearchOpen(false);
   }, [pathname, hash]);
 
-  // focus the input whenever the search box opens (desktop inline or mobile panel)
+
   useEffect(() => {
     if (searchOpen) searchInputRef.current?.focus();
   }, [searchOpen]);
 
-  // clicking anywhere outside the search slot closes the compact panel
+
   useEffect(() => {
     if (!searchOpen) return undefined;
     const onDocDown = (e) => {

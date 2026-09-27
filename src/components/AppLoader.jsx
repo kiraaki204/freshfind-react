@@ -1,9 +1,9 @@
 import Icon from './Icon.jsx';
 
-/* Full-screen boot screen shown while the app settles — kept in the
-   botanical-journal art direction: ivory paper wash, the pistachio leaf
-   mark floating, a hand-drawn underline that strokes itself in, and three
-   bouncing seeds. It fades out on its own once React hands control to App. */
+
+
+
+
 export default function AppLoader({ leaving = false }) {
   return (
     <div

@@ -28,7 +28,7 @@ export function getCurrentSeason(now = new Date()) {
   return 'Winter';
 }
 
-/** Next scheduled opening day for a market, searching from today forward. */
+
 export function getNextOpenDay(market, now = new Date()) {
   for (let i = 1; i <= 7; i += 1) {
     const day = DAY_NAMES[(now.getDay() + i) % 7];
@@ -37,10 +37,10 @@ export function getNextOpenDay(market, now = new Date()) {
   return null;
 }
 
-/**
- * Live open/closed state computed from the market's real schedule.
- * status: 'open' | 'opens-today' | 'closed' — label is the badge wording.
- */
+
+
+
+
 export function getMarketStatus(market, now = new Date()) {
   const mins = now.getHours() * 60 + now.getMinutes();
 
