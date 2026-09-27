@@ -18,10 +18,10 @@ import {
 } from '../components/Doodles.jsx';
 
 const QUICK_ACTIONS = [
-  { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: '#e6eedb', tint: '#eef3e4' },
-  { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: '#f5e0d1', tint: '#fbf3ee' },
-  { ico: 'basket', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: '#f8efd5', tint: '#fbf6e9' },
-  { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: '#f5e3e7', tint: '#f9eef1' },
+  { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: 'var(--pistachio)', tint: 'var(--wash-pistachio)' },
+  { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: 'var(--peach)', tint: 'var(--wash-blush)' },
+  { ico: 'basket', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: 'var(--butter)', tint: 'var(--wash-butter)' },
+  { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: 'var(--pink)', tint: 'var(--blush)' },
 ];
 
 const SEASONS = [
@@ -178,7 +178,7 @@ export default function HomePage({ visitorCount }) {
                     <Icon name={a.ico} size={24} />
                   </div>
                   <h3 className="h6 mb-1">{a.label}</h3>
-                  <p className="small mb-0" style={{ color: '#5f7263', fontWeight: 600 }}>{a.desc}</p>
+                  <p className="small mb-0" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>{a.desc}</p>
                 </button>
               </div>
             ))}
@@ -217,8 +217,8 @@ export default function HomePage({ visitorCount }) {
           ) : (
             <div className="open-empty p-5 text-center">
               <SunDoodle size={54} />
-              <h3 className="h5 mt-3" style={{ color: '#2a4a36', fontWeight: 800 }}>No markets open right now</h3>
-              <p className="small" style={{ color: '#5f7263', fontWeight: 600 }}>
+              <h3 className="h5 mt-3" style={{ color: 'var(--forest-deep)', fontWeight: 800 }}>No markets open right now</h3>
+              <p className="small" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>
                 Check back during market hours or browse our directory to plan your next visit.
               </p>
               <button className="btn-green" onClick={() => navigate('/markets')}>

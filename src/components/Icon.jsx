@@ -37,6 +37,20 @@ const ICONS = {
   edit: <svg viewBox="0 0 24 24" {...S}><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>,
   save: <svg viewBox="0 0 24 24" {...S}><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" /><path d="M17 21v-8H7v8M7 3v5h8" /></svg>,
   flower: <svg viewBox="0 0 24 24" {...S}><circle cx="12" cy="12" r="3" /><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" /></svg>,
+  /* standalone blossom: six rounded petals around a solid centre, no stem
+     and no leaves. Used by the theme toggle only — deliberately different
+     from the sunburst `flower` above, which is the Spring season marker. */
+  blossom: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
+      <ellipse cx="12" cy="6.4" rx="2.7" ry="4.7" />
+      <ellipse cx="12" cy="6.4" rx="2.7" ry="4.7" transform="rotate(60 12 12)" />
+      <ellipse cx="12" cy="6.4" rx="2.7" ry="4.7" transform="rotate(120 12 12)" />
+      <ellipse cx="12" cy="6.4" rx="2.7" ry="4.7" transform="rotate(180 12 12)" />
+      <ellipse cx="12" cy="6.4" rx="2.7" ry="4.7" transform="rotate(240 12 12)" />
+      <ellipse cx="12" cy="6.4" rx="2.7" ry="4.7" transform="rotate(300 12 12)" />
+      <circle cx="12" cy="12" r="2.3" fill="currentColor" stroke="none" />
+    </svg>
+  ),
   sun: <svg viewBox="0 0 24 24" {...S}><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>,
   snow: <svg viewBox="0 0 24 24" {...S}><path d="M2 12h20M12 2v20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1" /></svg>,
   sprout: <svg viewBox="0 0 24 24" {...S}><path d="M7 20h10" /><path d="M10 20c5.5-2.5.8-6.4 3-10" /><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z" /><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z" /></svg>,

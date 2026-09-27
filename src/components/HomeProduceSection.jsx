@@ -131,7 +131,7 @@ export default function HomeProduceSection() {
               {active !== 'All' && (
                 <>
                   {' · '}
-                  <button className="btn btn-link p-0 text-decoration-none small" style={{ color: '#4e7357' }} onClick={() => setActive('All')}>
+                  <button className="btn btn-link p-0 text-decoration-none small" style={{ color: 'var(--leaf)' }} onClick={() => setActive('All')}>
                     Show all
                   </button>
                 </>

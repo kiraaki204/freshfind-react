@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useBookmarks } from '../hooks/useBookmarks.jsx';
 import { useSupportModal } from '../hooks/useSupportModal.jsx';
+import { useTheme } from '../hooks/useTheme.jsx';
 import Icon from './Icon.jsx';
 
 const NAV = [
@@ -43,6 +44,8 @@ export default function Header() {
   const { pathname, hash } = useLocation();
   const { bookmarks } = useBookmarks();
   const { openSupport } = useSupportModal();
+  const { isDark, toggleTheme } = useTheme();
+  const nextThemeLabel = isDark ? 'Switch to light theme' : 'Switch to dark theme';
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -171,6 +174,15 @@ export default function Header() {
             onClick={toggleSearch}
           >
             <Icon name={searchOpen ? 'x' : 'search'} size={18} />
+          </button>
+          <button
+            className="icon-btn theme-toggle"
+            type="button"
+            onClick={toggleTheme}
+            aria-label={nextThemeLabel}
+            title={nextThemeLabel}
+          >
+            <Icon name="blossom" size={18} />
           </button>
           <button className="icon-btn" aria-label="Saved items" aria-haspopup="dialog" onClick={() => openSupport('saved')}>
             <Icon name="heart" size={18} />

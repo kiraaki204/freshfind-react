@@ -80,12 +80,12 @@ export default function ProduceDetailModal({ produce, onClose }) {
               <p className="small text-muted mb-0" style={{ lineHeight: 1.6 }}>{p.description}</p>
             </section>
 
-            <section className="mm-sec" style={{ background: '#fffdf7' }}>
+            <section className="mm-sec" style={{ background: 'var(--cream)' }}>
               <h3 className="h6"><Icon name="leaf" size={16} /> Nutrition Highlights</h3>
               <p className="small text-muted mb-0">{p.nutritionHighlights}</p>
             </section>
 
-            <section className="mm-sec" style={{ background: '#eef3e4', borderTop: '1px solid #e4e9dc' }}>
+            <section className="mm-sec" style={{ background: 'var(--wash-pistachio)', borderTop: '1px solid var(--line)' }}>
               <h3 className="h6"><Icon name="bulb" size={16} /> Storage Tip</h3>
               <p className="small text-muted mb-0">{p.storageHint}</p>
             </section>
@@ -115,7 +115,7 @@ export default function ProduceDetailModal({ produce, onClose }) {
                 <h3 className="h6"><Icon name="pin" size={16} /> Find it at</h3>
                 <div className="d-flex flex-column gap-2 mt-2">
                   {mkts.map((m) => (
-                    <div key={m.id} className="d-flex justify-content-between align-items-center p-2 rounded-3" style={{ background: '#fffdf7', border: '1px solid #e4e9dc' }}>
+                    <div key={m.id} className="d-flex justify-content-between align-items-center p-2 rounded-3" style={{ background: 'var(--cream)', border: '1px solid var(--line)' }}>
                       <div>
                         <div className="small fw-semibold">{m.name}</div>
                         <div className="small text-muted">{m.area} · {m.days.join(', ')}</div>

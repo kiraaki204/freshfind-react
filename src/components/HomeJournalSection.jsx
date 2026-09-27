@@ -29,10 +29,10 @@ const PAGE_COUNT = SPREAD_COUNT * 2;
 
 const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
 const SEASON_STYLE = {
-  Spring: { ink: '#be5572', wash: '#fdf0f4', deco: 'flower' },
-  Summer: { ink: '#b97a10', wash: '#fdf6e4', deco: 'sun' },
-  Autumn: { ink: '#DDB08A', wash: '#fdf1e7', deco: 'leaf' },
-  Winter: { ink: '#3f6fa0', wash: '#eff5fb', deco: 'snow' },
+  Spring: { ink: 'var(--fj-spring-ink)', wash: 'var(--fj-spring-wash)', deco: 'flower' },
+  Summer: { ink: 'var(--fj-summer-ink)', wash: 'var(--fj-summer-wash)', deco: 'sun' },
+  Autumn: { ink: 'var(--fj-autumn-ink)', wash: 'var(--fj-autumn-wash)', deco: 'leaf' },
+  Winter: { ink: 'var(--fj-winter-ink)', wash: 'var(--fj-winter-wash)', deco: 'snow' },
 };
 
 const dayAbbr = (days) => days.map((d) => d.slice(0, 3)).join(' · ');
@@ -41,7 +41,7 @@ const bySeason = (s) => produceData.filter((p) => p.season.includes(s));
 /* ------------------------------------------------------- tiny doodles */
 const DOODLE_PROPS = { fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true, focusable: false };
 
-const Sprig = ({ color = '#8FAE90', ...rest }) => (
+const Sprig = ({ color = 'var(--sage)', ...rest }) => (
   <svg viewBox="0 0 60 60" {...DOODLE_PROPS} stroke={color} strokeWidth="1.6" {...rest}>
     <path d="M30 54 C29 38 28 22 34 8" />
     <path d="M30 44 C20 40 15 32 15 25 C24 27 29 34 30 44Z" />
@@ -55,7 +55,7 @@ const StarDoodle = ({ color = '#D8B97A', ...rest }) => (
   </svg>
 );
 
-const ArrowDoodle = ({ color = '#6B8F6F', ...rest }) => (
+const ArrowDoodle = ({ color = 'var(--green-500)', ...rest }) => (
   <svg viewBox="0 0 90 40" {...DOODLE_PROPS} stroke={color} strokeWidth="1.5" {...rest}>
     <path d="M6 30 C26 26 48 20 66 10" />
     <path d="M58 8 L68 8.5 L64 18" />
@@ -85,7 +85,7 @@ const CarrotDoodle = ({ ...rest }) => (
   </svg>
 );
 
-const SwirlDoodle = ({ color = '#8FAE90', ...rest }) => (
+const SwirlDoodle = ({ color = 'var(--sage)', ...rest }) => (
   <svg viewBox="0 0 60 60" {...DOODLE_PROPS} stroke={color} strokeWidth="1.6" {...rest}>
     <path d="M30 46 C44 46 46 30 34 30 C25 30 26 40 33 39" />
     <path d="M30 46 C22 44 16 36 18 28" />

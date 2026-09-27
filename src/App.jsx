@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import AppLoader from './components/AppLoader.jsx';
+import { ThemeProvider } from './hooks/useTheme.jsx';
 import { ToastProvider } from './hooks/useToast.jsx';
 import { BookmarksProvider } from './hooks/useBookmarks.jsx';
 import { GeoProvider } from './hooks/useGeolocation.jsx';
@@ -61,6 +62,7 @@ export default function App() {
   }, []);
 
   return (
+    <ThemeProvider>
     <ToastProvider>
       <BookmarksProvider>
         <GeoProvider>
@@ -111,5 +113,6 @@ export default function App() {
         </GeoProvider>
       </BookmarksProvider>
     </ToastProvider>
+    </ThemeProvider>
   );
 }

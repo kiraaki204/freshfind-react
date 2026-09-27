@@ -92,7 +92,7 @@ export default function HomeContactSection() {
                 <div className="contact-map-head">
                   <span className="contact-map-icon"><Icon name="pin" size={16} /></span>
                   <div>
-                    <div className="fw-semibold" style={{ fontSize: 14, color: '#2a4a36' }}>FreshFind demo area</div>
+                    <div className="fw-semibold" style={{ fontSize: 14, color: 'var(--forest-deep)' }}>FreshFind demo area</div>
                     <div className="small text-muted">Centre of the {markets.length} sample markets</div>
                   </div>
                 </div>
