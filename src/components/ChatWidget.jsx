@@ -298,12 +298,12 @@ export default function ChatWidget() {
               <Icon name="leaf" size={18} />
               <span
                 className="position-absolute"
-                style={{ bottom: -2, right: -2, width: 10, height: 10, background: '#86efac', border: '2px solid #15803d', borderRadius: '50%' }}
+                style={{ bottom: -2, right: -2, width: 10, height: 10, background: '#b8cbb2', border: '2px solid #355b43', borderRadius: '50%' }}
               />
             </div>
             <div>
               <div style={{ fontWeight: 800, fontSize: 13.5, lineHeight: 1.2 }}>FreshFind Assistant</div>
-              <div style={{ fontSize: 10.5, color: '#d3f26a', lineHeight: 1.3, fontWeight: 600 }}>
+              <div style={{ fontSize: 10.5, color: 'rgba(255,255,255,.8)', lineHeight: 1.3, fontWeight: 600 }}>
                 {typing ? 'typing…' : `Online · knows all ${marketsData.length} markets`}
               </div>
             </div>
@@ -362,7 +362,7 @@ export default function ChatWidget() {
                 {msg.sender === 'bot' && (
                   <div
                     className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 mt-1"
-                    style={{ width: 20, height: 20, background: '#16a34a', color: '#fff' }}
+                    style={{ width: 20, height: 20, background: '#355b43', color: '#fff' }}
                   >
                     <Icon name="leaf" size={10} />
                   </div>
@@ -377,7 +377,7 @@ export default function ChatWidget() {
                           <img
                             src={imgPath(c.image)}
                             alt=""
-                            style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 8, background: '#f3f4f6' }}
+                            style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 8, background: '#f4f0e4' }}
                           />
                           <div className="flex-grow-1 overflow-hidden">
                             <div className="d-flex align-items-center gap-1">
@@ -392,7 +392,7 @@ export default function ChatWidget() {
                               )}
                             </div>
                             <div className="text-muted text-truncate" style={{ fontSize: 10 }}>{c.subtitle}</div>
-                            <div className="text-truncate" style={{ fontSize: 9.5, color: '#15803d' }}>{c.meta}</div>
+                            <div className="text-truncate" style={{ fontSize: 9.5, color: '#4e7357' }}>{c.meta}</div>
                           </div>
                         </button>
                       ))}
@@ -442,7 +442,7 @@ export default function ChatWidget() {
               <div className="d-flex gap-1">
                 <div
                   className="rounded-circle d-flex align-items-center justify-content-center"
-                  style={{ width: 20, height: 20, background: '#16a34a', color: '#fff' }}
+                  style={{ width: 20, height: 20, background: '#355b43', color: '#fff' }}
                 >
                   <Icon name="leaf" size={10} />
                 </div>
@@ -537,7 +537,7 @@ export default function ChatWidget() {
 
       <div className="chat-toggle-wrap">
         <button className={`chat-hint${hintVisible ? ' show' : ''}`} type="button" onClick={() => openChat(true)}>
-          <span style={{ fontWeight: 500, color: '#15803d' }}>Need a hand?</span>
+          <span style={{ fontWeight: 500, color: '#4e7357' }}>Need a hand?</span>
           <br />
           Ask me which markets are open now
         </button>

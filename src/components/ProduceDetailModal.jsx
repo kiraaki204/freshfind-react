@@ -54,7 +54,7 @@ export default function ProduceDetailModal({ produce, onClose }) {
       <div className="mm-dialog produce-detail-dialog" role="dialog" aria-modal="true" aria-labelledby={titleId} ref={dialogRef}>
         <header className="mm-head produce-detail-head">
           <div>
-            <span className="chip" style={{ background: '#f0fdf4', color: '#15803d', border: '1px solid #dcfce7' }}>{p.category}</span>
+            <span className="chip" style={{ background: 'rgba(255,253,247,.92)', color: '#355b43' }}>{p.category}</span>
             <h2 id={titleId} className="h5 mt-2 mb-1" style={{ lineHeight: 1.2 }}>{p.emoji} {p.name}</h2>
             <p className="small text-muted mb-0" style={{ maxWidth: '28rem' }}>{p.description.slice(0, 110)}…</p>
           </div>
@@ -87,12 +87,12 @@ export default function ProduceDetailModal({ produce, onClose }) {
               <p className="small text-muted mb-0" style={{ lineHeight: 1.6 }}>{p.description}</p>
             </section>
 
-            <section className="mm-sec" style={{ background: '#fdfdf8' }}>
+            <section className="mm-sec" style={{ background: '#fffdf7' }}>
               <h3 className="h6"><Icon name="leaf" size={16} /> Nutrition Highlights</h3>
               <p className="small text-muted mb-0">{p.nutritionHighlights}</p>
             </section>
 
-            <section className="mm-sec" style={{ background: '#f0fdf4', borderTop: '1px solid #dcfce7' }}>
+            <section className="mm-sec" style={{ background: '#eef3e4', borderTop: '1px solid #e4e9dc' }}>
               <h3 className="h6"><Icon name="bulb" size={16} /> Storage Tip</h3>
               <p className="small text-muted mb-0">{p.storageHint}</p>
             </section>
@@ -122,7 +122,7 @@ export default function ProduceDetailModal({ produce, onClose }) {
                 <h3 className="h6"><Icon name="pin" size={16} /> Find it at</h3>
                 <div className="d-flex flex-column gap-2 mt-2">
                   {mkts.map((m) => (
-                    <div key={m.id} className="d-flex justify-content-between align-items-center p-2 rounded-3" style={{ background: '#f9fafb', border: '1px solid #f3f4f6' }}>
+                    <div key={m.id} className="d-flex justify-content-between align-items-center p-2 rounded-3" style={{ background: '#fffdf7', border: '1px solid #e4e9dc' }}>
                       <div>
                         <div className="small fw-semibold">{m.name}</div>
                         <div className="small text-muted">{m.area} · {m.days.join(', ')}</div>
