@@ -105,7 +105,7 @@ export default function SavedItemsModal({ open, onClose }) {
       wide
       icon="heart"
       title="Saved Items"
-      intro={`${bookmarks.length} item${bookmarks.length !== 1 ? 's' : ''} saved — stored in your browser's local storage.`}
+      intro={`${bookmarks.length} item${bookmarks.length !== 1 ? 's' : ''} saved.`}
     >
       {bookmarks.length > 0 && (
         <div className="d-flex justify-content-end mb-3">
