@@ -1,8 +1,8 @@
 import { useBookmarks } from '../hooks/useBookmarks.jsx';
 import Icon from './Icon.jsx';
 
-/** Heart button that saves/removes a market or produce item.
-    `item` is { id, type, name, location? , category? }. */
+
+
 export default function SaveButton({ item, size = 'md' }) {
   const { isBookmarked, toggleBookmark } = useBookmarks();
   const saved = isBookmarked(item.id);

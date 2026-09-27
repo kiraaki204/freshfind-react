@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { loadLeaflet, addBaseTiles, isValidCoord, marketPinIcon } from '../utils/leaflet.js';
 import Icon from './Icon.jsx';
 
-/** Interactive Leaflet/OpenStreetMap map for a single address (no API key
-    needed) plus a link out to Google Maps for directions. Coordinates must be
-    supplied from existing app data; if they are missing/invalid the map is
-    replaced by a clear notice instead of a wrong location. */
+
+
+
+
 export default function MiniMap({ name, address, lat, lng }) {
   const containerRef = useRef(null);
   const [status, setStatus] = useState('loading');
@@ -22,7 +22,7 @@ export default function MiniMap({ name, address, lat, lng }) {
     loadLeaflet()
       .then((L) => {
         if (cancelled || !containerRef.current) return;
-        map = L.map(containerRef.current, { scrollWheelZoom: false }); // don't trap page scrolling
+        map = L.map(containerRef.current, { scrollWheelZoom: false });
         addBaseTiles(L, map);
         L.marker([lat, lng], { icon: marketPinIcon(L), title: name, alt: name })
           .addTo(map)

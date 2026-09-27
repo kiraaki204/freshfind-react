@@ -20,9 +20,9 @@ import Icon from './Icon.jsx';
 const CHAT_KEY = 'freshfind_chat';
 const HINT_KEY = 'freshfind_chat_hint';
 
-/* saved items are a modal ('saved'), not a route — handled specially below.
-   The About story lives in the homepage Field Journal and the produce guide
-   in the homepage produce section — no standalone pages exist for either. */
+
+
+
 const PAGE_ROUTES = {
   home: '/',
   directory: '/markets',
@@ -43,7 +43,7 @@ function loadMessages() {
       return stored.map((m) => ({ ...m, timestamp: new Date(m.timestamp) }));
     }
   } catch {
-    /* corrupted storage — start fresh */
+
   }
   return [];
 }
@@ -59,7 +59,7 @@ export default function ChatWidget() {
   const { openProduce: openProduceModal } = useProduceDetailModal();
   const { openSupport } = useSupportModal();
 
-  /* voice interaction — native Web Speech APIs, gracefully degrading */
+
   const {
     micSupported, ttsSupported,
     micState, micError, clearMicError, startMic, finishMic, cancelMic,
@@ -85,12 +85,12 @@ export default function ChatWidget() {
   const msgsBoxRef = useRef(null);
   const inputRef = useRef(null);
 
-  /* latest context values, readable from delayed/async engine callbacks */
+
   const live = useRef({});
   live.current = { bookmarks, geoCtx, dirFilters, produceFilters };
 
-  /* The agent is how the engine acts on the site — navigation, filters,
-     bookmarks, location, map. Everything delegates to real app state. */
+
+
   const buildAgent = () => {
     const { bookmarks: bm, geoCtx: geo, dirFilters: dir, produceFilters: prod } = live.current;
     const user = () =>
@@ -134,38 +134,38 @@ export default function ChatWidget() {
     };
   };
 
-  /* persist conversation (last 60 messages) */
+
   useEffect(() => {
     try {
       localStorage.setItem(CHAT_KEY, JSON.stringify(msgs.slice(-60)));
     } catch {
-      /* ignore */
+
     }
   }, [msgs]);
 
-  /* hint bubble after a few seconds, only if never seen */
+
   useEffect(() => {
     const t = setTimeout(() => {
       if (open) return;
       try {
         if (localStorage.getItem(HINT_KEY) === 'seen') return;
       } catch {
-        /* ignore */
+
       }
       setHintVisible(true);
     }, 3500);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
-  /* opening the panel: hide hint, greet on first open, focus the input */
+
   useEffect(() => {
     if (!open) return;
     setHintVisible(false);
     try {
       localStorage.setItem(HINT_KEY, 'seen');
     } catch {
-      /* ignore */
+
     }
     setMsgs((m) => {
       if (m.length) return m;
@@ -176,7 +176,7 @@ export default function ChatWidget() {
     return () => clearTimeout(t);
   }, [open]);
 
-  /* Escape closes the panel */
+
   useEffect(() => {
     if (!open) return;
     const onKey = (e) => {
@@ -186,12 +186,12 @@ export default function ChatWidget() {
     return () => document.removeEventListener('keydown', onKey);
   }, [open, openChat]);
 
-  /* closing the panel always releases the mic and stops playback */
+
   useEffect(() => {
     if (!open) stopAll();
   }, [open, stopAll]);
 
-  /* no auto-scroll: the reader stays in control of the message list */
+
 
   const sendChat = (raw) => {
     const text = (raw || '').trim();
@@ -227,8 +227,8 @@ export default function ChatWidget() {
           },
         ]);
         setTyping(false);
-        // voice output is user-controlled: replies are only auto-spoken
-        // while the "read replies aloud" toggle is on
+
+
         if (autoSpeakRef.current) speakRef.current(botId, o.reply.text);
       };
       if (out && typeof out.then === 'function') out.then(apply);
@@ -236,7 +236,7 @@ export default function ChatWidget() {
     }, think);
   };
 
-  /* mic button: start listening, cancel, or report unsupported browsers */
+
   const onMic = () => {
     if (!micSupported) {
       clearMicError();
@@ -247,7 +247,7 @@ export default function ChatWidget() {
       return;
     }
     clearMicError();
-    stopSpeak(); // never talk over the user's own question
+    stopSpeak();
     const draft = input.trim();
     const updateDraft = (text) => setInput([draft, text].filter(Boolean).join(' '));
     startMic({
@@ -281,8 +281,8 @@ export default function ChatWidget() {
     openChat(false);
   };
 
-  /* the box grows with the draft; a scrollbar appears only once the text
-     outgrows the max height — an empty or one-line draft never shows one */
+
+
   const autoResize = (e) => {
     setInput(e.target.value);
     const el = e.target;

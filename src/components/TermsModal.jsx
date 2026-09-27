@@ -1,8 +1,8 @@
 import SupportModal from './SupportModal.jsx';
 
-/* Content preserved from the former standalone Terms of Service page — the
-   wording is accurate about the browser-only nature of the app, third-party
-   map services and local storage. */
+
+
+
 export default function TermsModal({ open, onClose }) {
   return (
     <SupportModal

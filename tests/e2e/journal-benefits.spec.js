@@ -22,8 +22,8 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
     await journal.getByRole('button', { name: 'Go to spread 5: Your Market Field Guide' }).click();
 
     if (mobile) {
-      // the turnover pad shows one page at a time: jumping to the final
-      // spread lands on its first side, the tips sheet…
+
+
       await expect(journal.getByRole('heading', { name: 'Pocket tips for market day' })).toBeVisible();
       await expect(journal.getByRole('heading', { name: 'Why FreshFind?' })).toHaveCount(0);
       await journal.getByRole('button', { name: 'Turn to the next spread' }).click();
@@ -36,7 +36,7 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
       await expect(lastPage.getByText(description, { exact: true })).toBeVisible();
     }
     if (mobile) {
-      // …while the book keeps both sides of a spread visible at once
+
       await expect(journal.getByRole('heading', { name: 'Pocket tips for market day' })).toHaveCount(0);
     } else {
       await expect(journal.getByRole('heading', { name: 'Pocket tips for market day' })).toBeVisible();

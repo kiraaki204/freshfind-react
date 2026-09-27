@@ -1,6 +1,6 @@
 import { cloneElement } from 'react';
 
-/* Inline SVG icon set (24x24, stroke-based unless noted). */
+
 const S = { fill: 'none', stroke: 'currentColor', strokeWidth: 2 };
 
 const ICONS = {
@@ -37,9 +37,9 @@ const ICONS = {
   edit: <svg viewBox="0 0 24 24" {...S}><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></svg>,
   save: <svg viewBox="0 0 24 24" {...S}><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" /><path d="M17 21v-8H7v8M7 3v5h8" /></svg>,
   flower: <svg viewBox="0 0 24 24" {...S}><circle cx="12" cy="12" r="3" /><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" /></svg>,
-  /* standalone blossom: six rounded petals around a solid centre, no stem
-     and no leaves. Used by the theme toggle only — deliberately different
-     from the sunburst `flower` above, which is the Spring season marker. */
+
+
+
   blossom: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">
       <ellipse cx="12" cy="6.4" rx="2.7" ry="4.7" />

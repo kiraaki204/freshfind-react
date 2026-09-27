@@ -1,4 +1,4 @@
-// Keep display copy intact; make only the spoken version easier to pronounce.
+
 export function cleanForSpeech(text = '') {
   return text
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
@@ -19,8 +19,8 @@ export function cleanForSpeech(text = '') {
     .trim();
 }
 
-// Prefer a natural English voice over an arbitrary system default (which
-// may be in a completely different language). Availability is OS-dependent.
+
+
 export function chooseVoice(voices, language, preferredURI = '') {
   const english = voices.filter((v) => /^en(?:[-_]|$)/i.test(v.lang));
   const saved = english.find((v) => v.voiceURI === preferredURI);
@@ -33,7 +33,7 @@ export function chooseVoice(voices, language, preferredURI = '') {
   return [...english].sort((a, b) => score(b) - score(a))[0] || null;
 }
 
-// Short, sentence-aware utterances avoid long-text truncation in browsers.
+
 export function speechChunks(text, maxLength = 220) {
   const sentences = cleanForSpeech(text).split(/(?<=[.!?])\s+/).filter(Boolean);
   return sentences.flatMap((sentence) => {

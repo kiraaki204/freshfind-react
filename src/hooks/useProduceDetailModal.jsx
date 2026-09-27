@@ -2,9 +2,9 @@ import { createContext, useCallback, useContext, useState } from 'react';
 import produceData from '../data/produce.json';
 import ProduceDetailModal from '../components/ProduceDetailModal.jsx';
 
-/* Shared so every part of the app (produce cards, chatbot cards, market
-   modal tiles, saved items) can open the produce detail modal without
-   navigating away — same pattern as useMarketModal. */
+
+
+
 const ProduceDetailModalContext = createContext(null);
 
 export function ProduceDetailModalProvider({ children }) {

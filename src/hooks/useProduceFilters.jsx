@@ -4,7 +4,7 @@ export const DEFAULT_PRODUCE_FILTERS = { search: '', category: 'All', season: 'A
 
 const ProduceFiltersContext = createContext(null);
 
-/** Shared because the chatbot can pre-filter the Produce Guide. */
+
 export function ProduceFiltersProvider({ children }) {
   const [filters, setFilters] = useState(DEFAULT_PRODUCE_FILTERS);
 

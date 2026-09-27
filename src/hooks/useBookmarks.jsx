@@ -23,7 +23,7 @@ export function BookmarksProvider({ children }) {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
     } catch {
-      /* private mode etc. — bookmarks stay in memory */
+
     }
   }, []);
 
@@ -49,7 +49,7 @@ export function BookmarksProvider({ children }) {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
       } catch {
-        /* ignore */
+
       }
       showToast(exists ? `${item.name} removed from saved items.` : `${item.name} saved!`);
       return next;
@@ -63,7 +63,7 @@ export function BookmarksProvider({ children }) {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
       } catch {
-        /* ignore */
+
       }
       showToast(`${removed ? removed.name : 'Item'} removed from saved items.`);
       return next;
@@ -76,7 +76,7 @@ export function BookmarksProvider({ children }) {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
       } catch {
-        /* ignore */
+
       }
       return next;
     });

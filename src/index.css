@@ -1,12 +1,12 @@
-/* =====================================================================
-   FreshFind — "Botanical Journal" design system
-   A soft pastel Gen-Z lifestyle brand: warm ivory paper, pistachio &
-   sage greens, blush / peach / buttercream accents, fine hairline
-   borders, diffuse shadows and delicate hand-drawn botanical doodles.
-   ===================================================================== */
+
+
+
+
+
+
 
 :root {
-  /* legacy tokens (kept so older rules keep working) */
+
   --green-50: #f3f7ee;
   --green-100: #e6eedb;
   --green-200: #dce7d5;
@@ -29,52 +29,52 @@
   --gray-900: #2b2b25;
   --header-h: 76px;
 
-  /* botanical-journal palette */
-  --paper: #faf7ef;          /* warm ivory – main foundation */
-  --paper-2: #f4f0e4;        /* slightly deeper ivory */
-  --cream: #fffdf7;          /* pale cream – cards, inputs */
-  --ink: #2f4a38;            /* readable dark green (replaces black) */
-  --ink-soft: #5f7263;       /* secondary text */
-  --forest: #355b43;         /* muted forest – primary buttons, headings */
+
+  --paper: #faf7ef;
+  --paper-2: #f4f0e4;
+  --cream: #fffdf7;
+  --ink: #2f4a38;
+  --ink-soft: #5f7263;
+  --forest: #355b43;
   --forest-deep: #2a4a36;
-  --leaf: #4e7357;           /* mid green – icons, links */
+  --leaf: #4e7357;
   --leaf-deep: #3f624a;
-  --sage: #8fae90;           /* dusty sage mid */
-  --sage-dust: #b8cbb2;      /* dusty sage */
-  --sage-pale: #dce7d5;      /* pale sage */
-  --lime: #e6eedb;           /* pistachio (soft highlight, replaces neon lime) */
+  --sage: #8fae90;
+  --sage-dust: #b8cbb2;
+  --sage-pale: #dce7d5;
+  --lime: #e6eedb;
   --lime-deep: #cfe0c3;
   --pistachio: #e6eedb;
-  --mint: #eaf3ea;           /* very pale mint */
-  --butter: #f8efd5;         /* buttercream */
-  --honey: #d8b97a;          /* muted gold for tiny accents */
-  --peach: #f5e0d1;          /* soft peach */
-  --pink: #f5e3e7;           /* blush */
-  --blush: #f9eef1;          /* paler blush */
-  --rose: #c98a99;           /* dusty rose – handwritten accents */
-  --tomato: #c98a99;         /* legacy accent name → dusty rose */
+  --mint: #eaf3ea;
+  --butter: #f8efd5;
+  --honey: #d8b97a;
+  --peach: #f5e0d1;
+  --pink: #f5e3e7;
+  --blush: #f9eef1;
+  --rose: #c98a99;
+  --tomato: #c98a99;
   --sky: #e3edf2;
   --lilac: #ece7f3;
   --sand-line: #e9e2d3;
 
-  /* hairline borders */
-  --line: #e4e9dc;           /* pale sage hairline */
-  --line-soft: #ece9df;      /* warm beige hairline (dividers) */
-  --line-strong: #cbd8c4;    /* hover / focus edge */
+
+  --line: #e4e9dc;
+  --line-soft: #ece9df;
+  --line-strong: #cbd8c4;
   --ring: rgba(143, 174, 144, .28);
 
-  /* diffuse, low-opacity shadows */
+
   --shadow-card: 0 6px 20px -8px rgba(53, 91, 67, .16), 0 1px 3px rgba(53, 91, 67, .05);
   --shadow-soft: 0 14px 34px -18px rgba(53, 91, 67, .22);
   --shadow-lift: 0 22px 46px -20px rgba(53, 91, 67, .26), 0 2px 6px rgba(53, 91, 67, .05);
 
-  /* soft gradients (reused across sections so the page stays cohesive) */
+
   --grad-ivory-blush: linear-gradient(180deg, #faf7ef 0%, #fbf3f2 100%);
   --grad-cream-pistachio: linear-gradient(180deg, #fffdf7 0%, #eef3e4 100%);
   --grad-sage-ivory: linear-gradient(180deg, #e6eedb 0%, #faf7ef 100%);
   --grad-ivory-peach: linear-gradient(180deg, #faf7ef 0%, #f8ebe1 100%);
 
-  /* bootstrap utility hooks → keep .text-dark / .text-muted / .border in the green-ink palette */
+
   --bs-body-color: #2f4a38;
   --bs-body-bg: #faf7ef;
   --bs-dark-rgb: 42, 74, 54;
@@ -87,30 +87,30 @@
   --font-hand: "Caveat", "Segoe Script", "Bradley Hand", "Snell Roundhand", cursive;
   --font-serif: Georgia, "Times New Roman", serif;
 
-  /* ---------- role tokens ----------
-     These describe WHAT a colour is for, not what it looks like. `:root`
-     holds the light values; [data-theme="dark"] below restates them in
-     botanical dark tones. Any rule that uses a role token works in both
-     themes without ever being touched again. */
-  --on-accent: #fff;             /* text/icon sitting on --forest or --rose fills */
+
+
+
+
+
+  --on-accent: #fff;
   --on-accent-rgb: 255, 255, 255;
 
-  /* translucent panels — alpha stays in the rule, the tint comes from here */
-  --glass-rgb: 255, 253, 247;    /* frosted header / floating pills over content */
-  --hairline: rgba(255, 255, 255, .8); /* light-on-light hairline inside glass */
-  --pill-wash: rgba(255, 255, 255, .7);/* chip fill sitting on a pastel card */
-  --shadow-rgb: 53, 91, 67;      /* brand-green shadow → soft black in dark */
-  --scrim: rgba(47, 74, 56, .38);/* backdrop behind a modal */
-  --leaf-rgb: 78, 115, 87;       /* live/health pulse ring */
 
-  /* section washes (pale ivory → botanical equivalents) */
+  --glass-rgb: 255, 253, 247;
+  --hairline: rgba(255, 255, 255, .8);
+  --pill-wash: rgba(255, 255, 255, .7);
+  --shadow-rgb: 53, 91, 67;
+  --scrim: rgba(47, 74, 56, .38);
+  --leaf-rgb: 78, 115, 87;
+
+
   --wash-warm: #f7f4ea;
   --wash-soft: #f5f1e6;
   --wash-blush: #fbf3ee;
   --wash-pistachio: #eef3e4;
   --wash-fern: #e9eedf;
 
-  /* rgb triplets so existing rgba() glows keep their exact alpha */
+
   --pistachio-rgb: 230, 238, 219;
   --pink-rgb: 245, 227, 231;
   --butter-rgb: 248, 239, 213;
@@ -118,7 +118,7 @@
   --mint-rgb: 234, 243, 231;
   --line-rgb: 228, 233, 220;
 
-  /* ink colours used on the pastel season / sticker surfaces */
+
   --ink-rose: #8b5563;
   --ink-gold: #7a5a1f;
   --ink-clay: #8c5a3c;
@@ -131,35 +131,35 @@
 
   --grad-cover: linear-gradient(100deg, #2a4a36 0%, #355b43 55%, #4a7057 100%);
 
-  /* --sage-dust doubles as a hairline AND as .btn-sun's fill; the hairline
-     needs to stay visible on a dark page, the fill needs a dark ink on top,
-     so the button gets a surface of its own */
+
+
+
   --sun-bg: #b8cbb2;
 
-  /* the journal's four seasonal chips use brighter inks than the rest of
-     the palette, so they get their own pair of role tokens each */
+
+
   --fj-spring-ink: #be5572;  --fj-spring-wash: #fdf0f4;
   --fj-summer-ink: #b97a10;  --fj-summer-wash: #fdf6e4;
   --fj-autumn-ink: #ddb08a;  --fj-autumn-wash: #fdf1e7;
   --fj-winter-ink: #3f6fa0;  --fj-winter-wash: #eff5fb;
 
-  /* wash used by the quick-action card tint */
+
   --wash-butter: #fbf6e9;
 }
 
-/* =====================================================================
-   DARK THEME — forest botany
-   Same token names, new values: near-black pine canvas, layered green
-   surfaces, bright pistachio as the accent and pale ivory as the ink.
-   Rules that only ever reference tokens never need touching; the handful
-   of literal colours in the sheet were already moved onto role tokens.
-   ===================================================================== */
+
+
+
+
+
+
+
 [data-theme="dark"] {
   color-scheme: dark;
 
-  /* legacy scale — flipped so low numbers are dark and high are light.
-     Tones are warm charcoal-with-a-hint-of-moss rather than saturated pine,
-     so the page reads as a dimmed paper journal, not a green cave. */
+
+
+
   --green-50: #2a3031;
   --green-100: #343b3a;
   --green-200: #3d4544;
@@ -181,16 +181,16 @@
   --gray-800: #dcded6;
   --gray-900: #edeae2;
 
-  /* surfaces, darkest → lightest: warm neutral greys with a faint sage cast */
+
   --paper: #22282a;
   --paper-2: #282e30;
   --cream: #2f3538;
 
-  /* ink — warm ivory */
+
   --ink: #edeae2;
   --ink-soft: #b7bdb6;
 
-  /* muted botanical green stays the accent, but never neon */
+
   --forest: #9fc79a;
   --forest-deep: #b6d6ad;
   --leaf: #a9cba2;
@@ -203,7 +203,7 @@
   --pistachio: #37403b;
   --mint: #323a38;
 
-  /* seasonal pastels: soft tinted surfaces, light saturated inks on top */
+
   --butter: #423c2e;
   --honey: #e3c67f;
   --peach: #46372f;
@@ -225,13 +225,13 @@
   --muted-line: #9ca29a;
   --muted-cool: #9ca29a;
 
-  /* hairlines: warm graphite so structure survives without green banding */
+
   --line: #3d4448;
   --line-soft: #363c3f;
   --line-strong: #566059;
   --ring: rgba(159, 199, 154, .42);
 
-  /* shadows need real darkness to read against a dark page */
+
   --shadow-card: 0 6px 20px -8px rgba(0, 0, 0, .5), 0 1px 3px rgba(0, 0, 0, .28);
   --shadow-soft: 0 14px 34px -18px rgba(0, 0, 0, .56);
   --shadow-lift: 0 22px 46px -20px rgba(0, 0, 0, .6), 0 2px 6px rgba(0, 0, 0, .28);
@@ -241,8 +241,8 @@
   --grad-sage-ivory: linear-gradient(180deg, #333c37 0%, #22282a 100%);
   --grad-ivory-peach: linear-gradient(180deg, #22282a 0%, #2e2b28 100%);
 
-  /* the journal cover stays a deeper solid object so it still reads as a
-     physical book sitting on the page */
+
+
   --grad-cover: linear-gradient(100deg, #23342b 0%, #2c4034 55%, #38503f 100%);
   --wash-warm: #262b2c;
   --wash-soft: #292e2e;
@@ -252,13 +252,13 @@
   --wash-butter: #383428;
   --sun-bg: #45514a;
 
-  /* journal seasonal chips: deep tinted wash, pale saturated ink */
+
   --fj-spring-ink: #f5bccd;  --fj-spring-wash: #3c3037;
   --fj-summer-ink: #efd8a3;  --fj-summer-wash: #383428;
   --fj-autumn-ink: #f1c7ac;  --fj-autumn-wash: #3e332b;
   --fj-winter-ink: #b2cee2;  --fj-winter-wash: #2c3944;
 
-  /* role tokens flip with the accent */
+
   --on-accent: #1f2426;
   --on-accent-rgb: 31, 36, 38;
   --glass-rgb: 44, 50, 52;
@@ -310,9 +310,9 @@ button:disabled { cursor: not-allowed; }
 
 ::selection { background: var(--sage-pale); color: var(--forest-deep); }
 
-/* the document scrollbar is hidden (scrolling itself is untouched: wheel,
-   touchpad, touch, keyboard and anchor links all keep working). Inner
-   scrollable panels keep their slim styled scrollbar. */
+
+
+
 html, body { scrollbar-width: none; -ms-overflow-style: none; }
 html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display: none; }
 
@@ -334,7 +334,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
 }
 .skip-link:focus { left: 16px; }
 
-/* ---------- journal utilities ---------- */
+
 .hand {
   font-family: var(--font-hand);
   font-weight: 500;
@@ -357,7 +357,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
 }
 .kicker .k-line { width: 30px; height: 1.5px; background: var(--sage-dust); border-radius: 2px; }
 
-/* soft label pill (formerly "sticker") */
+
 .sticker {
   display: inline-flex;
   align-items: center;
@@ -380,7 +380,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
 .sticker-forest { background: var(--forest); color: var(--on-accent); border-color: transparent; }
 .sticker-paper { background: var(--cream); }
 
-/* soft washi tape strip */
+
 .tape {
   position: absolute;
   width: 84px;
@@ -395,21 +395,21 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
 .tape-pink { background: rgba(201, 138, 153, .22); }
 .tape-sky { background: rgba(184, 208, 220, .32); }
 
-/* scattered sparkle clusters */
+
 .doodle-cluster { position: relative; display: inline-block; width: 0; height: 0; }
 .doodle-cluster svg { position: absolute; }
 .doodle-cluster .dc-1 { left: -8px; top: -26px; animation: twinkle 3.2s ease-in-out infinite; }
 .doodle-cluster .dc-2 { left: 18px; top: -12px; animation: twinkle 3.2s ease-in-out .8s infinite; }
 .doodle-cluster .dc-3 { left: -32px; top: -6px; animation: twinkle 3.2s ease-in-out 1.6s infinite; }
 
-/* organic blob photo mask */
+
 .blob-mask {
   border-radius: 58% 42% 55% 45% / 48% 55% 45% 52%;
   border: 4px solid var(--cream);
   box-shadow: var(--shadow-lift);
 }
 
-/* ---------- motion ---------- */
+
 @keyframes floaty { 0%, 100% { transform: translateY(0) rotate(var(--bob-rot, 0deg)); } 50% { transform: translateY(-9px) rotate(var(--bob-rot, 0deg)); } }
 @keyframes wiggle { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
 @keyframes spin-slow { to { transform: rotate(360deg); } }
@@ -425,7 +425,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
 .anim-spin-slow { animation: spin-slow 22s linear infinite; }
 .anim-drift { animation: drift 9s ease-in-out infinite; }
 
-/* ---------- header : floating sticker nav ---------- */
+
 .site-header {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -510,10 +510,10 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
 }
 .icon-btn:hover { color: var(--forest-deep); background: var(--mint); transform: translateY(-1px); }
 
-/* theme toggle — the one header control that is permanently "filled", so it
-   reads as a deliberate switch rather than another view action. The blossom
-   itself inherits `color`, which is a muted sage on pistachio in the light
-   theme and a pale pistachio on deep green in the dark one. */
+
+
+
+
 .theme-toggle {
   background: var(--pistachio);
   border-color: var(--line);
@@ -542,8 +542,8 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
   display: flex; align-items: center; justify-content: center;
 }
 
-/* compact search: the input expands downward directly beneath the search
-   toggle button, staying aligned with it and never spanning the navbar */
+
+
 .search-slot { position: relative; display: inline-flex; }
 .header-search {
   display: flex;
@@ -583,7 +583,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
   padding-top: 7px;
   padding-bottom: 7px;
 }
-/* focused state keeps the plain look — just the border, no glow or fill swap */
+
 .header-search .form-control:focus,
 .header-search .form-control:focus-visible {
   background: var(--cream);
@@ -591,7 +591,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
   box-shadow: none;
   outline: none;
 }
-/* the little magnifier inside the compact field scales with it */
+
 .header-search .search-wrap .s-ico { left: 12px; }
 .header-search .search-wrap input { padding-left: 36px; }
 
@@ -638,7 +638,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
   .menu-toggle { display: none !important; }
 }
 
-/* ---------- layout ---------- */
+
 #page { padding-top: calc(var(--header-h) + 22px); min-height: 100vh; }
 
 .wrap {
@@ -677,7 +677,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
 }
 .crumb a:hover { text-decoration: underline; }
 
-/* stacked journal bands: rounded tops overlapping like scrapbook pages */
+
 .band {
   position: relative;
   border-radius: 34px 34px 0 0;
@@ -686,7 +686,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar { width: 0; height: 0; display:
 }
 .band-flush { border-radius: 0; margin-top: 0; }
 
-/* ---------- buttons / cards ---------- */
+
 .ff-card {
   background: var(--cream);
   border: 1px solid var(--line);
@@ -784,7 +784,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   overflow: hidden;
 }
 
-/* ---------- HERO : journal cover ---------- */
+
 .hero {
   position: relative;
   overflow: hidden;
@@ -798,14 +798,14 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .hero img.hero-bg { display: none; }
 .hero-shade { display: none; }
 
-/* floating background doodles */
+
 .hero-blob { position: absolute; pointer-events: none; }
 .hero-blob--1 { top: 6%; right: 4%; opacity: .55; }
 .hero-blob--2 { bottom: 10%; left: 2%; opacity: .5; }
 .hero-blob--3 { top: 16%; left: 44%; opacity: .35; }
 @media (max-width: 991.98px) { .hero-blob--3 { display: none; } }
-/* on narrow screens the copy fills the width, so the corner botanicals step
-   back rather than sitting under the heading */
+
+
 @media (max-width: 767.98px) {
   .hero-blob { transform: scale(.75); transform-origin: center; }
   .hero-blob--1 { opacity: .32; }
@@ -825,7 +825,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   gap: clamp(1.5rem, 4vw, 2.5rem);
   align-items: center;
 }
-/* every track may shrink below its content's intrinsic width */
+
 .hero-grid > * { min-width: 0; }
 @media (min-width: 992px) {
   .hero-grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(1rem, 3vw, 2rem); }
@@ -899,7 +899,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 .live-pill .pulse-dot { background: var(--leaf); box-shadow: 0 0 0 3px rgba(var(--leaf-rgb), .18); }
 
-/* chunky sticker search */
+
 .hero-search {
   display: flex;
   flex-wrap: wrap;
@@ -969,7 +969,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .hero-stat:nth-child(2) svg { color: var(--leaf); }
 .hero-stat:nth-child(3) svg { color: var(--honey); }
 
-/* hero collage */
+
 .hero-collage { position: relative; min-height: clamp(340px, 34vw, 440px); display: none; }
 @media (min-width: 992px) { .hero-collage { display: block; } }
 .hero-photo-main {
@@ -1001,7 +1001,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .hero-doodle--2 { bottom: 4%; left: 44%; animation: drift 8s ease-in-out infinite; }
 .hero-doodle--3 { top: 2%; left: 38%; animation: wiggle 5s ease-in-out infinite; }
 
-/* mobile collage strip */
+
 .hero-strip { display: flex; gap: clamp(8px, 2.5vw, 12px); margin-top: 22px; }
 @media (min-width: 992px) { .hero-strip { display: none; } }
 .hero-strip img {
@@ -1014,7 +1014,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .hero-strip img:nth-child(3) { border-radius: 54% 46% 48% 52% / 46% 54% 46% 54%; transform: rotate(-2deg); }
 .hero-strip img:nth-child(4) { border-radius: 14px 22px 14px 22px; transform: rotate(5deg); }
 
-/* ---------- ticker tape (clock bar) ---------- */
+
 .clock-bar {
   position: relative;
   z-index: 2;
@@ -1040,7 +1040,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .clock-bar .tick-label { color: var(--forest); font-weight: 700; }
 .clock-bar .tick-visitors { color: var(--ink-soft); font-size: 12.5px; font-weight: 600; }
 
-/* ---------- section headers ---------- */
+
 .sec-head { position: relative; margin-bottom: 1.6rem; }
 .sec-head h2 {
   font-weight: 800;
@@ -1055,7 +1055,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .sec-arrow { position: absolute; right: 6%; top: 0; transform: rotate(12deg); }
 @media (max-width: 768px) { .sec-arrow { display: none; } }
 
-/* ---------- quick actions : sticker tiles ---------- */
+
 .home-quick {
   background: var(--grad-cream-pistachio);
   padding: 3.2rem 0 3.6rem;
@@ -1087,7 +1087,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 .qa-card:hover .qa-ico { transform: scale(1.08) rotate(-6deg); }
 
-/* ---------- open now + featured bands ---------- */
+
 .home-open {
   background:
     radial-gradient(520px 320px at 92% 8%, rgba(var(--glass-rgb), .9), transparent 70%),
@@ -1115,7 +1115,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   border-radius: 24px;
 }
 
-/* ---------- market cards : polaroid finds ---------- */
+
 .m-card {
   background: var(--cream);
   border: 1px solid var(--line);
@@ -1218,7 +1218,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .season-autumn { background: var(--peach); color: var(--ink-clay); border: 1px solid transparent; }
 .season-winter { background: var(--sky); color: var(--ink-sky); border: 1px solid transparent; }
 
-/* ---------- directory map ---------- */
+
 .map-box {
   position: relative;
   height: 560px;
@@ -1247,7 +1247,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .pin-label.open { background: var(--forest); color: var(--on-accent); border-color: var(--forest); }
 .pin-label.shut { background: var(--cream); color: var(--ink); border-color: var(--line); }
 
-/* ---------- market modal : sticker scrapbook ---------- */
+
 .mm-backdrop {
   position: fixed;
   inset: 0;
@@ -1340,7 +1340,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .filter-tab:hover { transform: translateY(-1px); background: var(--pistachio); color: var(--forest); }
 .filter-tab.on { background: var(--forest); color: var(--on-accent); border-color: var(--forest); }
 
-/* ---------- footer : deep forest garden ---------- */
+
 .site-footer {
   background: linear-gradient(180deg, var(--pistachio) 0%, var(--sage-pale) 100%);
   color: var(--ink);
@@ -1394,7 +1394,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .social-light { background: var(--cream); border: 1px solid var(--line); color: var(--forest-deep); }
 .social-light:hover { background: var(--pistachio); border-color: var(--line-strong); color: var(--forest-deep); }
 
-/* ---------- chatbot : pocket companion ---------- */
+
 .chat-toggle-wrap {
   position: fixed;
   bottom: 20px;
@@ -1553,8 +1553,8 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   resize: none;
   max-height: 76px;
   background: var(--cream);
-  /* no scrollbar while the message fits; JS flips this to auto only when
-     the draft grows past the max height */
+
+
   overflow-y: hidden;
 }
 .chat-input-row textarea:focus { outline: none; box-shadow: 0 0 0 3px var(--ring); }
@@ -1580,7 +1580,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   color: var(--ink-soft);
 }
 
-/* ---------- toasts / forms ---------- */
+
 .toast-stack {
   position: fixed;
   top: calc(var(--header-h, 76px) + 22px);
@@ -1641,7 +1641,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 .produce-tile:hover { background: var(--pistachio); transform: translateY(-2px); }
 
-/* ================= Leaflet street maps ================= */
+
 .ffmap {
   position: relative; z-index: 0; isolation: isolate; height: 480px; border-radius: 22px; overflow: hidden;
   background: var(--mint); border: 1px solid var(--line);
@@ -1664,8 +1664,8 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   box-shadow: 0 4px 12px -4px rgba(var(--shadow-rgb), .2); pointer-events: none; max-width: calc(100% - 20px);
 }
 
-/* the tile credit OpenStreetMap requires, kept inside the map as a quiet
-   corner note instead of a caption strip underneath it */
+
+
 .ffmap .leaflet-control-attribution,
 .mini-map .leaflet-control-attribution {
   background: rgba(var(--glass-rgb), .78);
@@ -1699,8 +1699,8 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .leaflet-popup-content { margin: 12px 14px; }
 .ffpop .chip { font-size: 11px; }
 
-/* Leaflet ships its own white chrome; restated here so the zoom buttons and
-   the attribution strip belong to the palette in the dark theme too. */
+
+
 [data-theme="dark"] .leaflet-bar a {
   background: var(--cream);
   color: var(--ink);
@@ -1733,7 +1733,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 
 .fselect { position: relative; }
 .fselect.open { z-index: 60; }
-/* the filter bar must sit above the market cards so open menus aren't covered */
+
 .dir-filter-bar { position: relative; z-index: 50; }
 .dir-filter-bar:hover { transform: none; }
 .fselect-label { display: block; margin-bottom: 4px; font-weight: 700; color: var(--forest-deep); }
@@ -1771,7 +1771,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   .fselect-btn { font-size: 16px; }
 }
 
-/* ---------- directory hero ---------- */
+
 .dir-hero {
   position: relative;
   overflow: hidden;
@@ -1802,7 +1802,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .dir-filters-card { padding: 1.1rem 1.1rem 1rem; margin-bottom: 1.5rem; background: var(--cream); }
 .view-toggle.on { background: var(--forest); color: var(--on-accent); border-color: var(--forest); }
 
-/* ---------- not found (404) ---------- */
+
 .nf-page {
   max-width: 44rem;
   margin: 0 auto;
@@ -1835,10 +1835,10 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .nf-search .form-control { border: 1px solid var(--line-strong); }
 .nf-actions a { text-decoration: none; }
 
-/* ---------- homepage anchor offset for fixed header ---------- */
+
 #produce, #contact, #about, #journal { scroll-margin-top: 110px; }
 
-/* ---------- home produce : market finds ---------- */
+
 .home-produce {
   position: relative;
   padding: 3.75rem 0 4rem;
@@ -1936,7 +1936,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .produce-foot-hint { font-family: var(--font-hand); font-size: 1.2rem; color: var(--ink-soft); margin-top: 10px; }
 .produce-cta-desktop { display: none; }
 
-/* ---------- produce cards : curated finds ---------- */
+
 .ff-produce-card {
   background: var(--cream);
   border: 1px solid var(--line);
@@ -2022,7 +2022,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .produce-card-head-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .produce-card-cat { font-family: var(--font-hand); font-size: 16px; color: var(--rose); white-space: nowrap; }
 
-/* ---------- product browse modal ---------- */
+
 .product-browse-backdrop { z-index: 1050; }
 .product-browse-dialog {
   max-width: 68rem;
@@ -2097,7 +2097,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   .browse-body { padding: 14px 14px 16px; min-height: 160px; }
 }
 
-/* ---------- produce detail modal ---------- */
+
 .produce-detail-backdrop { z-index: 1060; }
 .produce-detail-dialog { max-width: 58rem; }
 .produce-detail-head { background: var(--grad-cream-pistachio); }
@@ -2108,12 +2108,12 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   background: radial-gradient(circle at 50% 35%, var(--cream), var(--pistachio));
 }
 @media (min-width: 768px) {
-  /* the photo column stretches to the full height of the scrolling content
-     beside it, so no dead space ever shows below the image */
+
+
   .produce-detail-media { height: auto; min-height: 260px; align-self: stretch; }
 }
 
-/* ---------- What's In Season : four personalities ---------- */
+
 .home-seasons {
   --season-ink: var(--ink);
   color: var(--season-ink);
@@ -2168,10 +2168,10 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   --season-border: #d8e5ec;
   --season-deep: var(--ink-sky);
 }
-/* Each card keeps its own personality in the dark: the tint becomes a deep
-   wash of the same hue, the accent brightens and the label ink goes pale.
-   (the --season-deep / --season-accent values that are already tokenised
-   follow the theme on their own; only the literals are restated here) */
+
+
+
+
 [data-theme="dark"] .home-seasons .season-card {
   --season-border: #6a4f5e;
 }
@@ -2273,7 +2273,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   .home-seasons .season-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
 }
 
-/* ---------- CTA band : big tasty sign ---------- */
+
 .cta-band {
   position: relative;
   overflow: hidden;
@@ -2303,7 +2303,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .cta-doodle--s2 { right: 12%; top: 16%; animation: twinkle 3.6s ease-in-out 1s infinite; }
 @media (max-width: 768px) { .cta-doodle--l, .cta-doodle--r { display: none; } }
 
-/* ---------- home contact ---------- */
+
 .contact-section {
   padding: 4rem 0 4.5rem;
   background:
@@ -2431,7 +2431,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  flex: 1 1 auto; /* grows to keep the details column balanced with the form column */
+  flex: 1 1 auto;
 }
 .contact-map-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .contact-map-icon {
@@ -2517,7 +2517,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   .contact-form-card { border-radius: 22px; }
 }
 
-/* ---------- support modals (FAQ / Help / Terms / Privacy / Saved) ---------- */
+
 .support-backdrop { z-index: 1045; }
 .support-dialog {
   background: var(--cream);
@@ -2618,7 +2618,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   font-weight: 500;
 }
 
-/* ---------- homepage about section (kept in system palette) ---------- */
+
 .home-about {
   position: relative;
   padding: 3.75rem 0 3.25rem;
@@ -2825,7 +2825,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 .about-feature-link:hover { color: var(--forest-deep); gap: 8px; }
 
-/* ---------- the FreshFind Field Journal ---------- */
+
 .home-journal {
   position: relative;
   isolation: isolate;
@@ -2876,12 +2876,12 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   padding: 6px 0 10px;
 }
 .fj-cover {
-  /* The cover is a solid deep-green object in BOTH themes, so everything
-     painted on it resolves through these three properties instead of the
-     page palette (which would flip and become invisible against it). */
-  --cover-ink: var(--sage-pale);   /* eyebrow + medallion ring */
-  --cover-script: var(--pink);     /* handwritten "The FreshFind" */
-  --cover-glow: 230, 238, 219;     /* soft pistachio bloom */
+
+
+
+  --cover-ink: var(--sage-pale);
+  --cover-script: var(--pink);
+  --cover-glow: 230, 238, 219;
   position: relative;
   width: min(340px, 86vw);
   min-height: 460px;
@@ -3337,7 +3337,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   .fj-btn { padding: 10px 14px; }
 }
 
-/* ---------- chat voice interaction ---------- */
+
 .chat-mic {
   width: 40px; height: 40px; flex-shrink: 0;
   border-radius: 14px;
@@ -3411,7 +3411,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 .msg-speak:hover, .msg-speak.playing { color: var(--leaf-deep); background: var(--pistachio); }
 
-/* Image-first detail actions */
+
 .image-details-overlay {
   position: absolute;
   inset: 0;
@@ -3478,7 +3478,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .voice-settings p { font-size: 10px; color: var(--ink-soft); line-height: 1.5; margin: 2px 0 0; }
 .voice-preview { justify-self: start; border: none; border-radius: 999px; background: var(--forest); color: var(--on-accent); padding: 5px 12px; font-size: 11px; font-weight: 700; }
 
-/* legacy garden-polish hooks (kept harmless) */
+
 .step-num {
   position: absolute;
   top: -8px; right: -8px;
@@ -3492,14 +3492,14 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   display: flex; align-items: center; justify-content: center;
 }
 
-/* ---------- floating botanicals ----------
-   A deliberately scarce handful of small leaves / petals that drift on a
-   slow breeze. They live in the margins of already-spacious containers,
-   sit behind the content, and are inert to pointer events. Every placement
-   sets its own duration, delay and resting tilt so no two ever move in
-   unison. Placement values were picked from measured empty space, not
-   eyeballed — see the .ff-drift--* blocks for why each one lives where
-   it does. */
+
+
+
+
+
+
+
+
 .ff-drift {
   position: absolute;
   z-index: 0;
@@ -3514,8 +3514,8 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   animation: ff-turn var(--ff-turn, 12s) ease-in-out var(--ff-delay, 0s) infinite;
 }
 
-/* the breeze path: mostly vertical, slightly uneven so it never settles
-   into a metronome tick */
+
+
 @keyframes ff-breeze {
   0%   { transform: translate3d(0, 0, 0); }
   34%  { transform: translate3d(6px, -12px, 0); }
@@ -3523,15 +3523,15 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   84%  { transform: translate3d(3px, -6px, 0); }
   100% { transform: translate3d(0, 0, 0); }
 }
-/* the leaf turning over as it is carried — deliberately given a different
-   length than the breeze above so the two motions never sync up */
+
+
 @keyframes ff-turn {
   0%, 100% { transform: rotate(var(--ff-rest, -5deg)); }
   50%      { transform: rotate(var(--ff-tilt, 6deg)); }
 }
 
-/* hero — one leaf in the open strip above the photo collage, well clear of
-   the kicker, heading and search field on the left */
+
+
 .ff-drift--hero-leaf {
   top: 4.5%; right: 24%;
   --ff-ink: var(--sage);
@@ -3539,8 +3539,8 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   --ff-dur: 23s; --ff-turn: 14s; --ff-delay: -6s;
   --ff-rest: -6deg; --ff-tilt: 5deg;
 }
-/* hero — one petal in the outer corner below the collage, level with the
-   stat row but far to its right */
+
+
 .ff-drift--hero-petal {
   bottom: 3.5%; right: 7.5%;
   --ff-ink: var(--rose);
@@ -3548,8 +3548,8 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   --ff-dur: 19s; --ff-turn: 11s; --ff-delay: -11s;
   --ff-rest: 8deg; --ff-tilt: -4deg;
 }
-/* "Open Right Now" band — a leaf at the lower edge, in the strip of
-   padding below the market cards and inward of the right margin */
+
+
 .ff-drift--band-leaf {
   bottom: 26px; right: 10%;
   --ff-ink: var(--leaf);
@@ -3557,8 +3557,8 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   --ff-dur: 26s; --ff-turn: 15s; --ff-delay: -3s;
   --ff-rest: -4deg; --ff-tilt: 7deg;
 }
-/* footer — a tiny sprig in the quiet middle of the closing row, between
-   the two lines of small print */
+
+
 .ff-drift--foot-sprig {
   bottom: 8%; left: 34%;
   --ff-ink: var(--leaf);
@@ -3567,18 +3567,18 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   --ff-rest: 5deg; --ff-tilt: -6deg;
 }
 
-/* below the two-column breakpoint the hero becomes a single dense column
-   with no margin left to float in, so it keeps none */
+
+
 @media (max-width: 991.98px) {
   .ff-drift--hero-leaf, .ff-drift--hero-petal { display: none; }
 }
 @media (max-width: 767.98px) {
   .ff-drift--band-leaf { right: 6%; --ff-op: .26; }
-  /* the closing row stacks and centres on phones, leaving no quiet gap */
+
   .ff-drift--foot-sprig { display: none; }
 }
 
-/* ---------- reduced motion ---------- */
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {
@@ -3601,9 +3601,9 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 
 @media (max-width: 575.98px) {
-  /* Let the navbar search panel use the full header width on phones. Making
-     the slot static anchors the absolutely positioned form to .header-inner;
-     the desktop panel keeps its compact 268px width above this breakpoint. */
+
+
+
   .site-header .search-slot { position: static; }
   .site-header .header-search {
     left: 0;
@@ -3613,9 +3613,9 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
     transform-origin: top center;
   }
 
-  /* The hero search field is stacked on phones. Reset the desktop flex basis
-     as well: in a column flex container `12rem` becomes the field's height,
-     leaving a large empty gap above the button. */
+
+
+
   .hero-search {
     flex-direction: column;
     flex-wrap: nowrap;
@@ -3642,7 +3642,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   .band { border-radius: 26px 26px 0 0; }
 }
 
-/* ---------- boot loader ---------- */
+
 .app-loader {
   position: fixed;
   inset: 0;
@@ -3724,18 +3724,18 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 
 
-/* =====================================================================
-   Decorative hygiene — botanical doodles stay small, soft and behind
-   the content they decorate. They never intercept clicks.
-   ===================================================================== */
+
+
+
+
 .band-doodle, .produce-deco, .contact-deco, .about-deco, .fj-deco,
 .cta-doodle, .hero-doodle, .dir-hero .dir-doodle, .doodle-cluster,
 .ff-drift, .fj-pressed-flower, .fj-corner-doodle, .fj-cover-doodles {
   pointer-events: none !important;
   z-index: 0;
 }
-/* cap the drawn size of every corner/margin decoration so nothing reads
-   as oversized clip art on top of the copy */
+
+
 .band-doodle svg, .produce-deco svg, .contact-deco svg, .about-deco svg,
 .fj-deco svg, .cta-doodle svg, .dir-hero .dir-doodle svg {
   width: clamp(26px, 4vw, 58px);
@@ -3744,21 +3744,21 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 .cta-doodle, .band-doodle, .produce-deco, .contact-deco, .about-deco, .fj-deco { opacity: .8; }
 
-/* the readable layer always sits above the decorative one */
+
 .wrap, .fj-page, .contact-grid, .produce-grid, .site-footer .wrap { position: relative; z-index: 1; }
 
-/* below the tablet breakpoint the margins disappear, so the margin
-   decorations step aside entirely rather than sliding under the text */
+
+
 @media (max-width: 768px) {
   .band-doodle, .produce-deco, .contact-deco, .about-deco, .fj-deco, .cta-doodle { display: none; }
 }
 
-/* =====================================================================
-   Scroll-driven botanical growth journey
-   A thin stem line in the outer page margin that draws itself with the
-   reader's scroll progress; the plant at its foot grows through four
-   stages. Entirely decorative, never interactive.
-   ===================================================================== */
+
+
+
+
+
+
 :root {
   --journey-line: #8fae90;
   --journey-plant: #8fae90;
@@ -3770,11 +3770,11 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   --journey-seed: #c9aa72;
 }
 
-/* Right-edge scroll-progress rail: it lives in the gutter where the browser
-   scrollbar would normally sit. On wide layouts it tucks into the empty margin
-   beside the 80rem content column; once that margin runs out it pins snugly to
-   the very right edge. `right`/fixed positioning never adds page width. The
-   foot is lifted clear of the chatbot FAB (bottom 20px + 58px tall). */
+
+
+
+
+
 .ff-journey {
   position: fixed;
   right: max(4px, calc((100vw - 80rem) / 2 - 60px));
@@ -3796,15 +3796,15 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   stroke: var(--journey-line);
   transition: stroke-dashoffset .22s linear;
 }
-/* Each growth stage is its own small SVG with a tightly cropped viewBox,
-   so the art scales in CSS pixels and stays legible however narrow the
-   responsive rail becomes (the rail's coarse 72-unit viewBox never scales
-   plant art). Stages are pinned along the rail and centred on the growth
-   line with the CSS `translate` property — deliberately separate from the
-   JS-driven `transform: scale()`, so centering is never clobbered while a
-   stage grows in. The 2px leftward bias keeps every illustration inside
-   the viewport on the narrowest rails, so the body's overflow-x clipping
-   never cuts into the artwork. */
+
+
+
+
+
+
+
+
+
 .ff-stage {
   position: absolute;
   left: 50%;
@@ -3815,13 +3815,13 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   transform-origin: 50% 100%;
   transition: opacity .32s ease, transform .32s ease;
 }
-/* Station positions along the right edge: the seed sits at the very top
-   where the growth line begins; the seedling and young plant are planted
-   by their base at 22% / 48% of the rail, so the drawing line tip reaches
-   each one as it appears; the adult plant stands at the foot of the rail,
-   lifted clear of the chat button. Stage widths are clamped around a
-   percentage of the rail width, so all four stay recognizable at every
-   responsive breakpoint. */
+
+
+
+
+
+
+
 .ff-stage[data-stage="seed"] { top: -5px; width: clamp(16px, 74%, 26px); }
 .ff-stage[data-stage="seedling"] { top: 22%; width: clamp(20px, 108%, 37px); translate: calc(-50% - 2px) -100%; }
 .ff-stage[data-stage="young"] { top: 48%; width: clamp(26px, 132%, 45px); translate: calc(-50% - 2px) -100%; }
@@ -3831,11 +3831,11 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 .ff-stroke-seed { stroke: var(--journey-seed); fill: none; stroke-width: 1.4; stroke-linecap: round; }
 .ff-fill-soft { fill: var(--journey-seed); fill-opacity: .68; stroke: var(--journey-seed); stroke-width: 1.2; }
 
-/* Narrower viewports: once the side margin no longer holds the full rail, pin
-   it to the right edge and slim it down just enough that its centred ink (the
-   growth line and plant sit in the middle of the viewBox) stays inside the
-   content's own horizontal padding — so it never covers text or controls and
-   never causes horizontal overflow. It stays clearly visible, only smaller. */
+
+
+
+
+
 @media (max-width: 1440px) {
   .ff-journey { right: 6px; width: 34px; opacity: .85; }
 }

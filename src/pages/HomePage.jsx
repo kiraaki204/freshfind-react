@@ -64,7 +64,7 @@ export default function HomePage({ visitorCount }) {
 
   return (
     <>
-      {/* ================= HERO : journal cover ================= */}
+
       <section className="hero" aria-label="Hero section">
         <div className="hero-blob hero-blob--1" aria-hidden="true">
           <LeafSprig size={74} />
@@ -76,7 +76,7 @@ export default function HomePage({ visitorCount }) {
           <SunDoodle size={48} />
         </div>
 
-        {/* slow-drifting botanicals, kept to the open right-hand margin */}
+
         <span className="ff-drift ff-drift--hero-leaf" aria-hidden="true">
           <DriftLeaf size={26} />
         </span>
@@ -153,7 +153,7 @@ export default function HomePage({ visitorCount }) {
         </div>
       </section>
 
-      {/* ================= ticker tape ================= */}
+
       <div className="clock-bar">
         <div className="inner">
           <div>
@@ -166,7 +166,7 @@ export default function HomePage({ visitorCount }) {
         </div>
       </div>
 
-      {/* ================= quick actions ================= */}
+
       <section className="home-quick band-flush" aria-label="Quick actions">
         <div className="container" style={{ maxWidth: '80rem', position: 'relative' }}>
           <div className="row g-3">
@@ -185,7 +185,7 @@ export default function HomePage({ visitorCount }) {
         </div>
       </section>
 
-      {/* ================= open right now ================= */}
+
       <section className="home-open band" aria-label="Markets open right now">
         <div className="band-doodle band-doodle--tr" aria-hidden="true">
           <span style={{ display: 'inline-flex', gap: 6, alignItems: 'center' }}>
@@ -228,7 +228,7 @@ export default function HomePage({ visitorCount }) {
         </div>
       </section>
 
-      {/* ================= featured markets ================= */}
+
       <section className="home-featured band" aria-label="Featured markets">
         <div className="band-doodle band-doodle--tr" aria-hidden="true">
           <span style={{ display: 'inline-flex', gap: 8, alignItems: 'center' }}>
@@ -255,10 +255,10 @@ export default function HomePage({ visitorCount }) {
         </div>
       </section>
 
-      {/* Curated produce discovery — homepage anchor for Produce Guide */}
+
       <HomeProduceSection />
 
-      {/* ================= what's in season ================= */}
+
       <section className="home-seasons band" aria-labelledby="seasons-title">
         <div className="band-doodle band-doodle--tr" aria-hidden="true">
           <SparkleCluster />
@@ -303,10 +303,10 @@ export default function HomePage({ visitorCount }) {
         </div>
       </section>
 
-      {/* The FreshFind Field Journal — interactive scrapbook (#journal) */}
+
       <HomeJournalSection />
 
-      {/* ================= CTA ================= */}
+
       <section className="cta-band">
         <span className="cta-doodle cta-doodle--l" aria-hidden="true"><LeafSprig size={68} color="#8FAE90" /></span>
         <span className="cta-doodle cta-doodle--r" aria-hidden="true"><TomatoDoodle size={58} /></span>
@@ -327,7 +327,7 @@ export default function HomePage({ visitorCount }) {
         </div>
       </section>
 
-      {/* Redesigned Contact — natural conclusion before footer */}
+
       <HomeContactSection />
     </>
   );

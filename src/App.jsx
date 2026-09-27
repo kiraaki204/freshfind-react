@@ -24,7 +24,7 @@ function ScrollHandler() {
   useEffect(() => {
     if (hash) {
       const id = hash.slice(1);
-      // allow homepage to render first when navigating from another page
+
       const t = setTimeout(() => {
         const el = document.getElementById(id);
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -41,8 +41,8 @@ function ScrollHandler() {
 export default function App() {
   const [visitorCount] = useState(() => 12458 + Math.floor(Math.random() * 100));
 
-  /* boot loader: shows on first paint, waits for the window load and a
-     minimum dwell time, fades out, then unmounts */
+
+
   const [booting, setBooting] = useState(true);
   const [bootLeaving, setBootLeaving] = useState(false);
   useEffect(() => {
@@ -51,7 +51,7 @@ export default function App() {
     const loaded = new Promise((resolve) => {
       if (document.readyState === 'complete') resolve();
       else window.addEventListener('load', resolve, { once: true });
-      setTimeout(resolve, 3200); // never trap anyone behind the loader
+      setTimeout(resolve, 3200);
     });
     let alive = true;
     Promise.all([minDwell, loaded]).then(() => {
@@ -81,16 +81,16 @@ export default function App() {
                     <Routes>
                       <Route path="/" element={<HomePage visitorCount={visitorCount} />} />
                       <Route path="/markets" element={<DirectoryPage />} />
-                      {/* No standalone produce page — produce details open as
-                          modals and the guide lives on the homepage (#produce) */}
+
+
                       <Route path="/produce" element={<Navigate to="/#produce" replace />} />
                       <Route path="/produce/:produceId" element={<Navigate to="/#produce" replace />} />
-                      {/* About Us lives in the homepage Field Journal (#journal) */}
+
                       <Route path="/about" element={<Navigate to="/#journal" replace />} />
-                      {/* Saved Items open as a modal over the current page */}
+
                       <Route path="/saved" element={<Navigate to="/" replace />} />
-                      {/* FAQ, Help Center, Terms and Privacy open as modals
-                          over the current page — deep links land on Home */}
+
+
                       <Route path="/faq" element={<Navigate to="/" replace />} />
                       <Route path="/help" element={<Navigate to="/" replace />} />
                       <Route path="/terms" element={<Navigate to="/" replace />} />
@@ -102,9 +102,9 @@ export default function App() {
                 <Footer visitorCount={visitorCount} />
                 <ChatWidget />
                 {booting && <AppLoader leaving={bootLeaving} />}
-                {/* market modal renders down here so it can use BOTH the
-                    market and the produce-detail modal contexts (it opens
-                    produce details from its produce tiles) */}
+
+
+
                 <MarketModalHost />
                 </SupportModalProvider>
                 </ProduceDetailModalProvider>

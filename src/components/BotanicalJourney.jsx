@@ -1,38 +1,38 @@
 import { useEffect, useRef } from 'react';
 
-/* =====================================================================
-   BotanicalJourney — a scroll-driven growth journey for FreshFind.
 
-   A thin, slightly organic stem line runs down the outer margin of the
-   page and draws itself in step with the reader's actual document scroll
-   progress. Along it, four growth stages sit at fixed stations — seed at
-   the top, seedling in the upper section, young plant around the middle,
-   and the mature plant at the foot of the line.
 
-   Each stage appears as the growth line reaches it: the seed is visible
-   from the very top of the page, the seedling fades in after a small
-   scroll, the young plant around the middle, and the mature plant near
-   the bottom. Revealed stages stay visible, so the rail always shows a
-   complete growth timeline, and scrolling back up reverses the reveal.
 
-   Every stage lives in its own tightly cropped SVG viewport sized with
-   CSS clamp(), so the illustrations stay recognizable no matter how
-   narrow the responsive rail becomes — the narrow 72-unit rail viewBox
-   is never used to scale plant art. Each viewport is anchored to the
-   rail centre with the CSS `translate` property, which composes with the
-   JS-driven `transform: scale()` instead of being clobbered by it.
 
-   Implementation notes:
-   - no state updates on scroll: progress is written straight to the DOM
-     inside a requestAnimationFrame tick,
-   - a single passive scroll listener plus a resize listener, both cleaned
-     up on unmount,
-   - purely decorative: pointer-events: none and aria-hidden,
-   - prefers-reduced-motion is handled in CSS (transitions removed), the
-     journey itself stays scroll-linked and therefore never self-animates.
-   ===================================================================== */
 
-/* smooth 0→1 ramp between a and b (smoothstep, so no abrupt switching) */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function ramp(p, a, b) {
   if (p <= a) return 0;
   if (p >= b) return 1;
@@ -41,15 +41,15 @@ function ramp(p, a, b) {
 }
 
 function stageOpacities(progress) {
-  // Progressive reveal: the seed is present from the start and each later
-  // stage fades in as the growth line reaches its station. Stages never
-  // cross-fade away — once grown, a stage stays fully visible, and only
-  // scrolling back up (lowering progress) hides the later ones again.
+
+
+
+
   return [
     1,
-    ramp(progress, 0.12, 0.26), // seedling: after a small scroll
-    ramp(progress, 0.42, 0.58), // young plant: around the middle
-    ramp(progress, 0.72, 0.9), // mature plant: near the bottom
+    ramp(progress, 0.12, 0.26),
+    ramp(progress, 0.42, 0.58),
+    ramp(progress, 0.72, 0.9),
   ];
 }
 
@@ -96,7 +96,7 @@ export default function BotanicalJourney() {
         const value = values[i];
         el.style.opacity = value.toFixed(3);
         el.style.transform = `scale(${(0.88 + 0.12 * value).toFixed(3)})`;
-        // Exclude fully transparent stages from painting until their reveal.
+
         el.style.visibility = value > 0.004 ? 'visible' : 'hidden';
       });
     };
@@ -129,7 +129,7 @@ export default function BotanicalJourney() {
         aria-hidden="true"
         focusable="false"
       >
-        {/* the growth line: gently organic, thin, muted botanical green */}
+
         <path
           ref={stemRef}
           className="ff-journey-line"
@@ -140,12 +140,12 @@ export default function BotanicalJourney() {
         />
       </svg>
 
-      {/* CSS/inline defaults make the seed the only stage on first paint,
-          before the effect has measured the document. Each stage sits in
-          its own cropped viewport centred on the rail; CSS supplies the
-          position and width for every breakpoint. */}
 
-      {/* 1 — seed, at the top of the rail where the growth line starts */}
+
+
+
+
+
       <svg
         className="ff-stage"
         data-stage="seed"
@@ -159,7 +159,7 @@ export default function BotanicalJourney() {
         <path className="ff-stroke-seed" d="M32 91 C35.5 96 37 102 36 108" />
       </svg>
 
-      {/* 2 — seedling, in the upper section of the rail */}
+
       <svg
         className="ff-stage"
         data-stage="seedling"
@@ -174,7 +174,7 @@ export default function BotanicalJourney() {
         <path className="ff-stroke-soft" d="M37.2 76 C46.2 73.8 52 66.8 52 57.5 C43.2 60 37.8 67 37.2 76 Z" strokeWidth="1.5" />
       </svg>
 
-      {/* 3 — young plant, around the middle of the rail */}
+
       <svg
         className="ff-stage"
         data-stage="young"
@@ -191,7 +191,7 @@ export default function BotanicalJourney() {
         <path className="ff-stroke-soft" d="M38.2 42 C45.5 40 50.2 33.5 50.5 25.2 C43.2 27.3 38.8 33.8 38.2 42 Z" strokeWidth="1.5" />
       </svg>
 
-      {/* 4 — adult plant, at the foot of the rail */}
+
       <svg
         className="ff-stage"
         data-stage="mature"

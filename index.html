@@ -11,24 +11,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
-  <!-- Apply the saved theme before the first paint so a dark-mode visitor
-       never sees a light flash (and vice versa). Kept tiny and dependency
-       free; the React hook below reads the same key. -->
+
+
+
   <script>
     (function () {
       var t = 'light';
       try { t = localStorage.getItem('freshfind_theme') === 'dark' ? 'dark' : 'light'; }
-      catch (e) { /* storage unavailable (private mode) → light default */ }
+      catch (e) {   }
       document.documentElement.setAttribute('data-theme', t);
       document.documentElement.style.colorScheme = t;
       var m = document.querySelector('meta[name="theme-color"]');
       if (m) m.setAttribute('content', t === 'dark' ? '#172D25' : '#faf7ef');
     })();
   </script>
-  <!-- Inline so the skip link is hidden before the bundled CSS loads; it
-       becomes visible only when a keyboard user tabs onto it. The two
-       tokens are declared here as well so the link keeps working before
-       the bundle arrives; the bundle redeclares them identically. -->
+
+
+
+
   <style>
     :root { --accent: #355b43; --on-accent: #fff; }
     .skip-link {

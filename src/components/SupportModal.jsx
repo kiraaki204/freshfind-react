@@ -1,13 +1,13 @@
 import { useEffect, useId, useRef } from 'react';
 import Icon from './Icon.jsx';
 
-/** Shared accessible dialog shell for the FreshFind support modals
-    (FAQ, Help Center, Terms of Service, Privacy Policy). Behaviour mirrors
-    the existing MarketModal: labelled close button, Escape to dismiss,
-    backdrop click closes (never clicks inside), Tab focus trap, initial
-    focus on the close button, focus restored to the trigger on close, and
-    background scrolling locked while open. Long content scrolls inside the
-    dialog body. */
+
+
+
+
+
+
+
 export default function SupportModal({ open, title, icon, intro, wide = false, labelledBy, children, onClose }) {
   const dialogRef = useRef(null);
   const closeRef = useRef(null);
@@ -49,8 +49,8 @@ export default function SupportModal({ open, title, icon, intro, wide = false, l
 
   if (!open) return null;
 
-  // mousedown (not click) so a text selection started inside and released on
-  // the backdrop does not dismiss the modal
+
+
   const handleBackdrop = (e) => { if (e.target === e.currentTarget) onClose(); };
 
   return (

@@ -1,10 +1,10 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import Icon from './Icon.jsx';
 
-/** Themed dropdown used by the market filters. Keeps the same filtering
-    wiring as the old native selects: `options` is [{ value, label }],
-    `onChange(value)` is called when an option is picked. Fully keyboard
-    operable (arrows / Enter / Space / Escape). */
+
+
+
+
 export default function FilterSelect({ label, value, options, onChange }) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
@@ -15,7 +15,7 @@ export default function FilterSelect({ label, value, options, onChange }) {
 
   const selected = options.find((o) => o.value === value) || options[0];
 
-  // close when clicking anywhere outside the control
+
   useEffect(() => {
     if (!open) return undefined;
     const onDown = (e) => {
@@ -25,7 +25,7 @@ export default function FilterSelect({ label, value, options, onChange }) {
     return () => document.removeEventListener('pointerdown', onDown);
   }, [open]);
 
-  // focus the options list when it opens; keep the active option in view
+
   useEffect(() => {
     if (open && listRef.current) listRef.current.focus();
   }, [open]);

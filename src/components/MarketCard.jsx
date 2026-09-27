@@ -11,8 +11,8 @@ export default function MarketCard({ market, compact = false, selected = false, 
   const { openMarket } = useMarketModal();
   const m = market;
 
-  // in the directory's map view a card click focuses the marker;
-  // everywhere else it opens the market detail modal
+
+
   const cardAction = onSelect || (() => openMarket(m.id));
 
   return (

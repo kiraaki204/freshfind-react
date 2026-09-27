@@ -15,7 +15,7 @@ export default function ProductBrowseModal({ open, onClose, search, setSearch, c
     const prev = document.activeElement;
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    // focus search if empty, otherwise close button
+
     setTimeout(() => {
       if (searchRef.current && !search) searchRef.current.focus();
       else closeRef.current?.focus();

@@ -10,9 +10,9 @@ export function GeoProvider({ children }) {
   const geoRef = useRef(geo);
   geoRef.current = geo;
 
-  /** Shared location request: answers immediately when a location is already
-      granted, otherwise asks the browser and updates the shared state so the
-      directory, map and chatbot all see the result. */
+
+
+
   const locate = useCallback((done) => {
     const current = geoRef.current;
     if (current.granted && current.lat != null) {

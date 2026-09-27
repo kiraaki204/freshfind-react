@@ -1,16 +1,16 @@
-/* FreshFind Assistant — understanding + intent engine.
- *
- * Pure logic module: tokenise → synonym-expand → extract entities →
- * score intents → answer live from the market/produce data. Anything that
- * acts on the site (navigation, filters, bookmarks, location, map) goes
- * through the `agent` object injected by the caller, so this module never
- * touches React or the DOM. Product/market info always comes from the
- * shared data files — single source of truth.
- *
- * The shopping cart is chat-only (there is no cart UI on the site), so it
- * lives here, persisted to localStorage the same way bookmarks are. Lines
- * only store produce id + qty; names/emojis resolve live from produceData.
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import marketsData from '../data/markets.json';
 import produceData from '../data/produce.json';
@@ -25,7 +25,7 @@ const DAY_ABBR = {
   Friday: 'Fri', Saturday: 'Sat', Sunday: 'Sun',
 };
 
-/* ------------------------------------------------------------------ types */
+
 
 export const emptyContext = () => ({
   lastMarketId: null,
@@ -34,7 +34,7 @@ export const emptyContext = () => ({
   turns: 0,
 });
 
-/* --------------------------------------------------------- text utilities */
+
 
 const STOPWORDS = new Set([
   'a','an','the','is','are','am','was','were','be','been','do','does','did','doing',
@@ -44,7 +44,7 @@ const STOPWORDS = new Set([
   'need','like','get','got','go','going','show','looking','look','find','found',
 ]);
 
-/** lower-case, strip punctuation, expand "&" */
+
 function normalizeText(input) {
   return input
     .toLowerCase()
@@ -79,7 +79,7 @@ function levenshtein(a, b) {
   return prev[n];
 }
 
-/** tolerant single-word comparison — absorbs typos on longer words */
+
 function fuzzyHas(tokenList, word) {
   if (word.length < 4) return false;
   const tolerance = word.length >= 8 ? 2 : 1;
@@ -89,37 +89,37 @@ function fuzzyHas(tokenList, word) {
   });
 }
 
-/* ------------------------------------------------------------ vocabulary */
+
 
 const SYNONYMS = {
-  // greetings / politeness
+
   hello: 'hi', hey: 'hi', hiya: 'hi', howdy: 'hi', yo: 'hi', morning: 'hi',
   thanks: 'thanks', thank: 'thanks', thankyou: 'thanks', thx: 'thanks', ty: 'thanks',
   cheers: 'thanks', appreciate: 'thanks',
   bye: 'bye', goodbye: 'bye', cya: 'bye', later: 'bye',
-  // days
+
   mon: 'monday', tue: 'tuesday', tues: 'tuesday', wed: 'wednesday', weds: 'wednesday',
   thu: 'thursday', thurs: 'thursday', fri: 'friday', sat: 'saturday', sun: 'sunday',
-  // time words
+
   timing: 'hours', timings: 'hours', schedule: 'hours', hr: 'hours', hrs: 'hours',
   opens: 'open', opening: 'open', opened: 'open', closing: 'close',
-  // proximity
+
   closest: 'near', nearest: 'near', nearby: 'near', around: 'near', proximity: 'near',
-  // produce words
+
   veggie: 'vegetables', veggies: 'vegetables', veg: 'vegetables',
   fruit: 'fruits',
-  // quality
+
   top: 'best', rated: 'best', rating: 'best', popular: 'best', recommend: 'best',
   recommended: 'best',
-  // saving
+
   bookmark: 'bookmark', bookmarks: 'bookmark', save: 'bookmark', saved: 'bookmark',
   favourite: 'bookmark', favourites: 'bookmark', favorite: 'bookmark', favorites: 'bookmark',
   wishlist: 'bookmark', heart: 'bookmark', unsave: 'remove',
-  // cart
+
   basket: 'cart', trolley: 'cart',
-  // clear / remove
+
   empty: 'clear', wipe: 'clear', erase: 'clear', delete: 'remove',
-  // misc
+
   pesticide: 'organic', pesticides: 'organic',
   wheelchair: 'accessible', disability: 'accessible', disabled: 'accessible',
   pram: 'accessible', stroller: 'accessible',
@@ -143,7 +143,7 @@ const ASPECT_WORDS = {
   established: ['established', 'since', 'founded', 'history', 'old', 'long'],
 };
 
-/** market-name keywords (deliberately excludes generic words like "market") */
+
 const MARKET_KEYWORDS = {
   1: ['riverside'],
   2: ['lakeside', 'lake'],
@@ -193,13 +193,13 @@ const CATEGORY_WORDS = {
 const GREETING_RE =
   /(^|\s)(hi|hello|hey|hiya|yo|howdy|good morning|good afternoon|good evening|salam|assalamualaikum|assalam)(\s|$|[!,.?])/;
 
-/** quantities the agent understands ("add 2 tomatoes", "add two tomatoes") */
+
 const NUM_WORDS = {
   one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8,
   nine: 9, ten: 10, eleven: 11, twelve: 12, dozen: 12, couple: 2, few: 3,
 };
 
-/** words that are never the "thing" a user is asking about (used by leftoverNoun) */
+
 const ACTION_NOISE = new Set([
   'cart', 'basket', 'trolley', 'add', 'put', 'place', 'drop', 'remove', 'take',
   'clear', 'find', 'search', 'show', 'buy', 'order', 'please', 'now', 'item',
@@ -207,13 +207,13 @@ const ACTION_NOISE = new Set([
   'there', 'currently', 'today', 'right',
 ]);
 
-/* ---------------------------------------------------------- time helpers */
+
 
 function formatDays(days) {
   return days.map((d) => DAY_ABBR[d] ?? d).join(' & ');
 }
 
-/** Live open / closed state computed from the market's real schedule. */
+
 function liveMarketStatus(market) {
   const st = getMarketStatus(market);
   if (st.status === 'open') {
@@ -228,7 +228,7 @@ function liveMarketStatus(market) {
   return { open: false, label: `Closed · opens ${when} ${formatTime(market.openingTime)}` };
 }
 
-/* -------------------------------------------------------------- entities */
+
 
 function buildTokens(norm) {
   const out = new Set();
@@ -249,9 +249,9 @@ function detectMarket(tokens, tokenList) {
     let score = 0;
     for (const w of words) {
       if (tokens.has(w)) score += 3;
-      // fuzzy only on 5+ letter names — shorter words cause false hits
-      // ("take" ≈ "lake" → Lakeside!). Exact matching still covers them.
-      else if (w.length >= 5 && fuzzyHas(tokenList, w)) score += 3; // "central citi"
+
+
+      else if (w.length >= 5 && fuzzyHas(tokenList, w)) score += 3;
     }
     if (score > bestScore) {
       bestScore = score;
@@ -269,7 +269,7 @@ function detectProduce(tokens, tokenList) {
     let score = 0;
     for (const w of words) {
       if (tokens.has(w) || tokens.has(singular(w))) score += 3;
-      else if (w.length >= 5 && fuzzyHas(tokenList, w)) score += 3; // "honney"
+      else if (w.length >= 5 && fuzzyHas(tokenList, w)) score += 3;
     }
     if (score > bestScore) {
       bestScore = score;
@@ -330,17 +330,17 @@ function extract(raw, ctx, useMemory = false) {
     }
   }
 
-  // aspects use EXACT matching only — fuzzy matching here produced
-  // nonsense like "does"→"dogs" and "tell"→"sell"
+
+
   const aspects = new Set();
   for (const [aspect, words] of Object.entries(ASPECT_WORDS)) {
     if (words.some((w) => tokens.has(w))) aspects.add(aspect);
   }
 
-  // a named market beats a produce guess ("green valley" ≠ leafy greens)
+
   if (market && produce && tokens.has('market')) produce = null;
 
-  // ---- conversation memory (opt-in, see getReply) ----
+
   if (useMemory) {
     if (!market && ctx.lastMarketId) {
       market = marketsData.find((m) => m.id === ctx.lastMarketId) ?? null;
@@ -361,14 +361,14 @@ function extract(raw, ctx, useMemory = false) {
   };
 }
 
-/**
- * Intent keyword test — exact match, plus typo tolerance on longer words
- * ("organik" → "organic"). Short words stay exact so "does" can't match "dogs".
- */
+
+
+
+
 const has = (q, ...words) =>
   words.some((w) => q.tokens.has(w) || (w.length >= 5 && fuzzyHas(q.tokenList, w)));
 
-/* ---------------------------------------------------------- card builders */
+
 
 function chatMarketCard(m) {
   const st = liveMarketStatus(m);
@@ -396,12 +396,12 @@ function chatProduceCard(p) {
   };
 }
 
-/** markets that stock a given produce item (both directions of the relation) */
+
 function marketsForProduce(p) {
   return marketsData.filter((m) => m.produce.includes(p.id) || p.markets.includes(m.id));
 }
 
-/** markets that carry a whole category (single source: market ↔ produce data) */
+
 function marketsWithCategory(cat) {
   return marketsData.filter((m) =>
     m.produceTypes.includes(cat) || m.tags.includes(cat) ||
@@ -411,9 +411,9 @@ function marketsWithCategory(cat) {
     }));
 }
 
-/* ============================================================================
- * SHOPPING CART (chat-only, persisted like bookmarks)
- * ========================================================================== */
+
+
+
 
 const CART_KEY = 'freshfind_cart';
 let cartCache = null;
@@ -421,7 +421,7 @@ let cartCache = null;
 function cart() {
   if (!Array.isArray(cartCache)) {
     let stored = [];
-    try { stored = JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { /* ignore */ }
+    try { stored = JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch {   }
     cartCache = Array.isArray(stored)
       ? stored.filter((l) => l && l.id && Number(l.qty) > 0)
       : [];
@@ -430,7 +430,7 @@ function cart() {
 }
 
 function persistCart() {
-  try { localStorage.setItem(CART_KEY, JSON.stringify(cart())); } catch { /* ignore */ }
+  try { localStorage.setItem(CART_KEY, JSON.stringify(cart())); } catch {   }
 }
 
 function cartLine(id) {
@@ -473,7 +473,7 @@ function cartSummary() {
   return cart().map((l) => `• ${cartLabel(l)} × ${l.qty}`).join('\n');
 }
 
-/* --------------------------------------------------------------- agent utils */
+
 
 function parseQty(q) {
   for (const t of q.tokenList) {
@@ -486,7 +486,7 @@ function parseQty(q) {
   return 1;
 }
 
-/** the "thing" the user mentioned that we failed to resolve (e.g. "bananas") */
+
 function leftoverNoun(q) {
   const words = q.norm.split(' ').filter((t) => {
     const mapped = SYNONYMS[t] ?? t;
@@ -514,7 +514,7 @@ const PAGE_WORDS = [
   { page: 'directory', words: ['directory', 'market', 'markets'] },
 ];
 
-/** what a navigation command ("take me to …") is pointing at */
+
 function navTarget(q) {
   if (q.e.market) return { kind: 'market', market: q.e.market };
   if (q.e.produce) return { kind: 'produce', produce: q.e.produce };
@@ -527,19 +527,19 @@ function navTarget(q) {
   return null;
 }
 
-/* --------------------------------------------------------------- intents */
+
 
 const nl = (parts) => parts.filter((p) => Boolean(p)).join('\n');
 
 function buildIntents(agent) {
   return [
-    /* ====================================================== CART (actions) */
+
     {
       id: 'cart_clear',
       score: (q) => {
         if (!q.tokens.has('cart')) return 0;
         if (has(q, 'clear', 'wipe', 'erase', 'reset')) return 42;
-        if (q.tokens.has('clear')) return 42; // 'empty' maps to 'clear' via synonyms
+        if (q.tokens.has('clear')) return 42;
         if (has(q, 'remove') && has(q, 'all', 'everything')) return 42;
         return 0;
       },
@@ -561,10 +561,10 @@ function buildIntents(agent) {
     {
       id: 'cart_remove',
       score: (q) => {
-        if (has(q, 'bookmark')) return 0; // "…from my saved items" → bookmarks
+        if (has(q, 'bookmark')) return 0;
         if (!has(q, 'remove', 'take', 'drop')) return 0;
         if (q.tokens.has('cart')) return 40;
-        if (q.e.produce && !q.tokens.has('where')) return 34; // bare "remove tomatoes"
+        if (q.e.produce && !q.tokens.has('where')) return 34;
         return 0;
       },
       handle: (q) => {
@@ -605,7 +605,7 @@ function buildIntents(agent) {
         const addV = has(q, 'add', 'put', 'place', 'drop', 'throw', 'toss');
         const wantV = has(q, 'want', 'need', 'like', 'order', 'buy');
         if (q.tokens.has('cart')) return addV || wantV ? 40 : 30;
-        if (addV && q.e.produce) return 38; // bare "add 2 tomatoes"
+        if (addV && q.e.produce) return 38;
         return 0;
       },
       handle: (q) => {
@@ -635,7 +635,7 @@ function buildIntents(agent) {
       id: 'cart_view',
       score: (q) => {
         if (!q.tokens.has('cart')) return 0;
-        // let the specific cart intents own their verbs
+
         if (has(q, 'clear', 'wipe', 'erase', 'reset', 'add', 'put', 'place', 'remove', 'take', 'drop', 'checkout')) return 0;
         return 38;
       },
@@ -672,7 +672,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* ================================================= NAVIGATION (actions) */
+
     {
       id: 'navigate',
       score: (q) => {
@@ -685,7 +685,7 @@ function buildIntents(agent) {
           return has(q, 'to', 'me', 'us', 'back') || q.e.market || q.e.produce || q.e.category ? 36 : 30;
         }
         if (softV && target.kind === 'page' && has(q, 'page', 'section', 'guide', 'directory', 'tab', 'screen')) {
-          return 32; // "open the produce guide", "show me the directory page"
+          return 32;
         }
         return 0;
       },
@@ -740,7 +740,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* ================================================ FIND / SHOW (actions) */
+
     {
       id: 'find_produce',
       score: (q) => {
@@ -766,14 +766,14 @@ function buildIntents(agent) {
     {
       id: 'browse',
       score: (q) => {
-        if (q.e.day) return 0; // "saturday markets" → open_on_day
-        // specialised market questions keep their own intents
+        if (q.e.day) return 0;
+
         if (has(q, 'organic', 'parking', 'accessible', 'wheelchair', 'pet',
                 'best', 'rating', 'hours', 'timing', 'schedule', 'season', 'seasonal')) return 0;
-        // an explicit "search …" command always runs the directory search
+
         if (has(q, 'search')) return 26;
         if (q.e.produce || q.e.market || q.tokens.has('cart') || q.e.category) return 0;
-        if (has(q, 'near') || q.e.area) return 0; // "markets near me" → find_market
+        if (has(q, 'near') || q.e.area) return 0;
         const showV = has(q, 'show', 'browse', 'list', 'view', 'see', 'display', 'open', 'find');
         if (!showV && !has(q, 'all', 'every')) return 0;
         if (has(q, 'markets', 'market', 'directory')) return 28;
@@ -813,17 +813,17 @@ function buildIntents(agent) {
       },
     },
 
-    /* ============================================ NEAR-ME (real geolocation) */
+
     {
       id: 'near_me',
       score: (q) => {
         if (q.tokens.has('cart') || has(q, 'bookmark')) return 0;
-        // "use my location", "share my location", … count as near-me requests
+
         const locW = /(my|your|real|actual|current) location|use (my|the) location|share my location/.test(q.norm);
         const nearW = q.tokens.has('near') || q.tokens.has('here') || locW;
         if (!nearW) return 0;
         const meW = q.tokens.has('me') || q.tokens.has('my') || q.tokens.has('here') || locW;
-        if (!meW && q.e.area) return 0; // "near greenfield" → find_market
+        if (!meW && q.e.area) return 0;
         return q.e.produce || q.e.category ? 36 : 30;
       },
       handle: (q) => new Promise((resolve) => {
@@ -843,7 +843,7 @@ function buildIntents(agent) {
           }
 
           if (!label) {
-            /* "show markets near me" / "use my real location" → open the map */
+
             const markerCount = agent.openMapView(null);
             if (user) {
               const { sorted, near } = nearbyMarkets(list, user);
@@ -867,7 +867,7 @@ function buildIntents(agent) {
             return;
           }
 
-          /* produce / category + "near me" → answer with real market names */
+
           if (user) {
             const { sorted, near } = nearbyMarkets(list, user);
             const shown = near.length ? near : sorted.slice(0, 4);
@@ -891,13 +891,13 @@ function buildIntents(agent) {
       }),
     },
 
-    /* =================================================== OPEN THE MAP ===== */
+
     {
       id: 'map_view',
       score: (q) => {
         if (q.tokens.has('cart')) return 0;
-        // note: the word "map" is synonym-mapped to the "address" aspect, so
-        // look at the raw text here instead of the token set
+
+
         if (!/\bmaps?\b/.test(q.norm)) return 0;
         if (has(q, 'show', 'open', 'view', 'see', 'display', 'take', 'go', 'switch')) return 30;
         return 0;
@@ -912,7 +912,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* ------------------------------------------------------------- open now */
+
     {
       id: 'open_now',
       score: (q) => {
@@ -960,14 +960,14 @@ function buildIntents(agent) {
       },
     },
 
-    /* --------------------------------------------------------- open on day */
+
     {
       id: 'open_on_day',
       score: (q) => {
         if (!q.e.day) return 0;
         let s = 24;
         if (has(q, 'open', 'market', 'markets', 'hours')) s += 6;
-        if (q.e.market) s -= 16; // "is riverside open today" → market_info
+        if (q.e.market) s -= 16;
         return s;
       },
       handle: (q) => {
@@ -999,7 +999,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* ----------------------------------------------------- specific market */
+
     {
       id: 'market_info',
       score: (q) => (q.e.market ? 26 : 0),
@@ -1007,7 +1007,7 @@ function buildIntents(agent) {
         const m = q.e.market;
         const st = liveMarketStatus(m);
         const dayAsked = q.e.day && q.e.day !== 'weekend' && q.e.day !== 'weekday' ? q.e.day : null;
-        // "is it open on Sunday?" → the day IS the question, so answer with hours
+
         const a = q.e.aspects.size === 0 && dayAsked ? new Set(['hours']) : q.e.aspects;
         const show = (aspect) => a.size === 0 || a.has(aspect);
         const showStatus = !dayAsked || dayAsked === todayName();
@@ -1055,7 +1055,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* -------------------------------------------------- where to buy X */
+
     {
       id: 'where_to_buy',
       score: (q) => {
@@ -1074,7 +1074,7 @@ function buildIntents(agent) {
             suggestions: ['What produce is in season?', 'Show me all markets'],
           };
         }
-        agent.openProduce(p); // show the real "Available At" list on the site
+        agent.openProduce(p);
         return {
           text: `🛒 You'll find ${p.name.toLowerCase()} at ${list.length} market${list.length > 1 ? 's' : ''}:\n\n${list
             .map((m) => `• ${m.name} — ${formatDays(m.days)} ${formatTime(m.openingTime)}–${formatTime(m.closingTime)} · ${m.area}`)
@@ -1085,7 +1085,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* ------------------------------------------------------ produce info */
+
     {
       id: 'produce_info',
       score: (q) => (q.e.produce ? 24 : 0),
@@ -1108,7 +1108,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* ---------------------------------------------------------- seasonal */
+
     {
       id: 'seasonal',
       score: (q) => {
@@ -1137,7 +1137,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* ----------------------------------------------------------- organic */
+
     {
       id: 'organic',
       score: (q) => {
@@ -1159,13 +1159,13 @@ function buildIntents(agent) {
       },
     },
 
-    /* ---------------------------------------------------------- category */
+
     {
       id: 'category',
       score: (q) => (q.e.category && !q.e.produce && !q.tokens.has('cart') ? 20 : 0),
       handle: (q) => {
         const cat = q.e.category;
-        // EXECUTE the site's real category filter, then report what it shows
+
         agent.openProduceGuide({ category: cat });
         const items = produceData.filter((p) => p.category === cat);
         const markets = marketsData.filter((m) => m.produceTypes.includes(cat));
@@ -1179,7 +1179,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* -------------------------------------------------------------- best */
+
     {
       id: 'best',
       score: (q) => {
@@ -1201,7 +1201,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* ---------------------------------------------------------- features */
+
     {
       id: 'features',
       score: (q) => {
@@ -1238,7 +1238,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* -------------------------------------------------------- all hours */
+
     {
       id: 'all_hours',
       score: (q) => {
@@ -1258,7 +1258,7 @@ function buildIntents(agent) {
       }),
     },
 
-    /* ------------------------------------------------------- find / near */
+
     {
       id: 'find_market',
       score: (q) => {
@@ -1293,7 +1293,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* ------------------------------------------------- bookmarks (actions) */
+
     {
       id: 'bookmarks',
       score: (q) => {
@@ -1309,7 +1309,7 @@ function buildIntents(agent) {
             : null;
 
         if (!item) {
-          agent.openPage('bookmarks'); // actually open Saved Items
+          agent.openPage('bookmarks');
           return {
             text: `❤️ I've opened your Saved Items.\n\nReminder — you can save anything by tapping the heart on a market or produce card, add notes, and export the list. Saved items stay in this browser.`,
             suggestions: ['Save honey for later', 'Show me all markets', 'What produce is in season?'],
@@ -1342,7 +1342,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* -------------------------------------------------------------- tips */
+
     {
       id: 'tips',
       score: (q) => {
@@ -1358,7 +1358,7 @@ function buildIntents(agent) {
       }),
     },
 
-    /* ------------------------------------------------------------- about */
+
     {
       id: 'about',
       score: (q) => {
@@ -1374,7 +1374,7 @@ function buildIntents(agent) {
       }),
     },
 
-    /* ----------------------------------------------------------- contact */
+
     {
       id: 'contact',
       score: (q) => {
@@ -1390,7 +1390,7 @@ function buildIntents(agent) {
       }),
     },
 
-    /* --------------------------------------------------------- abilities */
+
     {
       id: 'abilities',
       score: (q) => {
@@ -1406,7 +1406,7 @@ function buildIntents(agent) {
       }),
     },
 
-    /* -------------------------------------------------------- small talk */
+
     {
       id: 'smalltalk',
       score: (q) => {
@@ -1442,7 +1442,7 @@ function buildIntents(agent) {
       },
     },
 
-    /* ------------------------------------------------------------ thanks */
+
     {
       id: 'thanks',
       score: (q) => (has(q, 'thanks') ? 26 : 0),
@@ -1452,7 +1452,7 @@ function buildIntents(agent) {
       }),
     },
 
-    /* --------------------------------------------------------------- bye */
+
     {
       id: 'bye',
       score: (q) => (has(q, 'bye') ? 26 : 0),
@@ -1464,7 +1464,7 @@ function buildIntents(agent) {
   ];
 }
 
-/* -------------------------------------------------------------- fallback */
+
 
 const FALLBACK_SUGGESTIONS = [
   'Which markets are open now?',
@@ -1483,7 +1483,7 @@ function nearestTopic(q) {
     { label: 'saved items', words: ['bookmark', 'save', 'favourite'] },
   ];
   let best = null;
-  let bestDist = 2; // only a single-character slip counts as "did you mean"
+  let bestDist = 2;
   for (const c of candidates) {
     for (const w of c.words) {
       if (w.length < 5) continue;
@@ -1506,7 +1506,7 @@ function fallback(q) {
   const wantsProduct = has(q, 'find', 'add', 'buy', 'show', 'get', 'want', 'need', 'remove', 'search', 'locate', 'look');
   const wantsMarketNav = has(q, 'take', 'visit', 'navigate', 'head', 'bring', 'jump');
 
-  /* "find me bananas" / "add bananas to my cart" — unknown produce */
+
   if (wantsProduct && noun) {
     return {
       text: nl([
@@ -1519,7 +1519,7 @@ function fallback(q) {
     };
   }
 
-  /* "take me to walmart" — unknown destination */
+
   if (wantsMarketNav && noun) {
     return {
       text: `🤔 I couldn't find "${noun}" anywhere on FreshFind, and I won't make up a place. Our ${marketsData.length} markets are:\n\n${marketsData
@@ -1545,11 +1545,11 @@ function fallback(q) {
   };
 }
 
-/* ----------------------------------------------------------- public API */
+
 
 const GREETING_PREFIXES = ['👋 Hey! ', '👋 Hi there! ', '👋 Hello! '];
 
-/** words that refer back to something we were just talking about */
+
 const PRONOUNS = ['it', 'there', 'this', 'that', 'they', 'them', 'its'];
 
 function pickBest(q, intents) {
@@ -1569,34 +1569,34 @@ export function getReply(input, ctx, agent) {
   const MIN_SCORE = 12;
   const intents = buildIntents(agent);
 
-  /* --- pass 1: answer on the user's own words, no assumptions ---------- */
+
   let q = extract(input, ctx, false);
   let { intent, score } = pickBest(q, intents);
 
   const asksBack = PRONOUNS.some((p) => q.tokens.has(p));
   const remembers = Boolean(ctx.lastMarketId || ctx.lastProduceId);
 
-  /* "and on Sunday?" → keep talking about the market from last turn */
+
   const dayFollowUp =
     intent?.id === 'open_on_day' &&
     ctx.lastMarketId !== null &&
     !q.tokens.has('markets') &&
     q.tokenList.length <= 5;
 
-  /* --- pass 2: only fall back to conversation memory when the new
-         message is vague ("...and on Sunday?", "what about it?", "parking?").
-         A completely unrelated question must NOT resurrect old context. --- */
+
+
+
   const vague = q.tokenList.length <= 3;
-  /* if the message already names something concrete (an area, category,
-     season or entity), memory must stay out of the way — otherwise
-     "search greenfield" gets hijacked by whatever was mentioned earlier. */
+
+
+
   const concrete = Boolean(q.e.market || q.e.produce || q.e.area || q.e.category || q.e.season);
   if (remembers && (dayFollowUp || (!concrete && (asksBack || vague)))) {
     const memQ = extract(input, ctx, true);
     const mem = pickBest(memQ, intents);
-    /* an explicit navigation ("go home", "take me to the produce section")
-       is self-contained — old context must not hijack the destination
-       ("take me there" with no target still benefits from memory). */
+
+
+
     if (mem.intent && (mem.score > score || dayFollowUp) && intent?.id !== 'navigate') {
       q = memQ;
       intent = mem.intent;
@@ -1604,7 +1604,7 @@ export function getReply(input, ctx, agent) {
     }
   }
 
-  /* --- nothing matched: greet back or apologise ------------------------ */
+
   if (!intent || score < MIN_SCORE) {
     if (q.greeted) {
       const w = welcomeMessage();
@@ -1619,7 +1619,7 @@ export function getReply(input, ctx, agent) {
     };
   }
 
-  /* "which markets are organic?" switches topic — forget the old market */
+
   const GLOBAL_INTENTS = new Set([
     'organic', 'seasonal', 'features', 'best', 'all_hours', 'category',
     'bookmarks', 'about', 'contact', 'abilities', 'tips', 'smalltalk',
@@ -1644,8 +1644,8 @@ export function getReply(input, ctx, agent) {
     return { reply: { ...reply, text }, ctx: nextCtx };
   };
 
-  /* intent handlers may answer with a promise (e.g. while the browser
-     geolocation permission is being requested) — callers handle both */
+
+
   const maybeReply = intent.handle(q);
   if (maybeReply && typeof maybeReply.then === 'function') {
     return maybeReply.then(build);

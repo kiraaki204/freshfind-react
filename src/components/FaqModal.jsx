@@ -4,7 +4,7 @@ import { useSupportModal } from '../hooks/useSupportModal.jsx';
 import Icon from './Icon.jsx';
 import SupportModal from './SupportModal.jsx';
 
-/* Content preserved from the former standalone FAQ page. */
+
 const FAQS = [
   {
     q: 'What is FreshFind?',
@@ -49,8 +49,8 @@ export default function FaqModal({ open, onClose }) {
 
   const toggle = (i) => setOpenIndex((cur) => (cur === i ? null : i));
 
-  /* Arrow keys move between question buttons (roving focus without
-     roving tabindex, so Tab behaviour stays predictable). */
+
+
   const onAccordionKey = (e, i) => {
     const move = { ArrowDown: 1, ArrowUp: -1 }[e.key];
     let next = null;
