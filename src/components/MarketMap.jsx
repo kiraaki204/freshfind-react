@@ -25,7 +25,7 @@ function popupHtml(m, saved) {
   return `
     <div class="ffpop">
       <h3 class="h6 mb-1">${esc(m.name)}</h3>
-      <div class="mb-2"><span class="rounded-pill fw-medium d-inline-flex align-items-center ${stCls}" style="padding:2px 8px;font-size:12px">${st.status === 'open' ? '<span class="pulse-dot me-1"></span>' : ''}${esc(st.label)}</span></div>
+      <div class="mb-2"><span class="rounded-pill fw-medium d-inline-flex align-items-center ${esc(stCls)}" style="padding:2px 8px;font-size:12px">${st.status === 'open' ? '<span class="pulse-dot me-1"></span>' : ''}${esc(st.label)}</span></div>
       <div class="small text-muted mb-1">${esc(m.address)}</div>
       <div class="small text-muted mb-2">${m.days.map(esc).join(', ')} · ${formatTime(m.openingTime)} – ${formatTime(m.closingTime)}</div>
       ${items.length > 0 ? `<div class="d-flex flex-wrap gap-1 mb-2">${items.slice(0, 6).map((p) => `<span class="chip">${esc(p.emoji)} ${esc(p.name)}</span>`).join('')}${items.length > 6 ? `<span class="chip">+${items.length - 6}</span>` : ''}</div>` : ''}
