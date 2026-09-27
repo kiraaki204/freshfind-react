@@ -61,8 +61,10 @@ test('homepage planner replaces the how-to panel and contact has no follow box',
   await expect(page.locator('#contact')).not.toContainText('Follow Us');
   await expect(page.getByText('How the journal works for you')).toHaveCount(0);
   await page.getByRole('button', { name: 'Open The FreshFind Field Journal' }).click();
-  await page.getByLabel('Where are you heading?').selectOption('Greenfield');
-  await page.getByLabel('When would you like to go?').selectOption('Wednesday');
+  await page.getByRole('button', { name: /Where are you heading\?/ }).click();
+  await page.getByRole('option', { name: 'Greenfield', exact: true }).click();
+  await page.getByRole('button', { name: /When would you like to go\?/ }).click();
+  await page.getByRole('option', { name: 'Wednesday', exact: true }).click();
   await expect(page.locator('.journal-planner')).toContainText('1 market to explore');
   await page.getByRole('button', { name: 'See matches on the map' }).click();
   await expect(page).toHaveURL('/markets');
