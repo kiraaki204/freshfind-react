@@ -2124,6 +2124,9 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   border-radius: 20px;
   padding: 16px;
   box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto; /* grows to keep the details column balanced with the form column */
 }
 .contact-map-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .contact-map-icon {
@@ -2133,7 +2136,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   color: var(--forest-deep);
   display: flex; align-items: center; justify-content: center;
 }
-.contact-map-card .mini-map { border-radius: 14px; height: 220px; }
+.contact-map-card .mini-map { border-radius: 14px; flex: 1 1 220px; min-height: 220px; }
 .contact-map-card .mini-map-canvas { border-radius: 12px; }
 
 .contact-form-card {
