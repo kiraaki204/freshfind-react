@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import AppLoader from './components/AppLoader.jsx';
 import { ThemeProvider } from './hooks/useTheme.jsx';
@@ -10,14 +10,14 @@ import { DirectoryFiltersProvider } from './hooks/useDirectoryFilters.jsx';
 import { ProduceFiltersProvider } from './hooks/useProduceFilters.jsx';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
-import ChatWidget from './components/ChatWidget.jsx';
+const ChatWidget = lazy(() => import('./components/ChatWidget.jsx'));
 import BotanicalJourney from './components/BotanicalJourney.jsx';
-import HomePage from './pages/HomePage.jsx';
-import DirectoryPage from './pages/DirectoryPage.jsx';
+const HomePage = lazy(() => import('./pages/HomePage.jsx'));
+const DirectoryPage = lazy(() => import('./pages/DirectoryPage.jsx'));
 import { MarketModalProvider, MarketModalHost } from './hooks/useMarketModal.jsx';
 import { ProduceDetailModalProvider } from './hooks/useProduceDetailModal.jsx';
 import { SupportModalProvider } from './hooks/useSupportModal.jsx';
-import NotFoundPage from './pages/NotFoundPage.jsx';
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
 
 function ScrollHandler() {
   const { pathname, hash } = useLocation();
@@ -78,6 +78,7 @@ export default function App() {
                 <Header />
                 <main id="main-content" tabIndex={-1}>
                   <div id="page">
+                    <Suspense fallback={<AppLoader />}>
                     <Routes>
                       <Route path="/" element={<HomePage visitorCount={visitorCount} />} />
                       <Route path="/markets" element={<DirectoryPage />} />
@@ -97,10 +98,11 @@ export default function App() {
                       <Route path="/privacy" element={<Navigate to="/" replace />} />
                       <Route path="*" element={<NotFoundPage />} />
                     </Routes>
+                    </Suspense>
                   </div>
                 </main>
                 <Footer visitorCount={visitorCount} />
-                <ChatWidget />
+                <Suspense fallback={null}><ChatWidget /></Suspense>
                 {booting && <AppLoader leaving={bootLeaving} />}
                 {/* market modal renders down here so it can use BOTH the
                     market and the produce-detail modal contexts (it opens

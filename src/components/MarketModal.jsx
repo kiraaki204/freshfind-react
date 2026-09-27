@@ -242,7 +242,7 @@ export default function MarketModal({ marketId, onClose }) {
                 <Icon name="phone" size={16} /> {m.phone}
               </a>
               {m.website && (
-                <a className="d-block small" href={m.website} target="_blank" rel="noopener">
+                <a className="d-block small" href={m.website} target="_blank" rel="noopener noreferrer">
                   <Icon name="globe" size={16} /> Visit Website
                 </a>
               )}

@@ -1,3 +1,5 @@
+import { writeJSON } from '../utils/storage.js';
+
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { chooseVoice, speechChunks, loadVoicePreferences } from '../utils/voice.js';
 
@@ -28,7 +30,7 @@ export default function useVoiceAssistant() {
   const utterRef = useRef(null); // retain the active utterance for browser GC
 
   useEffect(() => {
-    try { localStorage.setItem('freshfind_voice', JSON.stringify(preferences)); } catch { /* private mode */ }
+    writeJSON('freshfind_voice', preferences);
   }, [preferences]);
 
   useEffect(() => {

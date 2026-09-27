@@ -16,6 +16,7 @@ import { useSupportModal } from '../hooks/useSupportModal.jsx';
 import useVoiceAssistant from '../hooks/useVoiceAssistant.js';
 import { VOICE_LANGUAGES } from '../utils/voice.js';
 import Icon from './Icon.jsx';
+import { readJSON, readValue, writeJSON, writeValue } from '../utils/storage.js';
 
 const CHAT_KEY = 'freshfind_chat';
 const HINT_KEY = 'freshfind_chat_hint';
@@ -38,7 +39,7 @@ const timeLabel = (d) =>
 
 function loadMessages() {
   try {
-    const stored = JSON.parse(localStorage.getItem(CHAT_KEY) || '[]');
+    const stored = readJSON(CHAT_KEY, []);
     if (Array.isArray(stored) && stored.length) {
       return stored.map((m) => ({ ...m, timestamp: new Date(m.timestamp) }));
     }
@@ -136,37 +137,24 @@ export default function ChatWidget() {
 
   /* persist conversation (last 60 messages) */
   useEffect(() => {
-    try {
-      localStorage.setItem(CHAT_KEY, JSON.stringify(msgs.slice(-60)));
-    } catch {
-      /* ignore */
-    }
+    writeJSON(CHAT_KEY, msgs.slice(-60));
   }, [msgs]);
 
   /* hint bubble after a few seconds, only if never seen */
   useEffect(() => {
     const t = setTimeout(() => {
       if (open) return;
-      try {
-        if (localStorage.getItem(HINT_KEY) === 'seen') return;
-      } catch {
-        /* ignore */
-      }
+      if (readValue(HINT_KEY) === 'seen') return;
       setHintVisible(true);
     }, 3500);
     return () => clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [open]);
 
   /* opening the panel: hide hint, greet on first open, focus the input */
   useEffect(() => {
     if (!open) return;
     setHintVisible(false);
-    try {
-      localStorage.setItem(HINT_KEY, 'seen');
-    } catch {
-      /* ignore */
-    }
+    writeValue(HINT_KEY, 'seen');
     setMsgs((m) => {
       if (m.length) return m;
       const w = welcomeMessage();

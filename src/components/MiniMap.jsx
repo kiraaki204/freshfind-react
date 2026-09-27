@@ -62,7 +62,7 @@ export default function MiniMap({ name, address, lat, lng }) {
           className="btn-green btn-sm"
           href={`https://www.google.com/maps/search/?api=1&query=${q}`}
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
         >
           <Icon name="nav" size={14} /> Get Directions
         </a>

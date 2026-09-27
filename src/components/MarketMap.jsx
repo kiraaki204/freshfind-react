@@ -30,9 +30,9 @@ function popupHtml(m, saved) {
       <div class="small text-muted mb-2">${m.days.map(esc).join(', ')} · ${formatTime(m.openingTime)} – ${formatTime(m.closingTime)}</div>
       ${items.length > 0 ? `<div class="d-flex flex-wrap gap-1 mb-2">${items.slice(0, 6).map((p) => `<span class="chip">${esc(p.emoji)} ${esc(p.name)}</span>`).join('')}${items.length > 6 ? `<span class="chip">+${items.length - 6}</span>` : ''}</div>` : ''}
       <div class="d-flex gap-1">
-        <button type="button" class="btn-green py-1 px-2 flex-grow-1" style="font-size:12px" data-ff-view="${m.id}">View Details</button>
-        <button type="button" class="btn-outline-green py-1 px-2" style="font-size:12px" data-ff-save="${m.id}" aria-pressed="${saved}"><span class="ffpop-save-label">${saved ? 'Saved' : 'Save'}</span></button>
-        <a class="btn-outline-green py-1 px-2" style="font-size:12px;text-decoration:none" href="${dirUrl}" target="_blank" rel="noopener">Directions</a>
+        <button type="button" class="btn-green py-1 px-2 flex-grow-1" style="font-size:12px" data-ff-view="${esc(m.id)}">View Details</button>
+        <button type="button" class="btn-outline-green py-1 px-2" style="font-size:12px" data-ff-save="${esc(m.id)}" aria-pressed="${esc(saved)}"><span class="ffpop-save-label">${saved ? 'Saved' : 'Save'}</span></button>
+        <a class="btn-outline-green py-1 px-2" style="font-size:12px;text-decoration:none" href="${esc(dirUrl)}" target="_blank" rel="noopener">Directions</a>
       </div>
     </div>`;
 }
@@ -72,6 +72,10 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
   const displayKey = displayed.map((m) => m.id).join(',');
   const userKey = user ? `${user.lat},${user.lng}` : '';
   const selectedId = selection ? selection.id : null;
+  const displayedRef = useRef(displayed);
+  const userRef = useRef(user);
+  displayedRef.current = displayed;
+  userRef.current = user;
 
   // load Leaflet once (dynamic import keeps it SSR-safe)
   useEffect(() => {
@@ -85,7 +89,8 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
   // create the map once Leaflet and the container are available
   useEffect(() => {
     if (!L || !containerRef.current || mapRef.current) return undefined;
-    const map = L.map(containerRef.current, { zoomControl: false, minZoom: 3, maxZoom: 18 });
+    const container = containerRef.current;
+    const map = L.map(container, { zoomControl: false, minZoom: 3, maxZoom: 18 });
     addBaseTiles(L, map);
     L.control.zoom({ position: 'topright' }).addTo(map); // same corner as the old controls
     mapRef.current = map;
@@ -109,13 +114,13 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
         saveBtn.setAttribute('aria-pressed', String(!wasSaved));
       }
     };
-    containerRef.current.addEventListener('click', onClick);
+    container.addEventListener('click', onClick);
 
     const ro = new ResizeObserver(() => map.invalidateSize());
-    ro.observe(containerRef.current);
+    ro.observe(container);
 
     return () => {
-      containerRef.current?.removeEventListener('click', onClick);
+      container.removeEventListener('click', onClick);
       ro.disconnect();
       map.remove();
       mapRef.current = null;
@@ -131,7 +136,7 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
 
     const existing = markersRef.current;
     const next = {};
-    displayed.forEach((m) => {
+    displayedRef.current.forEach((m) => {
       if (!isValidCoord(m.lat, m.lng)) return; // never place a marker at a guess
       let marker = existing[m.id];
       if (!marker) {
@@ -177,17 +182,17 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
     const key = `${displayKey}|${userKey}`;
     if (key !== fitKeyRef.current) {
       fitKeyRef.current = key;
-      const frame = displayed.length ? displayed : allMarkets;
+      const frame = displayedRef.current.length ? displayedRef.current : allMarkets;
       const pts = frame.filter((m) => isValidCoord(m.lat, m.lng)).map((m) => [m.lat, m.lng]);
       // Frame all results, not a potentially distant visitor location.
-      if (!displayed.length && user) pts.push([user.lat, user.lng]);
+      if (!displayedRef.current.length && userRef.current) pts.push([userRef.current.lat, userRef.current.lng]);
       if (pts.length) {
         // A fresh filter must win over a previous pan/fly animation.
         map.stop();
         map.fitBounds(pts, { padding: [48, 48], maxZoom: 14, animate: false });
       }
     }
-  }, [L, mapStatus, displayKey, userKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [L, mapStatus, displayKey, userKey, selectedId]);
 
   // selected-market pin gets the green highlight
   useEffect(() => {
@@ -205,15 +210,16 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
       userMarkerRef.current.remove();
       userMarkerRef.current = null;
     }
-    if (user && isValidCoord(user.lat, user.lng)) {
-      userMarkerRef.current = L.marker([user.lat, user.lng], {
+    const currentUser = userRef.current;
+    if (currentUser && isValidCoord(currentUser.lat, currentUser.lng)) {
+      userMarkerRef.current = L.marker([currentUser.lat, currentUser.lng], {
         icon: userDotIcon(L),
         title: 'Your location',
         alt: 'Your location',
         zIndexOffset: 500,
       }).addTo(map);
     }
-  }, [L, mapStatus, userKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [L, mapStatus, userKey]);
 
   // a fresh selection (card click, marker click or chatbot request) → fly to
   // the marker and open its popup; each nonce is consumed exactly once

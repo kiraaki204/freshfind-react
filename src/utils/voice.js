@@ -1,3 +1,5 @@
+import { readJSON } from './storage.js';
+
 // Keep display copy intact; make only the spoken version easier to pronounce.
 export function cleanForSpeech(text = '') {
   return text
@@ -58,13 +60,11 @@ export const VOICE_LANGUAGES = [
 
 export function loadVoicePreferences() {
   const fallback = { language: 'en-US', voiceURI: '', rate: 1 };
-  try {
-    const saved = JSON.parse(localStorage.getItem('freshfind_voice') || '{}');
-    return {
-      language: VOICE_LANGUAGES.some(([code]) => code === saved.language) ? saved.language :
-        VOICE_LANGUAGES.some(([code]) => code === navigator.language) ? navigator.language : fallback.language,
-      voiceURI: typeof saved.voiceURI === 'string' ? saved.voiceURI : '',
-      rate: typeof saved.rate === 'number' && saved.rate >= .8 && saved.rate <= 1.2 ? saved.rate : 1,
-    };
-  } catch { return fallback; }
+  const saved = readJSON('freshfind_voice', {});
+  return {
+    language: VOICE_LANGUAGES.some(([code]) => code === saved.language) ? saved.language :
+      VOICE_LANGUAGES.some(([code]) => code === navigator.language) ? navigator.language : fallback.language,
+    voiceURI: typeof saved.voiceURI === 'string' ? saved.voiceURI : '',
+    rate: typeof saved.rate === 'number' && saved.rate >= .8 && saved.rate <= 1.2 ? saved.rate : 1,
+  };
 }

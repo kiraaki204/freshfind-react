@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { readValue, writeValue } from '../utils/storage.js';
 
 const STORAGE_KEY = 'freshfind_theme';
 const DARK = 'dark';
@@ -10,11 +11,7 @@ const ThemeContext = createContext(null);
    theme is on <html> before the first paint; this only re-reads it so the
    React tree agrees with what is already painted. */
 function load() {
-  try {
-    return localStorage.getItem(STORAGE_KEY) === DARK ? DARK : LIGHT;
-  } catch {
-    return LIGHT;
-  }
+  return readValue(STORAGE_KEY, LIGHT) === DARK ? DARK : LIGHT;
 }
 
 export function ThemeProvider({ children }) {
@@ -35,21 +32,13 @@ export function ThemeProvider({ children }) {
   const selectTheme = useCallback((next) => {
     const value = next === DARK ? DARK : LIGHT;
     setThemeState(value);
-    try {
-      localStorage.setItem(STORAGE_KEY, value);
-    } catch {
-      /* private mode — the theme still applies for this session */
-    }
+    writeValue(STORAGE_KEY, value)
   }, []);
 
   const toggleTheme = useCallback(() => {
     setThemeState((current) => {
       const value = current === DARK ? LIGHT : DARK;
-      try {
-        localStorage.setItem(STORAGE_KEY, value);
-      } catch {
-        /* private mode — the theme still applies for this session */
-      }
+    writeValue(STORAGE_KEY, value)
       return value;
     });
   }, []);

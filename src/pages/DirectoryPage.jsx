@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import markets from '../data/markets.json';
 import { applyMarketFilters } from '../utils/markets.js';
 import { useDirectoryFilters } from '../hooks/useDirectoryFilters.jsx';
@@ -6,7 +6,7 @@ import { useGeolocation } from '../hooks/useGeolocation.jsx';
 import Icon from '../components/Icon.jsx';
 import Breadcrumb from '../components/Breadcrumb.jsx';
 import MarketCard from '../components/MarketCard.jsx';
-import MarketMap from '../components/MarketMap.jsx';
+const MarketMap = lazy(() => import('../components/MarketMap.jsx'));
 import FilterSelect from '../components/FilterSelect.jsx';
 import { LeafSprig, Vine } from '../components/Doodles.jsx';
 
@@ -175,13 +175,13 @@ export default function DirectoryPage() {
 
       {filters.view === 'map' ? (
         <>
-          <MarketMap
+          <Suspense fallback={<div className="map-box ffmap-state">Loading map…</div>}><MarketMap
             markets={list}
             popupRequest={popupRequest}
             onPopupConsumed={clearPopupRequest}
             selection={selection}
             onSelectMarket={selectMarket}
-          />
+          /></Suspense>
           {list.length > 0 ? (
             <div className="mt-4">{renderCards(true)}</div>
           ) : (

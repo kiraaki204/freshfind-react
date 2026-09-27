@@ -12,6 +12,8 @@
  * only store produce id + qty; names/emojis resolve live from produceData.
  */
 
+import { readJSON, writeJSON } from '../utils/storage.js';
+
 import marketsData from '../data/markets.json';
 import produceData from '../data/produce.json';
 import { formatTime, getMarketStatus, getNextOpenDay, getCurrentSeason, todayName } from '../utils/time.js';
@@ -420,8 +422,7 @@ let cartCache = null;
 
 function cart() {
   if (!Array.isArray(cartCache)) {
-    let stored = [];
-    try { stored = JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { /* ignore */ }
+    const stored = readJSON(CART_KEY, []);
     cartCache = Array.isArray(stored)
       ? stored.filter((l) => l && l.id && Number(l.qty) > 0)
       : [];
@@ -430,7 +431,7 @@ function cart() {
 }
 
 function persistCart() {
-  try { localStorage.setItem(CART_KEY, JSON.stringify(cart())); } catch { /* ignore */ }
+  writeJSON(CART_KEY, cart());
 }
 
 function cartLine(id) {

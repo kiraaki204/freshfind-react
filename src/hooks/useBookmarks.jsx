@@ -1,17 +1,14 @@
 import { createContext, useCallback, useContext, useState } from 'react';
 import { useToast } from './useToast.jsx';
+import { readJSON, writeJSON } from '../utils/storage.js';
 
 const STORAGE_KEY = 'freshfind_bookmarks';
 
 const BookmarksContext = createContext(null);
 
 function load() {
-  try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    return Array.isArray(saved) ? saved : [];
-  } catch {
-    return [];
-  }
+  const saved = readJSON(STORAGE_KEY, []);
+  return Array.isArray(saved) ? saved : [];
 }
 
 export function BookmarksProvider({ children }) {
@@ -20,11 +17,7 @@ export function BookmarksProvider({ children }) {
 
   const persist = useCallback((next) => {
     setBookmarks(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      /* private mode etc. — bookmarks stay in memory */
-    }
+    writeJSON(STORAGE_KEY, next)
   }, []);
 
   const isBookmarked = useCallback(
@@ -46,11 +39,7 @@ export function BookmarksProvider({ children }) {
             note: '',
             savedAt: new Date().toISOString(),
           }];
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      } catch {
-        /* ignore */
-      }
+    writeJSON(STORAGE_KEY, next)
       showToast(exists ? `${item.name} removed from saved items.` : `${item.name} saved!`);
       return next;
     });
@@ -60,11 +49,7 @@ export function BookmarksProvider({ children }) {
     setBookmarks((current) => {
       const removed = current.find((b) => b.id === id);
       const next = current.filter((b) => b.id !== id);
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      } catch {
-        /* ignore */
-      }
+    writeJSON(STORAGE_KEY, next)
       showToast(`${removed ? removed.name : 'Item'} removed from saved items.`);
       return next;
     });
@@ -73,11 +58,7 @@ export function BookmarksProvider({ children }) {
   const setNote = useCallback((id, note) => {
     setBookmarks((current) => {
       const next = current.map((b) => (b.id === id ? { ...b, note } : b));
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      } catch {
-        /* ignore */
-      }
+    writeJSON(STORAGE_KEY, next)
       return next;
     });
   }, []);
