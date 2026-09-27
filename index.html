@@ -7,6 +7,18 @@
   <meta name="keywords" content="farmers market, fresh produce, local food, seasonal vegetables, organic market, community market">
   <title>FreshFind — Discover Fresh Local Farmers' Markets</title>
   <meta name="theme-color" content="#faf7ef">
+  <script>
+    (() => {
+      try {
+        const saved = localStorage.getItem('freshfind_theme');
+        const theme = saved === 'dark' ? 'dark' : 'light';
+        document.documentElement.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', theme === 'dark' ? '#172D25' : '#faf7ef');
+      } catch {
+        document.documentElement.dataset.theme = 'light';
+      }
+    })();
+  </script>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

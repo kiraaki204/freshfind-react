@@ -57,7 +57,7 @@ export default function HomeContactSection() {
           <div className="col-lg-5 d-flex">
             <div className="contact-info-wrap w-100">
               <div className="contact-intro">
-                <h3 className="h5 mb-2" style={{ color: '#2a4a36' }}>Reach out to FreshFind</h3>
+                <h3 className="h5 mb-2">Reach out to FreshFind</h3>
                 <p className="small text-muted mb-0" style={{ lineHeight: 1.6 }}>
                   Whether you&apos;re a shopper, a grower, or just curious about what&apos;s in season — drop us a line. We read every message.
                 </p>
@@ -99,7 +99,7 @@ export default function HomeContactSection() {
                 <div className="contact-map-head">
                   <span className="contact-map-icon"><Icon name="pin" size={16} /></span>
                   <div>
-                    <div className="fw-semibold" style={{ fontSize: 14, color: '#2a4a36' }}>FreshFind demo area</div>
+                    <div className="fw-semibold" style={{ fontSize: 14, color: 'var(--forest-deep)' }}>FreshFind demo area</div>
                     <div className="small text-muted">Centre of the {markets.length} sample markets</div>
                   </div>
                 </div>

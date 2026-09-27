@@ -38,7 +38,7 @@ function scrollToHash(hash) {
   }
 }
 
-export default function Header() {
+export default function Header({ theme, onToggleTheme }) {
   const navigate = useNavigate();
   const { pathname, hash } = useLocation();
   const { bookmarks } = useBookmarks();
@@ -171,6 +171,22 @@ export default function Header() {
             onClick={toggleSearch}
           >
             <Icon name={searchOpen ? 'x' : 'search'} size={18} />
+          </button>
+          <button
+            className="icon-btn theme-toggle"
+            type="button"
+            aria-label={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
+            title={theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
+            onClick={onToggleTheme}
+          >
+            <svg className="theme-flower" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle className="flower-petal" cx="12" cy="5.3" r="3.2" />
+              <circle className="flower-petal" cx="17.8" cy="9.5" r="3.2" />
+              <circle className="flower-petal" cx="15.6" cy="16.3" r="3.2" />
+              <circle className="flower-petal" cx="8.4" cy="16.3" r="3.2" />
+              <circle className="flower-petal" cx="6.2" cy="9.5" r="3.2" />
+              <circle className="flower-center" cx="12" cy="11" r="2.1" />
+            </svg>
           </button>
           <button className="icon-btn" aria-label="Saved items" aria-haspopup="dialog" onClick={() => openSupport('saved')}>
             <Icon name="heart" size={18} />

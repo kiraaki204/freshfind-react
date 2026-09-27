@@ -281,15 +281,15 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
             <i className="lg-pin" /> Market{user ? <>&nbsp;<i className="lg-you" /> You</> : ''}
           </span>
           {geo.loading && (
-            <span style={{ color: '#4e7357' }}><Icon name="nav" size={13} /> Requesting your location…</span>
+            <span style={{ color: 'var(--leaf)' }}><Icon name="nav" size={13} /> Requesting your location…</span>
           )}
           {!geo.loading && user && closest && (
-            <span style={{ color: '#4e7357' }}>
+            <span style={{ color: 'var(--leaf)' }}>
               <Icon name="nav" size={13} /> closest match ~{fmtDist(closest.d)} away
             </span>
           )}
           {!geo.loading && !user && geo.error && (
-            <span style={{ color: '#8c5a3c' }}><Icon name="alert" size={13} /> {geo.error} — showing matching markets</span>
+            <span style={{ color: 'var(--season-autumn-ink)' }}><Icon name="alert" size={13} /> {geo.error} — showing matching markets</span>
           )}
         </div>
       )}

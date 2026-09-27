@@ -102,7 +102,7 @@ export default function DirectoryPage() {
         {geo.granted && <div className="alert alert-success py-2 small">Location found! Markets sorted by proximity.</div>}
 
         {showFilters && (
-          <div className="row g-2 pt-3" style={{ borderTop: '1px solid #f3f4f6' }}>
+          <div className="row g-2 pt-3" style={{ borderTop: '1px solid var(--line)' }}>
             <div className="col-12 col-sm-6 col-lg-3">
               <FilterSelect
                 label="Location / Area"
@@ -153,8 +153,8 @@ export default function DirectoryPage() {
         </p>
         <div>
           <button
-            className={`icon-btn${filters.view === 'list' ? ' text-white' : ''}`}
-            style={filters.view === 'list' ? { background: '#355b43' } : undefined}
+            className="icon-btn"
+            style={filters.view === 'list' ? { background: 'var(--forest)', color: 'var(--on-primary)' } : undefined}
             aria-label="Show market list"
             aria-pressed={filters.view === 'list'}
             onClick={() => update({ view: 'list' })}
@@ -162,8 +162,8 @@ export default function DirectoryPage() {
             <Icon name="list" size={16} />
           </button>
           <button
-            className={`icon-btn${filters.view === 'map' ? ' text-white' : ''}`}
-            style={filters.view === 'map' ? { background: '#355b43' } : undefined}
+            className="icon-btn"
+            style={filters.view === 'map' ? { background: 'var(--forest)', color: 'var(--on-primary)' } : undefined}
             aria-label="Show market map"
             aria-pressed={filters.view === 'map'}
             onClick={() => update({ view: 'map' })}
