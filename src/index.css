@@ -3722,11 +3722,30 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   top: calc(var(--header-h) + 34px);
   bottom: 96px;
   width: 48px;
-  z-index: 1;
+  z-index: 10;
   pointer-events: none;
   opacity: .9;
 }
-.ff-journey-svg { width: 100%; height: 100%; display: block; }
+.ff-journey-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* The plants have their own short viewport instead of sharing the rail's
+   72 × 620 viewport. This keeps the seed and seedling recognizable on narrow
+   screens while their centre remains aligned with the growth line. */
+.ff-journey-stages {
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  width: clamp(44px, 4vw, 64px);
+  height: auto;
+  display: block;
+  overflow: visible;
+  transform: translateX(-50%);
+}
 .ff-journey-line {
   stroke: var(--journey-line);
   transition: stroke-dashoffset .22s linear;
@@ -3737,8 +3756,9 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
   transition: opacity .32s ease, transform .32s ease;
 }
 .ff-stroke { stroke: var(--journey-plant); fill: none; stroke-linecap: round; stroke-linejoin: round; }
-.ff-stroke-soft { stroke: var(--journey-plant); fill: var(--journey-plant); fill-opacity: .14; stroke-linecap: round; stroke-linejoin: round; }
-.ff-fill-soft { fill: var(--journey-seed); fill-opacity: .55; stroke: var(--journey-seed); stroke-width: 1; }
+.ff-stroke-soft { stroke: var(--journey-plant); fill: var(--journey-plant); fill-opacity: .2; stroke-linecap: round; stroke-linejoin: round; }
+.ff-stroke-seed { stroke: var(--journey-seed); fill: none; stroke-width: 1.4; stroke-linecap: round; }
+.ff-fill-soft { fill: var(--journey-seed); fill-opacity: .68; stroke: var(--journey-seed); stroke-width: 1.2; }
 
 /* Narrower viewports: once the side margin no longer holds the full rail, pin
    it to the right edge and slim it down just enough that its centred ink (the
