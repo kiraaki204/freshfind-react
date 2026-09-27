@@ -1,0 +1,288 @@
+/* =====================================================================
+   FreshFind — "Botanical Journal" design system
+   A soft pastel Gen-Z lifestyle brand: warm ivory paper, pistachio &
+   sage greens, blush / peach / buttercream accents, fine hairline
+   borders, diffuse shadows and delicate hand-drawn botanical doodles.
+   ===================================================================== */
+
+:root {
+  /* legacy tokens (kept so older rules keep working) */
+  --green-50: #f3f7ee;
+  --green-100: #e6eedb;
+  --green-200: #dce7d5;
+  --green-300: #b8cbb2;
+  --green-400: #8fae90;
+  --green-500: #6b8f6f;
+  --green-600: #4e7357;
+  --green-700: #355b43;
+  --green-800: #2c4a37;
+  --green-900: #22392b;
+  --green-950: #182a20;
+  --gray-50: #faf7ef;
+  --gray-100: #f4f0e6;
+  --gray-200: #e8e2d4;
+  --gray-400: #a39e91;
+  --gray-500: #7d796d;
+  --gray-600: #625f55;
+  --gray-700: #4a4a42;
+  --gray-800: #37372f;
+  --gray-900: #2b2b25;
+  --header-h: 76px;
+
+  /* botanical-journal palette */
+  --paper: #faf7ef;          /* warm ivory – main foundation */
+  --paper-2: #f4f0e4;        /* slightly deeper ivory */
+  --cream: #fffdf7;          /* pale cream – cards, inputs */
+  --ink: #2f4a38;            /* readable dark green (replaces black) */
+  --ink-soft: #5f7263;       /* secondary text */
+  --forest: #355b43;         /* muted forest – primary buttons, headings */
+  --forest-deep: #2a4a36;
+  --leaf: #4e7357;           /* mid green – icons, links */
+  --leaf-deep: #3f624a;
+  --sage: #8fae90;           /* dusty sage mid */
+  --sage-dust: #b8cbb2;      /* dusty sage */
+  --sage-pale: #dce7d5;      /* pale sage */
+  --lime: #e6eedb;           /* pistachio (soft highlight, replaces neon lime) */
+  --lime-deep: #cfe0c3;
+  --pistachio: #e6eedb;
+  --mint: #eaf3ea;           /* very pale mint */
+  --butter: #f8efd5;         /* buttercream */
+  --honey: #d8b97a;          /* muted gold for tiny accents */
+  --peach: #f5e0d1;          /* soft peach */
+  --pink: #f5e3e7;           /* blush */
+  --blush: #f9eef1;          /* paler blush */
+  --rose: #c98a99;           /* dusty rose – handwritten accents */
+  --tomato: #c98a99;         /* legacy accent name → dusty rose */
+  --sky: #e3edf2;
+  --lilac: #ece7f3;
+  --sand-line: #e9e2d3;
+
+  /* hairline borders */
+  --line: #e4e9dc;           /* pale sage hairline */
+  --line-soft: #ece9df;      /* warm beige hairline (dividers) */
+  --line-strong: #cbd8c4;    /* hover / focus edge */
+  --ring: rgba(143, 174, 144, .28);
+
+  /* diffuse, low-opacity shadows */
+  --shadow-card: 0 6px 20px -8px rgba(53, 91, 67, .16), 0 1px 3px rgba(53, 91, 67, .05);
+  --shadow-soft: 0 14px 34px -18px rgba(53, 91, 67, .22);
+  --shadow-lift: 0 22px 46px -20px rgba(53, 91, 67, .26), 0 2px 6px rgba(53, 91, 67, .05);
+
+  /* soft gradients (reused across sections so the page stays cohesive) */
+  --grad-ivory-blush: linear-gradient(180deg, #faf7ef 0%, #fbf3f2 100%);
+  --grad-cream-pistachio: linear-gradient(180deg, #fffdf7 0%, #eef3e4 100%);
+  --grad-sage-ivory: linear-gradient(180deg, #e6eedb 0%, #faf7ef 100%);
+  --grad-ivory-peach: linear-gradient(180deg, #faf7ef 0%, #f8ebe1 100%);
+
+  /* bootstrap utility hooks → keep .text-dark / .text-muted / .border in the green-ink palette */
+  --bs-body-color: #2f4a38;
+  --bs-body-bg: #faf7ef;
+  --bs-dark-rgb: 42, 74, 54;
+  --bs-secondary-color: #5f7263;
+  --bs-border-color: #e4e9dc;
+  --bs-link-color: #355b43;
+  --bs-link-hover-color: #2a4a36;
+
+  --font-sans: "Nunito", "Avenir Next", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-hand: "Caveat", "Segoe Script", "Bradley Hand", "Snell Roundhand", cursive;
+  --font-serif: Georgia, "Times New Roman", serif;
+
+  /* ---------- role tokens ----------
+     These describe WHAT a colour is for, not what it looks like. `:root`
+     holds the light values; [data-theme="dark"] below restates them in
+     botanical dark tones. Any rule that uses a role token works in both
+     themes without ever being touched again. */
+  --on-accent: #fff;             /* text/icon sitting on --forest or --rose fills */
+  --on-accent-rgb: 255, 255, 255;
+
+  /* translucent panels — alpha stays in the rule, the tint comes from here */
+  --glass-rgb: 255, 253, 247;    /* frosted header / floating pills over content */
+  --hairline: rgba(255, 255, 255, .8); /* light-on-light hairline inside glass */
+  --pill-wash: rgba(255, 255, 255, .7);/* chip fill sitting on a pastel card */
+  --shadow-rgb: 53, 91, 67;      /* brand-green shadow → soft black in dark */
+  --scrim: rgba(47, 74, 56, .38);/* backdrop behind a modal */
+  --leaf-rgb: 78, 115, 87;       /* live/health pulse ring */
+
+  /* section washes (pale ivory → botanical equivalents) */
+  --wash-warm: #f7f4ea;
+  --wash-soft: #f5f1e6;
+  --wash-blush: #fbf3ee;
+  --wash-pistachio: #eef3e4;
+  --wash-fern: #e9eedf;
+
+  /* rgb triplets so existing rgba() glows keep their exact alpha */
+  --pistachio-rgb: 230, 238, 219;
+  --pink-rgb: 245, 227, 231;
+  --butter-rgb: 248, 239, 213;
+  --peach-rgb: 245, 224, 209;
+  --mint-rgb: 234, 243, 231;
+  --line-rgb: 228, 233, 220;
+
+  /* ink colours used on the pastel season / sticker surfaces */
+  --ink-rose: #8b5563;
+  --ink-gold: #7a5a1f;
+  --ink-clay: #8c5a3c;
+  --ink-sky: #4a6a7d;
+  --ink-alt: #374151;
+  --placeholder: #96907e;
+  --placeholder-2: #a8a498;
+  --muted-line: #b3a9a0;
+  --muted-cool: #9ca3af;
+
+  --grad-cover: linear-gradient(100deg, #2a4a36 0%, #355b43 55%, #4a7057 100%);
+
+  /* --sage-dust doubles as a hairline AND as .btn-sun's fill; the hairline
+     needs to stay visible on a dark page, the fill needs a dark ink on top,
+     so the button gets a surface of its own */
+  --sun-bg: #b8cbb2;
+
+  /* the journal's four seasonal chips use brighter inks than the rest of
+     the palette, so they get their own pair of role tokens each */
+  --fj-spring-ink: #be5572;  --fj-spring-wash: #fdf0f4;
+  --fj-summer-ink: #b97a10;  --fj-summer-wash: #fdf6e4;
+  --fj-autumn-ink: #ddb08a;  --fj-autumn-wash: #fdf1e7;
+  --fj-winter-ink: #3f6fa0;  --fj-winter-wash: #eff5fb;
+
+  /* wash used by the quick-action card tint */
+  --wash-butter: #fbf6e9;
+}
+
+/* =====================================================================
+   DARK THEME — forest botany
+   Same token names, new values: near-black pine canvas, layered green
+   surfaces, bright pistachio as the accent and pale ivory as the ink.
+   Rules that only ever reference tokens never need touching; the handful
+   of literal colours in the sheet were already moved onto role tokens.
+   ===================================================================== */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* legacy scale — flipped so low numbers are dark and high are light.
+     Tones are warm charcoal-with-a-hint-of-moss rather than saturated pine,
+     so the page reads as a dimmed paper journal, not a green cave. */
+  --green-50: #2a3031;
+  --green-100: #343b3a;
+  --green-200: #3d4544;
+  --green-300: #5d6b60;
+  --green-400: #9bb79a;
+  --green-500: #a9cba2;
+  --green-600: #9fc79a;
+  --green-700: #b6d6ad;
+  --green-800: #c3dfba;
+  --green-900: #262b2c;
+  --green-950: #1f2425;
+  --gray-50: #272c2e;
+  --gray-100: #2e3436;
+  --gray-200: #3d4448;
+  --gray-400: #8b918c;
+  --gray-500: #9ba19b;
+  --gray-600: #b2b7b0;
+  --gray-700: #c8ccc4;
+  --gray-800: #dcded6;
+  --gray-900: #edeae2;
+
+  /* surfaces, darkest → lightest: warm neutral greys with a faint sage cast */
+  --paper: #22282a;
+  --paper-2: #282e30;
+  --cream: #2f3538;
+
+  /* ink — warm ivory */
+  --ink: #edeae2;
+  --ink-soft: #b7bdb6;
+
+  /* muted botanical green stays the accent, but never neon */
+  --forest: #9fc79a;
+  --forest-deep: #b6d6ad;
+  --leaf: #a9cba2;
+  --leaf-deep: #bcd9b3;
+  --sage: #9bb79a;
+  --sage-dust: #5d6b60;
+  --sage-pale: #3a433d;
+  --lime: #37403b;
+  --lime-deep: #434d47;
+  --pistachio: #37403b;
+  --mint: #323a38;
+
+  /* seasonal pastels: soft tinted surfaces, light saturated inks on top */
+  --butter: #423c2e;
+  --honey: #e3c67f;
+  --peach: #46372f;
+  --pink: #443640;
+  --blush: #3e323b;
+  --rose: #ddaebb;
+  --tomato: #ddaebb;
+  --sky: #2f3f49;
+  --lilac: #3a3747;
+  --sand-line: #414749;
+
+  --ink-rose: #f1cfd8;
+  --ink-gold: #efd8a3;
+  --ink-clay: #f0c1ab;
+  --ink-sky: #bdd3dd;
+  --ink-alt: #c4c9c1;
+  --placeholder: #949a93;
+  --placeholder-2: #949a93;
+  --muted-line: #9ca29a;
+  --muted-cool: #9ca29a;
+
+  /* hairlines: warm graphite so structure survives without green banding */
+  --line: #3d4448;
+  --line-soft: #363c3f;
+  --line-strong: #566059;
+  --ring: rgba(159, 199, 154, .42);
+
+  /* shadows need real darkness to read against a dark page */
+  --shadow-card: 0 6px 20px -8px rgba(0, 0, 0, .5), 0 1px 3px rgba(0, 0, 0, .28);
+  --shadow-soft: 0 14px 34px -18px rgba(0, 0, 0, .56);
+  --shadow-lift: 0 22px 46px -20px rgba(0, 0, 0, .6), 0 2px 6px rgba(0, 0, 0, .28);
+
+  --grad-ivory-blush: linear-gradient(180deg, #22282a 0%, #2b2a2f 100%);
+  --grad-cream-pistachio: linear-gradient(180deg, #2f3538 0%, #2a322f 100%);
+  --grad-sage-ivory: linear-gradient(180deg, #333c37 0%, #22282a 100%);
+  --grad-ivory-peach: linear-gradient(180deg, #22282a 0%, #2e2b28 100%);
+
+  /* the journal cover stays a deeper solid object so it still reads as a
+     physical book sitting on the page */
+  --grad-cover: linear-gradient(100deg, #23342b 0%, #2c4034 55%, #38503f 100%);
+  --wash-warm: #262b2c;
+  --wash-soft: #292e2e;
+  --wash-blush: #2c2a2d;
+  --wash-pistachio: #2a322e;
+  --wash-fern: #2e3833;
+  --wash-butter: #383428;
+  --sun-bg: #45514a;
+
+  /* journal seasonal chips: deep tinted wash, pale saturated ink */
+  --fj-spring-ink: #f5bccd;  --fj-spring-wash: #3c3037;
+  --fj-summer-ink: #efd8a3;  --fj-summer-wash: #383428;
+  --fj-autumn-ink: #f1c7ac;  --fj-autumn-wash: #3e332b;
+  --fj-winter-ink: #b2cee2;  --fj-winter-wash: #2c3944;
+
+  /* role tokens flip with the accent */
+  --on-accent: #1f2426;
+  --on-accent-rgb: 31, 36, 38;
+  --glass-rgb: 44, 50, 52;
+  --hairline: rgba(255, 255, 255, .12);
+  --pill-wash: rgba(255, 255, 255, .1);
+  --shadow-rgb: 0, 0, 0;
+  --scrim: rgba(14, 17, 18, .6);
+  --leaf-rgb: 159, 199, 154;
+
+  --pistachio-rgb: 55, 64, 59;
+  --pink-rgb: 68, 54, 64;
+  --butter-rgb: 66, 60, 46;
+  --peach-rgb: 70, 55, 47;
+  --mint-rgb: 50, 58, 56;
+  --line-rgb: 61, 68, 72;
+
+  --bs-body-color: #edeae2;
+  --bs-body-bg: #22282a;
+  --bs-dark-rgb: 237, 234, 226;
+  --bs-secondary-color: #b7bdb6;
+  --bs-border-color: #3d4448;
+  --bs-link-color: #b6d6ad;
+  --bs-link-hover-color: #cfe7c6;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; overflow-x: clip; }

@@ -1,0 +1,130 @@
+/* ================= Leaflet street maps ================= */
+.ffmap {
+  position: relative; z-index: 0; isolation: isolate; height: 480px; border-radius: 22px; overflow: hidden;
+  background: var(--mint); border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+.ffmap-canvas, .mini-map-canvas { position: absolute; inset: 0; }
+.ffmap .leaflet-container, .mini-map .leaflet-container {
+  font-family: inherit; font-size: 13px; background: var(--mint);
+}
+.ffmap-state {
+  position: absolute; inset: 0; z-index: 1100; display: flex; align-items: center;
+  justify-content: center; gap: 8px; background: rgba(var(--mint-rgb), .88);
+  color: var(--ink-alt); font-size: 13px; font-weight: 600; text-align: center;
+  padding: 16px; pointer-events: none;
+}
+.ffmap-chip {
+  position: absolute; top: 10px; left: 10px; z-index: 1100; background: rgba(var(--glass-rgb), .94);
+  border: 1px solid var(--line);
+  border-radius: 12px; padding: 5px 12px; font-size: 12px; font-weight: 700; color: var(--forest-deep);
+  box-shadow: 0 4px 12px -4px rgba(var(--shadow-rgb), .2); pointer-events: none; max-width: calc(100% - 20px);
+}
+
+/* the tile credit OpenStreetMap requires, kept inside the map as a quiet
+   corner note instead of a caption strip underneath it */
+.ffmap .leaflet-control-attribution,
+.mini-map .leaflet-control-attribution {
+  background: rgba(var(--glass-rgb), .78);
+  color: var(--ink-soft);
+  font-size: 10px;
+  line-height: 1.4;
+  padding: 1px 6px;
+  border-radius: 8px 0 0 0;
+  margin: 0;
+}
+.ffmap .leaflet-control-attribution a,
+.mini-map .leaflet-control-attribution a { color: var(--forest-deep); }
+
+.ff-pin-icon, .ff-user-icon { background: none; border: none; }
+.ff-pin-icon svg { display: block; filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
+.ff-user-dot {
+  display: block; width: 14px; height: 14px; border-radius: 50%; position: relative;
+  background: var(--green-500); border: 2.5px solid #fff; box-shadow: 0 0 0 2px rgba(107,143,111,.35);
+}
+.ff-user-dot::after {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 36px; height: 36px;
+  border-radius: 50%; transform: translate(-50%, -50%); background: rgba(107,143,111,.22);
+  animation: ffpulse 2s infinite; pointer-events: none;
+}
+@keyframes ffpulse {
+  0% { transform: translate(-50%, -50%) scale(.55); opacity: .9; }
+  100% { transform: translate(-50%, -50%) scale(1.45); opacity: 0; }
+}
+
+.leaflet-popup-content-wrapper { border-radius: 14px; box-shadow: 0 12px 32px -8px rgba(var(--shadow-rgb), .25); border: 1px solid var(--line); background: var(--cream); }
+.leaflet-popup-content { margin: 12px 14px; }
+.ffpop .chip { font-size: 11px; }
+
+/* Leaflet ships its own white chrome; restated here so the zoom buttons and
+   the attribution strip belong to the palette in the dark theme too. */
+[data-theme="dark"] .leaflet-bar a {
+  background: var(--cream);
+  color: var(--ink);
+  border-bottom-color: var(--line);
+}
+[data-theme="dark"] .leaflet-bar a:hover { background: var(--pistachio); color: var(--forest-deep); }
+[data-theme="dark"] .leaflet-bar a.leaflet-disabled { background: var(--paper-2); color: var(--muted-line); }
+[data-theme="dark"] .leaflet-control-attribution {
+  background: rgba(var(--glass-rgb), .92);
+  color: var(--ink-soft);
+}
+[data-theme="dark"] .leaflet-control-attribution a { color: var(--leaf); }
+[data-theme="dark"] .leaflet-control-zoom { border-color: var(--line) !important; box-shadow: var(--shadow-card); }
+
+.ffmap-legend { display: inline-flex; align-items: center; }
+.ffmap-legend .lg-pin, .ffmap-legend .lg-you {
+  display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+  margin: 0 4px 0 2px; vertical-align: 1px;
+}
+.ffmap-legend .lg-pin { background: var(--rose); box-shadow: 0 0 0 1.5px #fff, 0 0 0 2.5px var(--rose); }
+.ffmap-legend .lg-you { background: var(--green-500); box-shadow: 0 0 0 1.5px #fff, 0 0 0 2.5px var(--green-500); }
+
+.m-card.selectable { cursor: pointer; }
+.m-card.selected { outline: 2px solid var(--sage); outline-offset: 3px; }
+
+@media (max-width: 576px) {
+  .ffmap { height: 400px; }
+  .ffmap-chip { font-size: 11px; }
+}
+
+.fselect { position: relative; }
+.fselect.open { z-index: 60; }
+/* the filter bar must sit above the market cards so open menus aren't covered */
+.dir-filter-bar { position: relative; z-index: 50; }
+.dir-filter-bar:hover { transform: none; }
+.fselect-label { display: block; margin-bottom: 4px; font-weight: 700; color: var(--forest-deep); }
+.fselect-btn {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; background: var(--cream); border: 1px solid var(--line-strong); border-radius: 14px;
+  padding: 9px 12px; font-size: 14px; font-weight: 600; color: var(--ink); text-align: left;
+  min-height: 44px; transition: border-color .15s ease, box-shadow .15s ease;
+}
+.fselect-btn:hover { border-color: var(--sage-dust); }
+.fselect-btn.open, .fselect-btn:focus-visible {
+  outline: none; border-color: var(--sage);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+.fselect-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fselect-chev { flex-shrink: 0; color: var(--leaf); transform: rotate(90deg); transition: transform .15s; }
+.fselect-btn.open .fselect-chev { transform: rotate(-90deg); }
+.fselect-menu {
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 1020;
+  margin: 0; padding: 6px; list-style: none; background: var(--cream);
+  border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: var(--shadow-lift);
+  max-height: 264px; overflow-y: auto;
+}
+.fselect-menu:focus { outline: none; }
+.fselect-opt {
+  display: flex; align-items: center; gap: 8px; padding: 9px 10px;
+  border-radius: 9px; font-size: 14px; font-weight: 600; color: var(--ink); cursor: pointer;
+}
+.fselect-opt.active { background: var(--pistachio); }
+.fselect-opt.selected { color: var(--forest-deep); font-weight: 700; background: var(--sage-pale); }
+
+@media (max-width: 576px) {
+  .ff-card .form-select, .ff-card .form-control { font-size: 16px; }
+  .fselect-btn { font-size: 16px; }
+}
+

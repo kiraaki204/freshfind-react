@@ -1,0 +1,48 @@
+/* ---------- layout ---------- */
+#page { padding-top: calc(var(--header-h) + 22px); min-height: 100vh; }
+
+.wrap {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+@media (min-width: 576px) {
+  .wrap { padding-left: 1.5rem; padding-right: 1.5rem; }
+}
+
+.crumb {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+  background: rgba(var(--glass-rgb), .8);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 16px;
+}
+.crumb button {
+  background: none; border: none; color: var(--ink-soft);
+  display: inline-flex; align-items: center; gap: 4px; padding: 0;
+  font-weight: 600;
+}
+.crumb button:hover { color: var(--leaf-deep); }
+.crumb .here { color: var(--forest-deep); font-weight: 800; }
+.crumb a {
+  color: var(--leaf-deep); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.crumb a:hover { text-decoration: underline; }
+
+/* stacked journal bands: rounded tops overlapping like scrapbook pages */
+.band {
+  position: relative;
+  border-radius: 34px 34px 0 0;
+  margin-top: -24px;
+  padding-top: 1rem;
+}
+.band-flush { border-radius: 0; margin-top: 0; }
+

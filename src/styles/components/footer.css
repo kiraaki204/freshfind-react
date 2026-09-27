@@ -1,0 +1,54 @@
+/* ---------- footer : deep forest garden ---------- */
+.site-footer {
+  background: linear-gradient(180deg, var(--pistachio) 0%, var(--sage-pale) 100%);
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--line);
+}
+.foot-fringe { display: none; }
+.site-footer a { text-decoration: none; }
+.site-footer a:hover { text-decoration: none; }
+.foot-bar {
+  background: rgba(var(--glass-rgb), .45);
+  border-bottom: 1px solid rgba(143, 174, 144, .25);
+}
+.foot-link {
+  background: none; border: none;
+  color: var(--forest);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 2px 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  transition: transform .15s ease, color .15s ease;
+}
+.foot-link:hover { color: var(--forest-deep); transform: translateX(3px); }
+.foot-title {
+  color: var(--forest-deep);
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: -.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1rem;
+}
+.foot-title::after { content: ""; flex: 1; max-width: 36px; height: 2px; border-radius: 2px; background: var(--sage-dust); }
+.social-btn {
+  width: 40px; height: 40px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: transform .18s ease;
+}
+.social-btn:hover { transform: translateY(-2px); }
+.social-dark { background: rgba(var(--glass-rgb), .7); color: var(--forest); border: 1px solid rgba(143, 174, 144, .35); }
+.social-dark:hover { background: var(--forest); color: var(--on-accent); border-color: var(--forest); }
+.social-light { background: var(--cream); border: 1px solid var(--line); color: var(--forest-deep); }
+.social-light:hover { background: var(--pistachio); border-color: var(--line-strong); color: var(--forest-deep); }
+

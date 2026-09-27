@@ -1,0 +1,212 @@
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1030;
+  padding: 10px 12px 0;
+  transition: padding .25s ease;
+}
+.header-inner {
+  position: relative;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 8px 12px;
+  min-height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(var(--glass-rgb), .82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(var(--line-rgb), .9);
+  border-radius: 22px;
+  box-shadow: 0 8px 24px -14px rgba(var(--shadow-rgb), .18);
+  transition: background .25s ease, box-shadow .25s ease;
+}
+.site-header.scrolled .header-inner { background: rgba(var(--glass-rgb), .95); box-shadow: var(--shadow-card); }
+
+.logo-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: none;
+  border: none;
+  padding: 2px 6px 2px 2px;
+  border-radius: 16px;
+}
+.logo-mark {
+  width: 44px; height: 44px;
+  border-radius: 46% 54% 52% 48% / 52% 46% 54% 48%;
+  background: linear-gradient(135deg, var(--pistachio) 0%, var(--sage-pale) 60%, var(--sage-dust) 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--forest-deep);
+  transition: transform .25s ease;
+  flex-shrink: 0;
+}
+.logo-btn:hover .logo-mark { transform: rotate(-10deg) scale(1.06); }
+.logo-title { font-size: 1.35rem; font-weight: 800; color: var(--forest-deep); line-height: 1; letter-spacing: -.02em; }
+.logo-sub { font-family: var(--font-hand); font-size: 15px; color: var(--rose); margin-top: 1px; display: inline-block; line-height: 1; }
+
+.main-nav { display: none; gap: 4px; }
+.ff-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  background: none;
+  padding: 7px 13px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease, color .18s ease;
+}
+.ff-nav:hover { color: var(--forest-deep); background: var(--mint); }
+.ff-nav.active {
+  background: var(--pistachio);
+  color: var(--forest-deep);
+}
+.ff-nav svg { color: var(--sage); }
+.ff-nav.active svg, .ff-nav:hover svg { color: var(--forest-deep); }
+
+.header-actions { display: flex; align-items: center; gap: 6px; }
+.icon-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 8px;
+  color: var(--ink-soft);
+  border-radius: 14px;
+  position: relative;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease;
+}
+.icon-btn:hover { color: var(--forest-deep); background: var(--mint); transform: translateY(-1px); }
+
+/* theme toggle — the one header control that is permanently "filled", so it
+   reads as a deliberate switch rather than another view action. The blossom
+   itself inherits `color`, which is a muted sage on pistachio in the light
+   theme and a pale pistachio on deep green in the dark one. */
+.theme-toggle {
+  background: var(--pistachio);
+  border-color: var(--line);
+  color: var(--leaf);
+}
+.theme-toggle:hover {
+  background: var(--lime-deep);
+  border-color: var(--line-strong);
+  color: var(--forest-deep);
+  transform: translateY(-1px) rotate(10deg);
+}
+.theme-toggle:active { transform: translateY(0) rotate(10deg) scale(.94); }
+.theme-toggle:focus-visible { outline: 2px solid var(--forest); outline-offset: 3px; }
+
+.count-badge {
+  position: absolute;
+  top: -8px; right: -8px;
+  min-width: 20px; height: 20px;
+  padding: 0 5px;
+  background: var(--rose);
+  color: var(--on-accent);
+  font-size: 11px;
+  font-weight: 800;
+  border: 2px solid var(--cream);
+  border-radius: 999px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* compact search: the input expands downward directly beneath the search
+   toggle button, staying aligned with it and never spanning the navbar */
+.search-slot { position: relative; display: inline-flex; }
+.header-search {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  left: auto;
+  width: min(268px, calc(100vw - 40px));
+  max-width: 268px;
+  z-index: 40;
+  padding: 8px;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  transform: translateY(-8px) scaleY(.8);
+  transform-origin: top right;
+  transition: transform .24s cubic-bezier(.33, 1, .38, 1), opacity .2s ease, visibility 0s linear .24s;
+}
+.header-search.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scaleY(1);
+  transition: transform .24s cubic-bezier(.33, 1, .38, 1), opacity .2s ease;
+}
+.header-search .search-wrap { width: 100%; }
+.header-search .form-control {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+/* focused state keeps the plain look — just the border, no glow or fill swap */
+.header-search .form-control:focus,
+.header-search .form-control:focus-visible {
+  background: var(--cream);
+  border-color: var(--line-strong);
+  box-shadow: none;
+  outline: none;
+}
+/* the little magnifier inside the compact field scales with it */
+.header-search .search-wrap .s-ico { left: 12px; }
+.header-search .search-wrap input { padding-left: 36px; }
+
+.mobile-menu {
+  display: none;
+  max-width: 80rem;
+  margin: 8px auto 0;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--cream);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+.mobile-menu.open { display: block; animation: pop-in .25s ease both; }
+.mobile-link {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: none;
+  background: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  text-align: left;
+}
+.mobile-link.active { background: var(--pistachio); color: var(--forest-deep); }
+.mob-ico {
+  width: 38px; height: 38px;
+  border-radius: 12px 14px 12px 16px;
+  background: var(--mint);
+  color: var(--forest-deep);
+  display: flex; align-items: center; justify-content: center;
+}
+.mobile-link.active .mob-ico { background: var(--forest); color: var(--on-accent); }
+
+@media (min-width: 992px) {
+  :root { --header-h: 76px; }
+  .site-header { padding: 12px 20px 0; }
+  .header-inner { padding: 8px 16px; border-radius: 24px; }
+  .main-nav { display: flex; }
+  .menu-toggle { display: none !important; }
+}
+

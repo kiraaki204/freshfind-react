@@ -1,0 +1,466 @@
+
+/* ---------- home produce : market finds ---------- */
+.home-produce {
+  position: relative;
+  padding: 3.75rem 0 4rem;
+  background:
+    radial-gradient(560px 360px at 10% 8%, rgba(var(--butter-rgb), .8), transparent 70%),
+    radial-gradient(520px 380px at 92% 22%, rgba(var(--pink-rgb), .7), transparent 70%),
+    linear-gradient(180deg, var(--paper) 0%, var(--wash-warm) 100%);
+  overflow: hidden;
+}
+.produce-deco { position: absolute; pointer-events: none; z-index: 0; }
+.produce-deco--leaf { top: 1.2rem; right: 4%; animation: drift 9s ease-in-out infinite; }
+.produce-deco--herb { bottom: 8%; left: 1%; animation: wiggle 7s ease-in-out infinite; }
+.produce-deco--tomato { top: 44%; right: 1.5%; animation: floaty 6s ease-in-out infinite; }
+.produce-deco--flower { bottom: 4%; right: 6%; animation: twinkle 4s ease-in-out infinite; }
+@media (max-width: 768px) {
+  .produce-deco--leaf { right: -14px; transform: scale(.72); }
+  .produce-deco--herb, .produce-deco--tomato { display: none; }
+}
+.produce-journal-head { text-align: center; max-width: 44rem; margin: 0 auto 1.4rem; position: relative; z-index: 1; }
+.produce-journal-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  color: var(--rose);
+  margin-bottom: 8px;
+}
+.produce-journal-line { width: 28px; height: 1.5px; background: var(--sage-dust); border-radius: 3px; display: inline-block; }
+.produce-title-wrap { position: relative; }
+.produce-title { margin: 0; line-height: 1; letter-spacing: -.025em; }
+.produce-title-script {
+  display: block;
+  font-family: var(--font-hand);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3.4vw, 2.1rem);
+  color: var(--leaf-deep);
+}
+.produce-title-main {
+  display: block;
+  font-size: clamp(2.3rem, 5.4vw, 3.4rem);
+  font-weight: 800;
+  color: var(--forest-deep);
+  letter-spacing: -.035em;
+}
+.produce-title-main .hl { white-space: nowrap; }
+.produce-title-underline { margin: 10px auto 0; display: flex; justify-content: center; }
+.produce-subtitle { color: var(--ink-soft); font-size: 15px; line-height: 1.65; margin: 12px auto 0; max-width: 33rem; font-weight: 500; }
+.produce-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  justify-content: center;
+  margin: 22px 0 24px;
+  position: relative;
+  z-index: 1;
+}
+.produce-tab {
+  border: 1px solid var(--line);
+  background: var(--cream);
+  color: var(--forest);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 999px;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease, color .15s ease;
+}
+.produce-tab:hover { background: var(--pistachio); border-color: var(--line-strong); transform: translateY(-1px); }
+.produce-tab.on {
+  background: var(--forest);
+  color: var(--on-accent);
+  border-color: var(--forest);
+}
+.produce-filter-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--forest);
+  background: var(--butter);
+  padding: 6px 14px;
+  border-radius: 999px;
+}
+.produce-grid { position: relative; z-index: 1; }
+.produce-foot { text-align: center; margin-top: 28px; position: relative; z-index: 1; }
+.produce-foot-note { font-size: 13px; color: var(--ink-soft); margin-bottom: 14px; font-weight: 600; }
+.produce-explore-btn {
+  border-radius: 999px;
+  padding: 13px 24px;
+  font-size: 15px;
+  font-weight: 700;
+}
+.produce-explore-icon { background: rgba(255,255,255,.25); width: 30px; height: 30px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; }
+.produce-foot-hint { font-family: var(--font-hand); font-size: 1.2rem; color: var(--ink-soft); margin-top: 10px; }
+.produce-cta-desktop { display: none; }
+
+/* ---------- produce cards : curated finds ---------- */
+.ff-produce-card {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-shadow: var(--shadow-card);
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  position: relative;
+}
+.ff-produce-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+  border-color: var(--line-strong);
+}
+.ff-produce-card.browse { border-radius: 22px; }
+.produce-img-wrap {
+  position: relative;
+  height: 178px;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, var(--cream), var(--pistachio));
+}
+@media (min-width: 768px) { .produce-img-wrap { height: 188px; } }
+.produce-img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .45s ease;
+}
+.ff-produce-card:hover .produce-img { transform: scale(1.05); }
+.produce-emoji-fallback {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3.6rem;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(255,255,255,.9) 0 34px, transparent 36px),
+    radial-gradient(circle at 50% 30%, var(--cream), var(--pistachio));
+}
+.ff-produce-card[data-cat="Fruits"] .produce-img-wrap { background: radial-gradient(circle at 50% 30%, var(--cream), var(--pink)); }
+.ff-produce-card[data-cat="Herbs"] .produce-img-wrap { background: radial-gradient(circle at 50% 30%, var(--cream), var(--mint)); }
+.ff-produce-card[data-cat="Dairy"] .produce-img-wrap { background: radial-gradient(circle at 50% 30%, var(--cream), var(--sky)); }
+.ff-produce-card[data-cat="Baked Goods"] .produce-img-wrap { background: radial-gradient(circle at 50% 30%, var(--cream), var(--peach)); }
+.produce-img-shade { display: none; }
+.produce-cat-chip {
+  position: absolute;
+  left: 10px; bottom: 10px;
+  font-size: 10.5px; font-weight: 700;
+  letter-spacing: .07em; text-transform: uppercase;
+  background: rgba(var(--glass-rgb), .92);
+  color: var(--forest);
+  border: 1px solid var(--hairline);
+  padding: 4px 11px;
+  border-radius: 999px;
+  box-shadow: 0 4px 12px -4px rgba(var(--shadow-rgb), .2);
+}
+.produce-season-dot {
+  position: absolute; top: 10px; left: 10px;
+  width: 32px; height: 32px;
+  border-radius: 999px;
+  background: rgba(var(--glass-rgb), .92);
+  color: var(--honey);
+  border: 1px solid var(--hairline);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 12px -4px rgba(var(--shadow-rgb), .2);
+}
+.produce-tape { display: none; }
+.produce-card-body {
+  padding: 13px 15px 14px;
+  display: flex; flex-direction: column; flex-grow: 1; gap: 5px;
+}
+.produce-card-title { font-size: 16px; font-weight: 800; color: var(--forest-deep); line-height: 1.2; margin: 0; letter-spacing: -.01em; }
+.produce-card-desc {
+  font-size: 12.5px; color: var(--ink-soft); line-height: 1.55; font-weight: 500;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  margin: 0; min-height: 2.9em;
+}
+.produce-card-meta { font-size: 12px; font-weight: 700; color: var(--leaf-deep); display: flex; align-items: center; gap: 6px; margin: 2px 0 0; }
+.produce-card-head-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.produce-card-cat { font-family: var(--font-hand); font-size: 16px; color: var(--rose); white-space: nowrap; }
+
+/* ---------- product browse modal ---------- */
+.product-browse-backdrop { z-index: 1050; }
+.product-browse-dialog {
+  max-width: 68rem;
+  width: calc(100% - 24px);
+  max-height: 90vh;
+  border-radius: 26px;
+  background: var(--paper);
+}
+.browse-head {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  padding: 20px 22px 16px;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--grad-cream-pistachio);
+  flex-shrink: 0;
+  border-radius: 24px 24px 0 0;
+}
+.browse-head-text { min-width: 0; }
+.browse-eyebrow {
+  font-family: var(--font-hand); font-size: 1.3rem;
+  color: var(--rose); display: inline-flex; align-items: center; gap: 8px; margin-bottom: 4px;
+}
+.browse-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--sage-dust); display: inline-block; }
+.browse-title { font-size: 1.6rem; font-weight: 800; color: var(--forest-deep); margin: 0; line-height: 1.1; letter-spacing: -.02em; }
+.browse-intro { font-size: 13.5px; color: var(--ink-soft); margin: 6px 0 0; max-width: 36rem; line-height: 1.55; font-weight: 500; }
+.browse-close { flex-shrink: 0; }
+.browse-toolbar {
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--cream);
+  display: flex; flex-direction: column; gap: 12px;
+  flex-shrink: 0;
+}
+.browse-search { position: relative; max-width: 28rem; }
+.browse-search .form-control { padding-right: 38px; }
+.browse-clear {
+  position: absolute; right: 7px; top: 50%; transform: translateY(-50%);
+  width: 28px; height: 28px; border-radius: 999px; border: none;
+  background: var(--pink); color: var(--rose); display: flex; align-items: center; justify-content: center;
+}
+.browse-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.browse-count { font-size: 12.5px; font-weight: 600; }
+.browse-body {
+  flex: 1; overflow-y: auto; padding: 20px 22px 24px;
+  background: var(--paper);
+  min-height: 200px;
+}
+.browse-empty { text-align: center; padding: 2.5rem 1rem; }
+.browse-empty-icon {
+  width: 62px; height: 62px; border-radius: 48% 52% 55% 45% / 52% 48% 52% 48%;
+  background: var(--pistachio); color: var(--forest-deep);
+  display: flex; align-items: center; justify-content: center; margin: 0 auto;
+}
+@media (min-width: 768px) {
+  .product-browse-dialog { width: calc(100% - 32px); }
+  .browse-head { padding: 22px 26px 16px; }
+  .browse-toolbar { padding: 16px 26px; }
+  .browse-body { padding: 22px 26px 26px; }
+  .browse-title { font-size: 1.8rem; }
+}
+@media (max-width: 767.98px) {
+  .product-browse-dialog { width: calc(100% - 16px); max-height: 94dvh; border-radius: 20px; }
+  .browse-head { padding: 14px 16px 10px; gap: 10px; }
+  .browse-eyebrow { display: none; }
+  .browse-title { font-size: 1.25rem; }
+  .browse-intro { display: none; }
+  .browse-toolbar { padding: 10px 14px; gap: 8px; }
+  .browse-search .form-control { height: 42px; }
+  .browse-filters { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+  .browse-filters::-webkit-scrollbar { display: none; }
+  .browse-filters .produce-tab { flex-shrink: 0; }
+  .browse-count { font-size: 11.5px; }
+  .browse-body { padding: 14px 14px 16px; min-height: 160px; }
+}
+
+/* ---------- produce detail modal ---------- */
+.produce-detail-backdrop { z-index: 1060; }
+.produce-detail-dialog { max-width: 58rem; }
+.produce-detail-head { background: var(--grad-cream-pistachio); }
+.produce-detail-media { position: relative; height: 220px; overflow: hidden; background: var(--pistachio); }
+.produce-detail-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.produce-detail-emoji {
+  width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle at 50% 35%, var(--cream), var(--pistachio));
+}
+@media (min-width: 768px) {
+  /* the photo column stretches to the full height of the scrolling content
+     beside it, so no dead space ever shows below the image */
+  .produce-detail-media { height: auto; min-height: 260px; align-self: stretch; }
+}
+
+/* ---------- What's In Season : four personalities ---------- */
+.home-seasons {
+  --season-ink: var(--ink);
+  color: var(--season-ink);
+  background:
+    radial-gradient(500px 320px at 6% 10%, rgba(var(--pistachio-rgb), .9), transparent 70%),
+    radial-gradient(520px 340px at 94% 90%, rgba(var(--peach-rgb), .6), transparent 70%),
+    linear-gradient(180deg, var(--wash-warm) 0%, var(--paper) 100%);
+  padding: 3.4rem 0 4rem;
+  position: relative;
+  overflow: hidden;
+}
+.home-seasons .season-kicker { font-family: var(--font-hand); font-size: 1.4rem; color: var(--leaf-deep); display: inline-block; }
+.home-seasons h2 {
+  font-weight: 800;
+  letter-spacing: -.025em;
+  font-size: clamp(2rem, 4.4vw, 2.9rem);
+  color: var(--forest-deep);
+  margin: .2rem 0 .6rem;
+}
+.home-seasons .text-center > p { max-width: 38rem; margin-inline: auto; line-height: 1.7; color: var(--ink-soft); font-weight: 500; }
+.home-seasons .row { --bs-gutter-x: 1.25rem; --bs-gutter-y: 1.25rem; }
+.home-seasons .season-card {
+  --season-accent: var(--rose);
+  --season-tint: var(--blush);
+  --season-border: #f0dde2;
+  --season-deep: var(--ink-rose);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 1.35rem 1.35rem;
+  border: 1px solid var(--season-border);
+  border-radius: 26px;
+  background: linear-gradient(180deg, var(--season-tint), var(--cream) 78%);
+  box-shadow: var(--shadow-card);
+  transition: transform .22s ease, box-shadow .22s ease;
+  position: relative;
+}
+.home-seasons .season-card--summer {
+  --season-accent: #c8a860;
+  --season-tint: #faf3df;
+  --season-border: #eee3c6;
+  --season-deep: var(--ink-gold);
+}
+.home-seasons .season-card--autumn {
+  --season-accent: #c9957a;
+  --season-tint: #f8ebe1;
+  --season-border: #eedacc;
+  --season-deep: var(--ink-clay);
+}
+.home-seasons .season-card--winter {
+  --season-accent: #8fb0c0;
+  --season-tint: #eaf2f6;
+  --season-border: #d8e5ec;
+  --season-deep: var(--ink-sky);
+}
+/* Each card keeps its own personality in the dark: the tint becomes a deep
+   wash of the same hue, the accent brightens and the label ink goes pale.
+   (the --season-deep / --season-accent values that are already tokenised
+   follow the theme on their own; only the literals are restated here) */
+[data-theme="dark"] .home-seasons .season-card {
+  --season-border: #6a4f5e;
+}
+[data-theme="dark"] .home-seasons .season-card--summer {
+  --season-accent: #e8c76a;
+  --season-tint: #46412c;
+  --season-border: #5f5738;
+}
+[data-theme="dark"] .home-seasons .season-card--autumn {
+  --season-accent: #f2a080;
+  --season-tint: #4b3931;
+  --season-border: #6a5243;
+}
+[data-theme="dark"] .home-seasons .season-card--winter {
+  --season-accent: #9fc4d6;
+  --season-tint: #2e424e;
+  --season-border: #47616e;
+}
+.home-seasons .season-emblem {
+  display: grid;
+  place-items: center;
+  width: 62px;
+  height: 62px;
+  margin-bottom: 1rem;
+  color: var(--season-deep);
+  background: var(--pill-wash);
+  border: 1px solid var(--season-border);
+  border-radius: 44% 56% 62% 38% / 55% 42% 58% 45%;
+}
+.home-seasons .season-card--summer .season-emblem { border-radius: 56% 44% 45% 55% / 46% 56% 44% 54%; }
+.home-seasons .season-card--winter .season-emblem { border-radius: 50%; }
+.home-seasons .season-emblem svg { stroke-width: 1.75; }
+.home-seasons .season-card h3 {
+  color: var(--season-deep);
+  font-weight: 800;
+  font-size: 1.8rem;
+  letter-spacing: -.025em;
+  margin-bottom: .4rem;
+}
+.home-seasons .season-hand { font-family: var(--font-hand); font-size: 1.25rem; color: var(--season-accent); display: inline-block; margin-bottom: .35rem; }
+.home-seasons .season-description { color: var(--ink-soft); font-size: .875rem; line-height: 1.65; margin-bottom: 1rem; font-weight: 500; }
+.home-seasons .season-produce {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: .45rem;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.4rem;
+}
+.home-seasons .season-produce li {
+  padding: .35rem .75rem;
+  border: 1px solid var(--season-border);
+  border-radius: 999px;
+  background: var(--pill-wash);
+  color: var(--season-deep);
+  font-size: .75rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.home-seasons .season-current {
+  position: absolute;
+  top: -12px;
+  right: 16px;
+  padding: .4rem .8rem;
+  border-radius: 999px;
+  background: var(--forest);
+  color: var(--on-accent);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  box-shadow: 0 6px 14px -6px rgba(var(--shadow-rgb), .45);
+  z-index: 2;
+}
+.home-seasons .season-card.current { box-shadow: var(--shadow-lift); border-color: var(--sage-dust); }
+.home-seasons .season-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  width: 100%;
+  min-height: 46px;
+  margin-top: auto;
+  padding: .7rem .9rem;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: var(--forest);
+  color: var(--on-accent);
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+  transition: transform .18s ease, background .18s ease;
+}
+.home-seasons .season-cta svg { flex-shrink: 0; }
+.home-seasons .season-cta:hover { background: var(--forest-deep); transform: translateY(-1px); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .home-seasons .season-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lift); }
+}
+
+/* ---------- CTA band : big tasty sign ---------- */
+.cta-band {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(560px 340px at 10% 20%, rgba(var(--glass-rgb), .9), transparent 70%),
+    radial-gradient(520px 360px at 90% 80%, rgba(var(--pink-rgb), .7), transparent 70%),
+    linear-gradient(140deg, var(--pistachio) 0%, var(--sage-pale) 55%, var(--wash-fern) 100%);
+  color: var(--forest-deep);
+  padding: 4.2rem 1rem 4.6rem;
+  text-align: center;
+}
+.cta-band h2 {
+  font-weight: 800;
+  letter-spacing: -.025em;
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  margin-bottom: .8rem;
+  position: relative;
+  color: var(--forest-deep);
+}
+.cta-band h2 .hand { color: var(--rose); font-weight: 500; }
+.cta-band > p { color: var(--ink-soft); max-width: 30rem; margin: 0 auto 1.8rem; font-size: 1.05rem; position: relative; }
+.cta-kicker { font-family: var(--font-hand); color: var(--leaf-deep); font-size: 1.5rem; display: inline-block; margin-bottom: .4rem; }
+.cta-doodle { position: absolute; opacity: .75; }
+.cta-doodle--l { left: 4%; top: 18%; animation: floaty 6s ease-in-out infinite; }
+.cta-doodle--r { right: 4%; bottom: 14%; animation: drift 8s ease-in-out infinite; }
+.cta-doodle--s1 { left: 12%; bottom: 18%; animation: twinkle 3s ease-in-out infinite; }
+.cta-doodle--s2 { right: 12%; top: 16%; animation: twinkle 3.6s ease-in-out 1s infinite; }
+@media (max-width: 768px) { .cta-doodle--l, .cta-doodle--r { display: none; } }
+

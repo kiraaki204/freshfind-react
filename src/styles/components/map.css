@@ -1,0 +1,29 @@
+/* ---------- directory map ---------- */
+.map-box {
+  position: relative;
+  height: 560px;
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: linear-gradient(135deg, var(--mint), var(--pistachio));
+  box-shadow: var(--shadow-card);
+}
+.map-pin-btn {
+  position: absolute;
+  background: none;
+  border: none;
+  padding: 0;
+  transform: translate(-50%, -100%);
+}
+.pin-label {
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(var(--shadow-rgb), .15);
+  border: 1px solid;
+  white-space: nowrap;
+}
+.pin-label.open { background: var(--forest); color: var(--on-accent); border-color: var(--forest); }
+.pin-label.shut { background: var(--cream); color: var(--ink); border-color: var(--line); }
+
