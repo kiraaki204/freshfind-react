@@ -61,7 +61,7 @@ export default function HelpCenterModal({ open, onClose }) {
               <div className="d-flex align-items-center gap-2 mb-2">
                 <span
                   className="rounded-3 d-inline-flex align-items-center justify-content-center"
-                  style={{ width: 36, height: 36, background: '#e6eedb', color: '#355b43' }}
+                  style={{ width: 36, height: 36, background: 'var(--pistachio)', color: 'var(--forest)' }}
                 >
                   <Icon name={g.icon} size={18} />
                 </span>

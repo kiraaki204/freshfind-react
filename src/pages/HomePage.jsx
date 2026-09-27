@@ -17,17 +17,17 @@ import {
 } from '../components/Doodles.jsx';
 
 const QUICK_ACTIONS = [
-  { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: '#e6eedb', tint: '#eef3e4' },
-  { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: '#f5e0d1', tint: '#fbf3ee' },
-  { ico: 'basket', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: '#f8efd5', tint: '#fbf6e9' },
-  { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: '#f5e3e7', tint: '#f9eef1' },
+  { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: 'var(--pistachio)', tint: 'var(--mint)' },
+  { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: 'var(--quick-peach)', tint: 'var(--quick-peach-tint)' },
+  { ico: 'basket', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: 'var(--quick-butter)', tint: 'var(--quick-butter-tint)' },
+  { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: 'var(--pink)', tint: 'var(--quick-pink-tint)' },
 ];
 
 const SEASONS = [
-  { name: 'Spring', ico: 'flower', color: '#fdf2f8', border: '#fbcfe8', accent: '#db2777', items: ['Leafy Greens', 'Radishes', 'Asparagus', 'Strawberries'], desc: 'Fresh spring greens and the first fruits of the year.', hand: 'first shoots & blossoms!' },
-  { name: 'Summer', ico: 'sun', color: '#fffbeb', border: '#fde68a', accent: '#d97706', items: ['Tomatoes', 'Berries', 'Corn', 'Cucumbers', 'Peppers'], desc: 'Peak season for vibrant summer produce and stone fruits.', hand: 'sun-ripened & juicy!' },
-  { name: 'Autumn', ico: 'leaf', color: '#fff7ed', border: '#fed7aa', accent: '#ea580c', items: ['Pumpkins', 'Apples', 'Squash', 'Root Vegetables'], desc: 'Warm, hearty autumn harvest of roots and orchard fruits.', hand: 'cosy harvest time!' },
-  { name: 'Winter', ico: 'snow', color: '#eff6ff', border: '#bfdbfe', accent: '#2563eb', items: ['Citrus', 'Root Vegetables', 'Broccoli', 'Winter Greens'], desc: 'Citrus, brassicas and stored roots for the cool months.', hand: 'bright citrus days!' },
+  { name: 'Spring', ico: 'flower', color: 'var(--season-spring-tint)', border: 'var(--season-spring-border)', accent: 'var(--season-spring-accent)', items: ['Leafy Greens', 'Radishes', 'Asparagus', 'Strawberries'], desc: 'Fresh spring greens and the first fruits of the year.', hand: 'first shoots & blossoms!' },
+  { name: 'Summer', ico: 'sun', color: 'var(--season-summer-tint)', border: 'var(--season-summer-border)', accent: 'var(--season-summer-accent)', items: ['Tomatoes', 'Berries', 'Corn', 'Cucumbers', 'Peppers'], desc: 'Peak season for vibrant summer produce and stone fruits.', hand: 'sun-ripened & juicy!' },
+  { name: 'Autumn', ico: 'leaf', color: 'var(--season-autumn-tint)', border: 'var(--season-autumn-border)', accent: 'var(--season-autumn-accent)', items: ['Pumpkins', 'Apples', 'Squash', 'Root Vegetables'], desc: 'Warm, hearty autumn harvest of roots and orchard fruits.', hand: 'cosy harvest time!' },
+  { name: 'Winter', ico: 'snow', color: 'var(--season-winter-tint)', border: 'var(--season-winter-border)', accent: 'var(--season-winter-accent)', items: ['Citrus', 'Root Vegetables', 'Broccoli', 'Winter Greens'], desc: 'Citrus, brassicas and stored roots for the cool months.', hand: 'bright citrus days!' },
 ];
 
 export default function HomePage({ visitorCount }) {
@@ -169,7 +169,7 @@ export default function HomePage({ visitorCount }) {
                     <Icon name={a.ico} size={24} />
                   </div>
                   <h3 className="h6 mb-1">{a.label}</h3>
-                  <p className="small mb-0" style={{ color: '#5f7263', fontWeight: 600 }}>{a.desc}</p>
+                  <p className="small mb-0" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>{a.desc}</p>
                 </button>
               </div>
             ))}
@@ -205,8 +205,8 @@ export default function HomePage({ visitorCount }) {
           ) : (
             <div className="open-empty p-5 text-center">
               <SunDoodle size={54} />
-              <h3 className="h5 mt-3" style={{ color: '#2a4a36', fontWeight: 800 }}>No markets open right now</h3>
-              <p className="small" style={{ color: '#5f7263', fontWeight: 600 }}>
+              <h3 className="h5 mt-3" style={{ color: 'var(--forest-deep)', fontWeight: 800 }}>No markets open right now</h3>
+              <p className="small" style={{ color: 'var(--ink-soft)', fontWeight: 600 }}>
                 Check back during market hours or browse our directory to plan your next visit.
               </p>
               <button className="btn-green" onClick={() => navigate('/markets')}>
@@ -297,10 +297,10 @@ export default function HomePage({ visitorCount }) {
 
       {/* ================= CTA ================= */}
       <section className="cta-band">
-        <span className="cta-doodle cta-doodle--l" aria-hidden="true"><LeafSprig size={110} color="#8FAE90" /></span>
+        <span className="cta-doodle cta-doodle--l" aria-hidden="true"><LeafSprig size={110} color="var(--sage)" /></span>
         <span className="cta-doodle cta-doodle--r" aria-hidden="true"><TomatoDoodle size={96} /></span>
-        <span className="cta-doodle cta-doodle--s1" aria-hidden="true"><StarDoodle size={30} color="#D8B97A" /></span>
-        <span className="cta-doodle cta-doodle--s2" aria-hidden="true"><Sparkle size={30} color="#D8B97A" /></span>
+        <span className="cta-doodle cta-doodle--s1" aria-hidden="true"><StarDoodle size={30} color="var(--honey)" /></span>
+        <span className="cta-doodle cta-doodle--s2" aria-hidden="true"><Sparkle size={30} color="var(--honey)" /></span>
         <span className="cta-kicker">come hungry, leave happy ~</span>
         <h2>Good Food. <span className="hand">Stronger</span> Communities.</h2>
         <p>

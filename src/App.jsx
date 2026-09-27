@@ -38,6 +38,25 @@ function ScrollHandler() {
 
 export default function App() {
   const [visitorCount] = useState(() => 12458 + Math.floor(Math.random() * 100));
+  const [theme, setTheme] = useState(() => {
+    try {
+      return localStorage.getItem('freshfind_theme') === 'dark' ? 'dark' : 'light';
+    } catch {
+      return 'light';
+    }
+  });
+  const toggleTheme = () => {
+    setTheme((current) => {
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.dataset.theme = next;
+      document.querySelector('meta[name="theme-color"]')?.setAttribute('content', next === 'dark' ? '#172D25' : '#faf7ef');
+      try { localStorage.setItem('freshfind_theme', next); } catch { /* storage may be unavailable */ }
+      return next;
+    });
+  };
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+  }, [theme]);
 
   /* boot loader: shows on first paint, waits for the window load and a
      minimum dwell time, fades out, then unmounts */
@@ -71,7 +90,7 @@ export default function App() {
                 <ProduceDetailModalProvider>
                 <SupportModalProvider>
                 <ScrollHandler />
-                <Header />
+                <Header theme={theme} onToggleTheme={toggleTheme} />
                 <main id="main-content" tabIndex={-1}>
                   <div id="page">
                     <Routes>

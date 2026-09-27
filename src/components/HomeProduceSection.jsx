@@ -52,7 +52,7 @@ export default function HomeProduceSection() {
       <section id="produce" className="home-produce" aria-labelledby="produce-heading">
         {/* decorative hand-drawn doodles */}
         <div className="produce-deco produce-deco--leaf" aria-hidden="true">
-          <svg viewBox="0 0 120 120" width="120" height="120" fill="none" stroke="#8fae90" strokeWidth="1.2" strokeLinecap="round">
+          <svg viewBox="0 0 120 120" width="120" height="120" fill="none" stroke="var(--sage)" strokeWidth="1.2" strokeLinecap="round">
             <path d="M60 10 C30 28 18 52 60 108 C102 52 90 28 60 10Z" opacity="0.12" />
             <path d="M60 22 C42 38 36 58 60 78 C84 58 78 38 60 22Z" opacity="0.14" />
             <path d="M60 18 L60 96" opacity="0.10" />
@@ -61,7 +61,7 @@ export default function HomeProduceSection() {
           </svg>
         </div>
         <div className="produce-deco produce-deco--herb" aria-hidden="true">
-          <svg viewBox="0 0 140 80" width="140" height="80" fill="none" stroke="#8fae90" strokeWidth="1.1">
+          <svg viewBox="0 0 140 80" width="140" height="80" fill="none" stroke="var(--sage)" strokeWidth="1.1">
             <path d="M10 70 Q30 20 70 36 T130 18" opacity="0.09" />
             <path d="M28 58 Q34 42 38 32" opacity="0.10" />
             <path d="M52 48 Q58 30 62 22" opacity="0.10" />
@@ -71,7 +71,7 @@ export default function HomeProduceSection() {
           </svg>
         </div>
         <div className="produce-deco produce-deco--tomato" aria-hidden="true">
-          <svg viewBox="0 0 100 100" width="90" height="90" fill="none" stroke="#d97706" strokeWidth="1.1">
+          <svg viewBox="0 0 100 100" width="90" height="90" fill="none" stroke="var(--produce-accent)" strokeWidth="1.1">
             <circle cx="50" cy="58" r="22" opacity="0.08" />
             <path d="M42 36 Q50 28 58 36 L54 42 Q50 38 46 42Z" opacity="0.09" />
             <path d="M36 64 Q40 78 50 80 Q60 78 64 64" opacity="0.07" />
@@ -131,7 +131,7 @@ export default function HomeProduceSection() {
               {active !== 'All' && (
                 <>
                   {' · '}
-                  <button className="btn btn-link p-0 text-decoration-none small" style={{ color: '#4e7357' }} onClick={() => setActive('All')}>
+                  <button className="btn btn-link p-0 text-decoration-none small" style={{ color: 'var(--leaf)' }} onClick={() => setActive('All')}>
                     Show all
                   </button>
                 </>

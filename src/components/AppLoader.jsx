@@ -19,7 +19,7 @@ export default function AppLoader({ leaving = false }) {
         <span className="app-loader-title">FreshFind</span>
         <span className="app-loader-sub">fresh all along</span>
         <svg className="app-loader-rule" width="150" height="10" viewBox="0 0 150 10" aria-hidden="true">
-          <path d="M4 6.5 C30 1.5 52 8.5 76 4.5 C100 1 126 8 146 4" fill="none" stroke="#C98A99" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M4 6.5 C30 1.5 52 8.5 76 4.5 C100 1 126 8 146 4" fill="none" stroke="var(--rose)" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
         <span className="app-loader-seeds" aria-hidden="true"><span /><span /><span /></span>
         <span className="app-loader-hint">picking the freshest bits…</span>
