@@ -122,7 +122,7 @@ export default function SavedItemsModal({ open, onClose }) {
         <div className="ff-card p-5 text-center">
           <div
             className="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-4"
-            style={{ width: 64, height: 64, background: '#fef2f2', color: '#fca5a5' }}
+            style={{ width: 64, height: 64, background: '#f9eef1', color: '#c98a99' }}
           >
             <Icon name="heart" size={28} />
           </div>

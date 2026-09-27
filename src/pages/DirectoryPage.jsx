@@ -154,7 +154,7 @@ export default function DirectoryPage() {
         <div>
           <button
             className={`icon-btn${filters.view === 'list' ? ' text-white' : ''}`}
-            style={filters.view === 'list' ? { background: '#16a34a' } : undefined}
+            style={filters.view === 'list' ? { background: '#355b43' } : undefined}
             aria-label="Show market list"
             aria-pressed={filters.view === 'list'}
             onClick={() => update({ view: 'list' })}
@@ -163,7 +163,7 @@ export default function DirectoryPage() {
           </button>
           <button
             className={`icon-btn${filters.view === 'map' ? ' text-white' : ''}`}
-            style={filters.view === 'map' ? { background: '#16a34a' } : undefined}
+            style={filters.view === 'map' ? { background: '#355b43' } : undefined}
             aria-label="Show market map"
             aria-pressed={filters.view === 'map'}
             onClick={() => update({ view: 'map' })}

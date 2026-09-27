@@ -104,17 +104,17 @@ export default function MarketModal({ marketId, onClose }) {
                   <div className="fw-bold">{m.rating}</div>
                   <div className="small text-muted">Rating</div>
                 </div>
-                <div className="col-3" style={{ color: '#22c55e' }}>
+                <div className="col-3" style={{ color: '#8fae90' }}>
                   <Icon name="users" size={18} />
                   <div className="fw-bold text-dark">{m.vendors}+</div>
                   <div className="small text-muted">Vendors</div>
                 </div>
-                <div className="col-3" style={{ color: '#3b82f6' }}>
+                <div className="col-3" style={{ color: '#8fb0c0' }}>
                   <Icon name="calendar" size={18} />
                   <div className="fw-bold text-dark">{m.established}</div>
                   <div className="small text-muted">Established</div>
                 </div>
-                <div className="col-3" style={{ color: '#a855f7' }}>
+                <div className="col-3" style={{ color: '#c98a99' }}>
                   <Icon name="clock" size={18} />
                   <div className="fw-bold text-dark">{m.days.length}x</div>
                   <div className="small text-muted">Per Week</div>
@@ -127,13 +127,13 @@ export default function MarketModal({ marketId, onClose }) {
               <p className="small text-muted mb-2">{m.description}</p>
               <div className="d-flex flex-wrap gap-2">
                 {m.parkingAvailable && (
-                  <span className="chip" style={{ background: '#eff6ff', color: '#1d4ed8', borderColor: '#bfdbfe' }}>
+                  <span className="chip" style={{ background: '#e3edf2', color: '#4a6a7d', borderColor: 'transparent' }}>
                     <Icon name="parking" size={14} /> Parking Available
                   </span>
                 )}
                 {m.petFriendly && <span className="chip"><Icon name="paw" size={14} /> Pet Friendly</span>}
                 {m.wheelchairAccessible && (
-                  <span className="chip" style={{ background: '#faf5ff', color: '#7e22ce', borderColor: '#e9d5ff' }}>
+                  <span className="chip" style={{ background: '#f5e3e7', color: '#8b5563', borderColor: 'transparent' }}>
                     <Icon name="access" size={14} /> Wheelchair Accessible
                   </span>
                 )}
@@ -150,8 +150,8 @@ export default function MarketModal({ marketId, onClose }) {
                     key={day}
                     className="d-flex justify-content-between px-3 py-2 rounded-3 mb-2 small"
                     style={{
-                      background: isToday ? '#f0fdf4' : '#f9fafb',
-                      ...(isToday ? { border: '1px solid #bbf7d0' } : {}),
+                      background: isToday ? '#e6eedb' : '#faf7ef',
+                      ...(isToday ? { border: '1px solid #cbd8c4' } : {}),
                     }}
                   >
                     <span className="fw-medium">

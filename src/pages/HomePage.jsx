@@ -17,10 +17,10 @@ import {
 } from '../components/Doodles.jsx';
 
 const QUICK_ACTIONS = [
-  { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: '#2f7d3b', tint: '#eef8df' },
-  { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: '#df5f3a', tint: '#fdeee4' },
-  { ico: 'basket', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: '#e9a13b', tint: '#fdf3da' },
-  { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: '#7c5cd6', tint: '#efeafa' },
+  { ico: 'pin', label: 'Find a Market', desc: 'Search nearby markets', to: '/markets', bg: '#e6eedb', tint: '#eef3e4' },
+  { ico: 'store', label: 'Market Directory', desc: 'Browse all markets', to: '/markets', bg: '#f5e0d1', tint: '#fbf3ee' },
+  { ico: 'basket', label: 'Produce Guide', desc: 'Explore seasonal produce', to: '/#produce', bg: '#f8efd5', tint: '#fbf6e9' },
+  { ico: 'chat', label: 'AI Chatbot', desc: 'Get instant answers', to: 'chat', bg: '#f5e3e7', tint: '#f9eef1' },
 ];
 
 const SEASONS = [
@@ -171,7 +171,7 @@ export default function HomePage({ visitorCount }) {
                     <Icon name={a.ico} size={24} />
                   </div>
                   <h3 className="h6 mb-1">{a.label}</h3>
-                  <p className="small mb-0" style={{ color: '#55634e', fontWeight: 600 }}>{a.desc}</p>
+                  <p className="small mb-0" style={{ color: '#5f7263', fontWeight: 600 }}>{a.desc}</p>
                 </button>
               </div>
             ))}
@@ -207,11 +207,11 @@ export default function HomePage({ visitorCount }) {
           ) : (
             <div className="open-empty p-5 text-center">
               <SunDoodle size={54} />
-              <h3 className="h5 mt-3" style={{ color: '#7a2f0a', fontWeight: 900 }}>No markets open right now</h3>
-              <p className="small" style={{ color: '#92610e', fontWeight: 600 }}>
+              <h3 className="h5 mt-3" style={{ color: '#2a4a36', fontWeight: 800 }}>No markets open right now</h3>
+              <p className="small" style={{ color: '#5f7263', fontWeight: 600 }}>
                 Check back during market hours or browse our directory to plan your next visit.
               </p>
-              <button className="btn-green" style={{ background: '#e9a13b', color: '#243020' }} onClick={() => navigate('/markets')}>
+              <button className="btn-green" onClick={() => navigate('/markets')}>
                 View All Markets
               </button>
             </div>
@@ -299,10 +299,10 @@ export default function HomePage({ visitorCount }) {
 
       {/* ================= CTA ================= */}
       <section className="cta-band">
-        <span className="cta-doodle cta-doodle--l" aria-hidden="true"><LeafSprig size={110} color="#d3f26a" /></span>
+        <span className="cta-doodle cta-doodle--l" aria-hidden="true"><LeafSprig size={110} color="#8FAE90" /></span>
         <span className="cta-doodle cta-doodle--r" aria-hidden="true"><TomatoDoodle size={96} /></span>
-        <span className="cta-doodle cta-doodle--s1" aria-hidden="true"><StarDoodle size={30} color="#ffd964" /></span>
-        <span className="cta-doodle cta-doodle--s2" aria-hidden="true"><Sparkle size={30} color="#ffd964" /></span>
+        <span className="cta-doodle cta-doodle--s1" aria-hidden="true"><StarDoodle size={30} color="#D8B97A" /></span>
+        <span className="cta-doodle cta-doodle--s2" aria-hidden="true"><Sparkle size={30} color="#D8B97A" /></span>
         <span className="cta-kicker">come hungry, leave happy ~</span>
         <h2>Good Food. <span className="hand">Stronger</span> Communities.</h2>
         <p>
@@ -312,7 +312,7 @@ export default function HomePage({ visitorCount }) {
           <button className="btn-sun" onClick={() => navigate('/markets')}>
             <Icon name="store" size={18} /> Find a Market
           </button>
-          <button className="btn-green" style={{ background: '#d3f26a', color: '#13301d' }} onClick={() => navigate('/#produce')}>
+          <button className="btn-green" onClick={() => navigate('/#produce')}>
             <Icon name="basket" size={18} /> Explore Produce
           </button>
         </div>

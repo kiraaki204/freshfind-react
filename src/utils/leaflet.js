@@ -29,8 +29,8 @@ export function isValidCoord(lat, lng) {
 const PIN_PATH = 'M12 2C7.9 2 4.5 5.3 4.5 9.4c0 5.4 7.5 12.6 7.5 12.6s7.5-7.2 7.5-12.6C19.5 5.3 16.1 2 12 2z';
 
 export function marketPinIcon(L, active = false) {
-  const fill = active ? '#15803d' : '#dc2626';
-  const stroke = active ? '#14532d' : '#991b1b';
+  const fill = active ? '#355b43' : '#c98a99';
+  const stroke = active ? '#2a4a36' : '#a86f7e';
   return L.divIcon({
     className: 'ff-pin-icon',
     html: `<svg viewBox="0 0 24 24" width="34" height="34" aria-hidden="true">

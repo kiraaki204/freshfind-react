@@ -112,7 +112,7 @@ export default function ProductBrowseModal({ open, onClose, search, setSearch, c
             <span className="small text-muted">
               <strong className="text-dark">{items.length}</strong> of <strong className="text-dark">{produceData.length}</strong> items
               {category !== 'All' || q ? (
-                <button className="btn btn-link p-0 ms-2 text-decoration-none small" style={{ color: '#15803d' }} onClick={clearAll}>Clear filters</button>
+                <button className="btn btn-link p-0 ms-2 text-decoration-none small" style={{ color: '#4e7357' }} onClick={clearAll}>Clear filters</button>
               ) : null}
             </span>
           </div>

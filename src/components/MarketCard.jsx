@@ -43,7 +43,7 @@ export default function MarketCard({ market, compact = false, selected = false, 
           <div className="org-abs">
             <button
               className="chip"
-              style={{ background: '#16a34a', color: '#fff', border: 'none' }}
+              style={{ background: '#355b43', color: '#fff', border: 'none' }}
               aria-label="Browse the Produce Guide"
               onClick={(e) => { e.stopPropagation(); navigate(tagDestination('Organic')); }}
             >
@@ -65,7 +65,7 @@ export default function MarketCard({ market, compact = false, selected = false, 
         <div className="m-card-hours mb-2">
           <Icon name="clock" size={14} /> {m.days.join(', ')} · {formatTime(m.openingTime)} – {formatTime(m.closingTime)}
         </div>
-        {!compact && <p className="small line-2" style={{ color: '#55634e', fontWeight: 500 }}>{m.shortDescription}</p>}
+        {!compact && <p className="small line-2" style={{ color: '#5f7263', fontWeight: 500 }}>{m.shortDescription}</p>}
         <div className="d-flex flex-wrap gap-1 mb-1 mt-auto pt-2">
           {m.tags.slice(0, 3).map((tag) => (
             <button

@@ -28,7 +28,7 @@ const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
 const SEASON_STYLE = {
   Spring: { ink: '#be5572', wash: '#fdf0f4', deco: 'flower' },
   Summer: { ink: '#b97a10', wash: '#fdf6e4', deco: 'sun' },
-  Autumn: { ink: '#c05b1d', wash: '#fdf1e7', deco: 'leaf' },
+  Autumn: { ink: '#DDB08A', wash: '#fdf1e7', deco: 'leaf' },
   Winter: { ink: '#3f6fa0', wash: '#eff5fb', deco: 'snow' },
 };
 
@@ -38,7 +38,7 @@ const bySeason = (s) => produceData.filter((p) => p.season.includes(s));
 /* ------------------------------------------------------- tiny doodles */
 const DOODLE_PROPS = { fill: 'none', strokeLinecap: 'round', strokeLinejoin: 'round', 'aria-hidden': true, focusable: false };
 
-const Sprig = ({ color = '#7ba05b', ...rest }) => (
+const Sprig = ({ color = '#8FAE90', ...rest }) => (
   <svg viewBox="0 0 60 60" {...DOODLE_PROPS} stroke={color} strokeWidth="1.6" {...rest}>
     <path d="M30 54 C29 38 28 22 34 8" />
     <path d="M30 44 C20 40 15 32 15 25 C24 27 29 34 30 44Z" />
@@ -46,43 +46,43 @@ const Sprig = ({ color = '#7ba05b', ...rest }) => (
   </svg>
 );
 
-const StarDoodle = ({ color = '#d9a441', ...rest }) => (
+const StarDoodle = ({ color = '#D8B97A', ...rest }) => (
   <svg viewBox="0 0 40 40" {...DOODLE_PROPS} stroke={color} strokeWidth="1.6" {...rest}>
     <path d="M20 6 L23.5 16 L34 16.5 L25.5 23 L28.5 33.5 L20 27.5 L11.5 33.5 L14.5 23 L6 16.5 L16.5 16 Z" />
   </svg>
 );
 
-const ArrowDoodle = ({ color = '#2e4a34', ...rest }) => (
-  <svg viewBox="0 0 90 40" {...DOODLE_PROPS} stroke={color} strokeWidth="2" {...rest}>
+const ArrowDoodle = ({ color = '#6B8F6F', ...rest }) => (
+  <svg viewBox="0 0 90 40" {...DOODLE_PROPS} stroke={color} strokeWidth="1.5" {...rest}>
     <path d="M6 30 C26 26 48 20 66 10" />
     <path d="M58 8 L68 8.5 L64 18" />
   </svg>
 );
 
-const SunDoodle = ({ color = '#d9a441', ...rest }) => (
-  <svg viewBox="0 0 60 60" {...DOODLE_PROPS} stroke={color} strokeWidth="1.8" {...rest}>
+const SunDoodle = ({ color = '#D8B97A', ...rest }) => (
+  <svg viewBox="0 0 60 60" {...DOODLE_PROPS} stroke={color} strokeWidth="1.5" {...rest}>
     <circle cx="30" cy="30" r="12" />
     <path d="M30 8 v-5 M30 57 v-5 M8 30 H3 M57 30 h-5 M14 14 l-4 -4 M50 50 l-4 -4 M46 14 l4 -4 M10 50 l4 -4" />
   </svg>
 );
 
 const TomatoDoodle = ({ ...rest }) => (
-  <svg viewBox="0 0 60 60" {...DOODLE_PROPS} strokeWidth="1.8" {...rest}>
-    <circle cx="30" cy="34" r="17" stroke="#bb5326" />
-    <path d="M30 17 q-1 -7 5 -9 M30 17 q-8 -3 -11 3 M30 17 q8 -3 11 3 M24 14 q4 -4 12 0" stroke="#54803f" />
-    <path d="M19 30 q11 -6 22 0" stroke="#bb5326" opacity="0.6" />
+  <svg viewBox="0 0 60 60" {...DOODLE_PROPS} strokeWidth="1.5" {...rest}>
+    <circle cx="30" cy="34" r="17" stroke="#D19A8C" />
+    <path d="M30 17 q-1 -7 5 -9 M30 17 q-8 -3 -11 3 M30 17 q8 -3 11 3 M24 14 q4 -4 12 0" stroke="#8FAE90" />
+    <path d="M19 30 q11 -6 22 0" stroke="#D19A8C" opacity="0.6" />
   </svg>
 );
 
 const CarrotDoodle = ({ ...rest }) => (
-  <svg viewBox="0 0 60 60" {...DOODLE_PROPS} strokeWidth="1.8" {...rest}>
-    <path d="M26 20 L44 22 L30 52 C26 50 24 44 26 38 Z" stroke="#c05b1d" />
-    <path d="M29 30 l6 1 M27 39 l5 1" stroke="#c05b1d" opacity="0.7" />
-    <path d="M33 20 q-2 -8 -9 -9 M34 20 q1 -9 8 -10 M35 19 q6 -5 11 -2" stroke="#54803f" />
+  <svg viewBox="0 0 60 60" {...DOODLE_PROPS} strokeWidth="1.5" {...rest}>
+    <path d="M26 20 L44 22 L30 52 C26 50 24 44 26 38 Z" stroke="#DDB08A" />
+    <path d="M29 30 l6 1 M27 39 l5 1" stroke="#DDB08A" opacity="0.7" />
+    <path d="M33 20 q-2 -8 -9 -9 M34 20 q1 -9 8 -10 M35 19 q6 -5 11 -2" stroke="#8FAE90" />
   </svg>
 );
 
-const SwirlDoodle = ({ color = '#7ba05b', ...rest }) => (
+const SwirlDoodle = ({ color = '#8FAE90', ...rest }) => (
   <svg viewBox="0 0 60 60" {...DOODLE_PROPS} stroke={color} strokeWidth="1.6" {...rest}>
     <path d="M30 46 C44 46 46 30 34 30 C25 30 26 40 33 39" />
     <path d="M30 46 C22 44 16 36 18 28" />
@@ -96,7 +96,7 @@ function JournalHead({ eyebrow, title, children }) {
       <span className="fj-eyebrow">{eyebrow}</span>
       <h3 className="fj-page-title">{title}</h3>
       <svg className="fj-title-rule" width="120" height="8" viewBox="0 0 120 8" aria-hidden="true">
-        <path d="M3 5.5 C24 1.5 44 7 60 4 C78 1 100 6.5 117 3.5" fill="none" stroke="#c4622d" strokeWidth="2" strokeLinecap="round" />
+        <path d="M3 5.5 C24 1.5 44 7 60 4 C78 1 100 6.5 117 3.5" fill="none" stroke="#C98A99" strokeWidth="1.5" strokeLinecap="round" />
       </svg>
       {children}
     </div>
@@ -538,7 +538,7 @@ export default function HomeJournalSection() {
     <section id="journal" className="home-journal band" aria-labelledby="journal-heading" ref={sectionRef} onKeyDown={onSectionKey}>
       <span className="visually-hidden fj-live" aria-live="polite" />
       <div className="fj-deco fj-deco--sprig" aria-hidden="true"><Sprig width={92} height={92} /></div>
-      <div className="fj-deco fj-deco--swirl" aria-hidden="true"><SwirlDoodle width={110} height={110} color="#caa25b" /></div>
+      <div className="fj-deco fj-deco--swirl" aria-hidden="true"><SwirlDoodle width={110} height={110} color="#B8CBB2" /></div>
 
       <div className="container" style={{ maxWidth: '80rem' }}>
         <div className="fj-section-head">
@@ -550,7 +550,7 @@ export default function HomeJournalSection() {
             <span className="fj-title-main">Field Journal</span>
           </h2>
           <svg className="about-title-underline" width="150" height="10" viewBox="0 0 150 10" aria-hidden="true">
-            <path d="M4 7 C30 2 52 9 76 5 C100 1 126 8 146 4" fill="none" stroke="#c4622d" strokeWidth="2.5" strokeLinecap="round" />
+            <path d="M4 7 C30 2 52 9 76 5 C100 1 126 8 146 4" fill="none" stroke="#C98A99" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
           <p className="fj-section-sub">
             A hand-drawn scrapbook of our markets, harvests and seasons — open the cover and turn the pages.
@@ -570,7 +570,7 @@ export default function HomeJournalSection() {
                 <span className="fj-cover-title-script">The FreshFind</span>
                 <span className="fj-cover-title-main">Field Journal</span>
                 <svg width="140" height="10" viewBox="0 0 140 10" aria-hidden="true">
-                  <path d="M4 6 C28 1.5 48 8 72 4 C96 0.5 116 7 136 3.5" fill="none" stroke="#d9a441" strokeWidth="2.5" strokeLinecap="round" />
+                  <path d="M4 6 C28 1.5 48 8 72 4 C96 0.5 116 7 136 3.5" fill="none" stroke="#D8B97A" strokeWidth="1.5" strokeLinecap="round" />
                 </svg>
                 <span className="fj-cover-doodles" aria-hidden="true">
                   <TomatoDoodle width={46} height={46} />
