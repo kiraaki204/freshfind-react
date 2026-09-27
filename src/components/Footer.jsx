@@ -64,7 +64,7 @@ export default function Footer({ visitorCount }) {
             </span>
             <strong style={{ color: 'var(--forest-deep)' }}>{visitorCount.toLocaleString()}</strong> visitors exploring FreshFind
           </span>
-          <span style={{ color: 'var(--leaf)', fontSize: 12 }}>Connecting communities with local farmers since 2020</span>
+          <span style={{ color: 'var(--leaf)', fontSize: 12 }}>Discover local farmers, fresh products, and markets near you</span>
         </div>
       </div>
       <div className="container py-5" style={{ maxWidth: '80rem' }}>

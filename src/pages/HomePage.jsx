@@ -67,13 +67,13 @@ export default function HomePage({ visitorCount }) {
       {/* ================= HERO : journal cover ================= */}
       <section className="hero" aria-label="Hero section">
         <div className="hero-blob hero-blob--1" aria-hidden="true">
-          <LeafSprig size={120} />
+          <LeafSprig size={74} />
         </div>
         <div className="hero-blob hero-blob--2" aria-hidden="true">
-          <Vine width={190} height={82} />
+          <Vine width={128} height={56} />
         </div>
         <div className="hero-blob hero-blob--3" aria-hidden="true">
-          <SunDoodle size={72} />
+          <SunDoodle size={48} />
         </div>
 
         {/* slow-drifting botanicals, kept to the open right-hand margin */}
@@ -147,8 +147,8 @@ export default function HomePage({ visitorCount }) {
                 <figcaption>today&rsquo;s haul</figcaption>
               </figure>
               <span className="hero-doodle hero-doodle--1"><Sparkle size={34} /></span>
-              <span className="hero-doodle hero-doodle--2"><FlowerDoodle size={52} /></span>
-              <span className="hero-doodle hero-doodle--3"><TomatoDoodle size={56} /></span>
+              <span className="hero-doodle hero-doodle--2"><FlowerDoodle size={40} /></span>
+              <span className="hero-doodle hero-doodle--3"><TomatoDoodle size={42} /></span>
             </div>
           </div>
         </div>
@@ -194,7 +194,7 @@ export default function HomePage({ visitorCount }) {
           </span>
         </div>
         <div className="band-doodle band-doodle--bl" aria-hidden="true">
-          <Vine width={170} height={72} />
+          <Vine width={120} height={52} />
         </div>
         <span className="ff-drift ff-drift--band-leaf" aria-hidden="true">
           <DriftLeaf size={24} />
@@ -309,9 +309,9 @@ export default function HomePage({ visitorCount }) {
 
       {/* ================= CTA ================= */}
       <section className="cta-band">
-        <span className="cta-doodle cta-doodle--l" aria-hidden="true"><LeafSprig size={110} color="#8FAE90" /></span>
-        <span className="cta-doodle cta-doodle--r" aria-hidden="true"><TomatoDoodle size={96} /></span>
-        <span className="cta-doodle cta-doodle--s1" aria-hidden="true"><StarDoodle size={30} color="#D8B97A" /></span>
+        <span className="cta-doodle cta-doodle--l" aria-hidden="true"><LeafSprig size={68} color="#8FAE90" /></span>
+        <span className="cta-doodle cta-doodle--r" aria-hidden="true"><TomatoDoodle size={58} /></span>
+        <span className="cta-doodle cta-doodle--s1" aria-hidden="true"><StarDoodle size={22} color="#D8B97A" /></span>
         <span className="cta-doodle cta-doodle--s2" aria-hidden="true"><Sparkle size={30} color="#D8B97A" /></span>
         <span className="cta-kicker">come hungry, leave happy ~</span>
         <h2>Good Food. <span className="hand">Stronger</span> Communities.</h2>

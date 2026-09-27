@@ -16,7 +16,7 @@ const FAQS = [
   },
   {
     q: 'Is the market data real?',
-    a: 'FreshFind is a demonstration project. The listed markets, addresses and coordinates are sample data used to showcase the application, so they should not be treated as verified real-world locations.',
+    a: 'The markets, addresses and coordinates in FreshFind are sample listings created for the journal, so they should not be treated as verified real-world locations.',
   },
   {
     q: 'Do I need an account to use FreshFind?',

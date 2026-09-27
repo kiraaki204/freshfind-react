@@ -1,21 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import SupportModal from './SupportModal.jsx';
 
-/* Content preserved from the former standalone Privacy Policy page. The
-   storage keys and behaviour below were verified against the actual code:
-   - freshfind_bookmarks  → src/hooks/useBookmarks.jsx (saves + notes)
-   - freshfind_chat       → src/components/ChatWidget.jsx (last 60 messages)
-   - freshfind_chat_hint  → src/components/ChatWidget.jsx (welcome-hint flag)
-   - freshfind_cart       → src/chatbot/engine.js (chat-only demo cart)
-   Location state lives only in memory (src/hooks/useGeolocation.jsx);
-   OpenStreetMap tiles and Google Maps directions are the only third-party
-   requests involved. */
-const STORAGE_KEYS = [
-  ['freshfind_bookmarks', 'Your saved markets and produce items, plus any personal notes you add to them.'],
-  ['freshfind_chat', 'The most recent 60 messages of your conversation with the FreshFind Assistant.'],
-  ['freshfind_chat_hint', 'A small flag remembering that the chatbot welcome hint was shown.'],
-  ['freshfind_cart', 'The demo shopping cart you build inside chatbot conversations.'],
-];
+/* FreshFind Privacy Policy. The wording below is the approved policy text and
+   is rendered inside the existing support-modal shell (scrollable body, close
+   button, focus trap) so the policy keeps the site's design system. */
 
 export default function PrivacyModal({ open, onClose }) {
   const navigate = useNavigate();
@@ -31,78 +19,155 @@ export default function PrivacyModal({ open, onClose }) {
       open={open}
       onClose={onClose}
       icon="checkc"
-      title="Privacy Policy"
+      title="FreshFind Privacy Policy"
       intro="Last updated: September 2026"
     >
       <div className="ff-card p-3 mb-3">
-        <h3 className="h6">The short version</h3>
         <p className="small text-muted mb-0">
-          FreshFind is a frontend-only application. It has no backend and no user accounts, it does
-          not collect personal information, and nothing you do on the site is sent to a FreshFind
-          server. A few features store data in your own browser, and two third-party services are
-          involved when maps or directions are used — both are described below.
+          FreshFind respects your privacy and is committed to protecting the information you share
+          with us. This Privacy Policy explains what information we collect, how we use it, and the
+          choices available to you when using FreshFind.
         </p>
       </div>
 
       <div className="ff-card p-3 mb-3">
-        <h3 className="h6">What is stored in your browser</h3>
+        <h3 className="h6">Information We Collect</h3>
+        <p className="small text-muted">Depending on how you use FreshFind, we may collect:</p>
+        <ul className="small text-muted mb-0">
+          <li><strong>Account information</strong> — such as your name, email address, and password when you create an account.</li>
+          <li><strong>Profile information</strong> — information you choose to add to your FreshFind profile.</li>
+          <li><strong>Saved items</strong> — markets, farmers, products, and notes that you save to your account.</li>
+          <li><strong>Shopping information</strong> — products added to your cart and information required to process an order.</li>
+          <li><strong>Messages</strong> — information you provide when contacting farmers, sellers, or FreshFind support.</li>
+          <li><strong>Location information</strong> — your location when you choose to use location-based features.</li>
+          <li><strong>Usage information</strong> — information about how you interact with FreshFind, such as pages and features you use.</li>
+        </ul>
+      </div>
+
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">How We Use Your Information</h3>
+        <p className="small text-muted">We use collected information to:</p>
+        <ul className="small text-muted mb-0">
+          <li>Provide and improve FreshFind services.</li>
+          <li>Help you discover local farmers, markets, and products.</li>
+          <li>Show relevant locations and nearby services.</li>
+          <li>Process and manage orders.</li>
+          <li>Save your preferences and account information.</li>
+          <li>Respond to questions and support requests.</li>
+          <li>Maintain the security and reliability of the platform.</li>
+          <li>Improve the overall FreshFind experience.</li>
+        </ul>
+      </div>
+
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">Location Information</h3>
         <p className="small text-muted">
-          The following information is kept in your browser's local storage so that it survives a
-          page reload. It never leaves your device and you can remove it at any time by clearing
-          the site's storage in your browser settings.
+          FreshFind may request access to your location when you use features such as <em>Near Me</em>,
+          nearby markets, or map-based services.
         </p>
-        <ul className="list-unstyled d-flex flex-column gap-2 mb-0">
-          {STORAGE_KEYS.map(([key, desc]) => (
-            <li key={key} className="small text-muted">
-              <code style={{ fontSize: 12 }}>{key}</code> — {desc}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="ff-card p-3 mb-3">
-        <h3 className="h6">Location data</h3>
+        <p className="small text-muted">
+          Location access is optional. You can disable location permissions through your device or
+          browser settings.
+        </p>
         <p className="small text-muted mb-0">
-          Location is used only when you actively press a location button (such as "Near Me" or
-          "Use my location") and only after your browser asks for, and you grant, permission. Your
-          coordinates are held in memory to sort markets by distance and show them on the map; they
-          are not written to storage and are not transmitted anywhere by FreshFind. Declining the
-          permission simply leaves location features switched off.
+          We use location information to provide location-based features and improve the relevance
+          of nearby results.
         </p>
       </div>
 
       <div className="ff-card p-3 mb-3">
-        <h3 className="h6">Third-party services</h3>
+        <h3 className="h6">Maps and Directions</h3>
+        <p className="small text-muted">
+          FreshFind uses mapping services to display locations and provide directions.
+        </p>
+        <p className="small text-muted">
+          When you interact with third-party mapping services, those services may collect information
+          such as your IP address, device information, or location according to their own privacy
+          policies.
+        </p>
+        <p className="small text-muted mb-0">
+          For more information, please review the privacy policies of the relevant mapping providers.
+        </p>
+      </div>
+
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">Information Sharing</h3>
+        <p className="small text-muted">FreshFind does not sell your personal information.</p>
+        <p className="small text-muted">We may share information when necessary to:</p>
         <ul className="small text-muted mb-0">
-          <li className="mb-2">
-            <strong>OpenStreetMap</strong> — the interactive maps load map-tile images from
-            OpenStreetMap's public tile servers. When tiles load, your device's IP address and
-            browser details are visible to those servers, and their{' '}
-            <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" target="_blank" rel="noopener">privacy policy</a> applies.
-          </li>
-          <li>
-            <strong>Google Maps</strong> — only when you click a "Get Directions" or similar link,
-            the address opens on google.com in a new tab, where Google's own privacy policy applies.
-          </li>
+          <li>Provide services you request.</li>
+          <li>Process orders and payments.</li>
+          <li>Connect you with relevant farmers or sellers.</li>
+          <li>Operate and maintain FreshFind.</li>
+          <li>Comply with legal obligations.</li>
+          <li>Protect FreshFind, its users, and the public from fraud or security threats.</li>
         </ul>
       </div>
 
       <div className="ff-card p-3 mb-3">
-        <h3 className="h6">What FreshFind does NOT do</h3>
+        <h3 className="h6">Data Security</h3>
+        <p className="small text-muted">
+          We take reasonable technical and organizational measures to protect your information
+          against unauthorized access, alteration, disclosure, or destruction.
+        </p>
+        <p className="small text-muted mb-0">
+          However, no online service can guarantee complete security of information.
+        </p>
+      </div>
+
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">Your Choices</h3>
+        <p className="small text-muted">You may be able to:</p>
         <ul className="small text-muted mb-0">
-          <li>No analytics or advertising trackers are embedded.</li>
-          <li>No cookies are set by the application.</li>
-          <li>The contact form and chatbot are demonstrations — messages are not delivered anywhere.</li>
-          <li>The visitor counter shown on the site is generated locally for display purposes only.</li>
+          <li>Update your account information.</li>
+          <li>Change your privacy and location permissions.</li>
+          <li>Delete saved information.</li>
+          <li>Request deletion of your account and associated personal information.</li>
+          <li>Contact us with questions about your personal data.</li>
         </ul>
+      </div>
+
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">Cookies and Similar Technologies</h3>
+        <p className="small text-muted">
+          FreshFind may use cookies or similar technologies where necessary to keep you signed in,
+          remember preferences, maintain security, and provide essential functionality.
+        </p>
+        <p className="small text-muted mb-0">
+          Any optional analytics or advertising technologies will be disclosed where applicable.
+        </p>
+      </div>
+
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">Children&apos;s Privacy</h3>
+        <p className="small text-muted">
+          FreshFind is not intended to knowingly collect personal information from children without
+          appropriate consent.
+        </p>
+        <p className="small text-muted mb-0">
+          If you believe that a child has provided personal information to FreshFind, please contact
+          us so that we can take appropriate action.
+        </p>
+      </div>
+
+      <div className="ff-card p-3 mb-3">
+        <h3 className="h6">Changes to This Privacy Policy</h3>
+        <p className="small text-muted">
+          We may update this Privacy Policy from time to time to reflect changes to FreshFind, our
+          services, or applicable requirements.
+        </p>
+        <p className="small text-muted mb-0">
+          Any updated version will be posted on this page with the revised date.
+        </p>
       </div>
 
       <div className="ff-card p-3">
-        <h3 className="h6">Questions</h3>
+        <h3 className="h6">Contact Us</h3>
         <p className="small text-muted mb-0">
-          If you have questions about this policy, use the details in the{' '}
+          If you have questions, concerns, or requests regarding this Privacy Policy or your personal
+          information, please contact us through the{' '}
           <button className="support-text-link" onClick={goContact}>
-            Contact section on the homepage
+            Contact section on the FreshFind website
           </button>.
         </p>
       </div>

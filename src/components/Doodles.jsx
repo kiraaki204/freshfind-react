@@ -44,12 +44,16 @@ export function FlowerDoodle({ size = 40, color = '#C98A99', center = '#D8B97A',
 }
 
 export function LeafSprig({ size = 56, color = '#8FAE90', className = '', style }) {
+  /* refined sprig: one slender arching stem with three tapered leaves and a
+     small bud — thin strokes, faint fill, no clip-art bulk */
   return (
-    <svg viewBox="0 0 60 70" width={size} height={size} className={className} style={style} {...BASE} stroke={color} strokeWidth="1.5">
-      <path d="M32 64 C30 46 28 28 36 8" />
-      <path d="M31 52 C20 48 14 40 14 31 C24 33 30 41 31 52 Z" />
-      <path d="M32 38 C42 34 47 25 46 17 C37 19 32 28 32 38 Z" />
-      <path d="M31 62 C24 60 20 56 19 50 C26 51 30 56 31 62 Z" opacity="0.7" />
+    <svg viewBox="0 0 60 70" width={size} height={size} className={className} style={style} {...BASE} stroke={color} strokeWidth="1.2">
+      <path d="M33 66 C31.5 48 30.5 30 35.5 10" />
+      <path d="M31.6 54 C23 51.6 18.2 45.4 18 37.6 C25.6 40 30.4 46.2 31.6 54 Z" fill={color} fillOpacity=".12" />
+      <path d="M32.8 41 C41 38.4 45.4 31.6 45.2 24 C37.8 26.6 33.4 33.2 32.8 41 Z" fill={color} fillOpacity=".12" />
+      <path d="M31.2 63 C25.4 61.4 22 57.6 21.4 52 C27 53.6 30.4 57.6 31.2 63 Z" fill={color} fillOpacity=".1" opacity="0.75" />
+      <path d="M34.6 22 C34.4 17.6 35.6 13.6 38.4 10.4" strokeWidth=".9" opacity=".8" />
+      <circle cx="35.6" cy="9" r="1.8" fill={color} fillOpacity=".35" strokeWidth=".9" />
     </svg>
   );
 }
