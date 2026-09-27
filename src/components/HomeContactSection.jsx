@@ -76,7 +76,7 @@ export default function HomeContactSection() {
                   <div>
                     <div className="contact-item-label">Market area</div>
                     <div className="contact-item-value text-muted" style={{ fontSize: 14 }}>10 Market Square, Greenfield</div>
-                    <div className="contact-item-note">Sample address — the pin marks the centre of our listed markets, not a verified office.</div>
+                    <div className="contact-item-note">The pin marks the centre of the markets we list, not a staffed office.</div>
                   </div>
                 </li>
                 <li className="contact-item">
@@ -93,13 +93,10 @@ export default function HomeContactSection() {
                   <span className="contact-map-icon"><Icon name="pin" size={16} /></span>
                   <div>
                     <div className="fw-semibold" style={{ fontSize: 14, color: 'var(--forest-deep)' }}>FreshFind market area</div>
-                    <div className="small text-muted">Centre of the {markets.length} sample markets</div>
+                    <div className="small text-muted">Centre of the {markets.length} markets we list</div>
                   </div>
                 </div>
                 <MiniMap name="FreshFind market area" address="10 Market Square, Greenfield" lat={HQ_LAT} lng={HQ_LNG} />
-                <p className="small text-muted mt-2 mb-0" style={{ fontSize: 12, lineHeight: 1.5 }}>
-                  Map by Leaflet + OpenStreetMap. The pin shows the middle of our listed market locations — not a verified FreshFind office.
-                </p>
               </div>
             </div>
           </div>

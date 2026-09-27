@@ -13,8 +13,12 @@ export const OSM_TILE_URL = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 export const OSM_ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
 
-/** Adds the OpenStreetMap tile layer (the only tile source the app uses). */
+/** Adds the OpenStreetMap tile layer (the only tile source the app uses).
+    The Leaflet branding prefix is dropped from the attribution control; the
+    OpenStreetMap credit the tiles require is kept, tucked into the corner of
+    the map itself. */
 export function addBaseTiles(L, map) {
+  if (map.attributionControl) map.attributionControl.setPrefix(false);
   return L.tileLayer(OSM_TILE_URL, { maxZoom: 19, attribution: OSM_ATTRIBUTION }).addTo(map);
 }
 
