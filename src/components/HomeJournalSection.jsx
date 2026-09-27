@@ -8,6 +8,7 @@ import { applyMarketFilters } from '../utils/markets.js';
 import { useMarketModal } from '../hooks/useMarketModal.jsx';
 import { useProduceDetailModal } from '../hooks/useProduceDetailModal.jsx';
 import Icon from './Icon.jsx';
+import FilterSelect from './FilterSelect.jsx';
 
 /* The FreshFind Field Journal — a hand-drawn botanical scrapbook embedded
    in the homepage. Pure React state + CSS: cover flip, 3D page turns for
@@ -121,8 +122,7 @@ function StoryLeft() {
         before they go, and plan a visit that supports local growers.
       </p>
       <div className="fj-margin-note">
-        <span className="fj-script">field note:</span> FreshFind runs entirely in your browser — no accounts,
-        no checkout, no server. Saved items and chat history stay in your browser&apos;s local storage.
+        <span className="fj-script">field note:</span> Your place to discover fresh products and local markets near you.
       </div>
       <div className="fj-pressed-flower" aria-hidden="true"><Sprig width={58} height={58} /></div>
     </>
@@ -146,16 +146,18 @@ function StoryRight() {
       <JournalHead eyebrow="make a little plan" title="Your next market morning" />
       <p className="fj-body fj-body-sm">Pick a place and a day. Find a fresh stop for your week.</p>
       <form className="journal-planner" onSubmit={browse}>
-        <label htmlFor="plan-area">Where are you heading?</label>
-        <select id="plan-area" value={area} onChange={(e) => setArea(e.target.value)}>
-          <option value="">Any area</option>
-          {areas.map((name) => <option key={name}>{name}</option>)}
-        </select>
-        <label htmlFor="plan-day">When would you like to go?</label>
-        <select id="plan-day" value={day} onChange={(e) => setDay(e.target.value)}>
-          <option value="">Any day</option>
-          {DAY_NAMES.map((name) => <option key={name}>{name}</option>)}
-        </select>
+        <FilterSelect
+          label="Where are you heading?"
+          value={area}
+          options={[{ value: '', label: 'Any area' }, ...areas.map((name) => ({ value: name, label: name }))]}
+          onChange={setArea}
+        />
+        <FilterSelect
+          label="When would you like to go?"
+          value={day}
+          options={[{ value: '', label: 'Any day' }, ...DAY_NAMES.map((name) => ({ value: name, label: name }))]}
+          onChange={setDay}
+        />
         <p className="fj-body fj-body-sm" role="status">
           {matches.length ? `${matches.length} market${matches.length === 1 ? '' : 's'} to explore.` : 'No markets on that day here. Try another day or area.'}
         </p>

@@ -3462,19 +3462,7 @@ button.chip-link:hover { background: var(--sage-pale); transform: translateY(-1p
 }
 
 .journal-planner { display: grid; gap: 10px; margin: 18px 0; }
-.journal-planner label { font-size: 13px; font-weight: 700; color: var(--forest-deep); }
-.journal-planner select {
-  width: 100%;
-  border: 1px solid var(--line-strong);
-  border-radius: 12px;
-  background: var(--cream);
-  padding: 10px;
-  color: var(--forest-deep);
-  font: inherit;
-  font-size: 14px;
-  font-weight: 600;
-}
-.journal-planner select:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+.journal-planner .fselect-label { font-size: 13px; }
 .voice-settings { border-bottom: 1px solid var(--line-soft); background: var(--paper); flex-shrink: 0; }
 .voice-settings summary { cursor: pointer; padding: 9px 12px; font-size: 11.5px; font-weight: 800; color: var(--forest-deep); }
 .voice-settings summary span { float: right; font-weight: 600; color: var(--ink-soft); }
