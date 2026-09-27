@@ -101,10 +101,12 @@ export default function FilterSelect({ label, value, options, onChange }) {
             <li
               key={o.value || '__all__'}
               role="option"
+              tabIndex={0}
               aria-selected={o.value === value}
               className={`fselect-opt${i === active ? ' active' : ''}${o.value === value ? ' selected' : ''}`}
               onMouseEnter={() => setActive(i)}
               onClick={() => commit(i)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); commit(i); } }}
             >
               <span className="flex-grow-1">{o.label}</span>
               {o.value === value && <Icon name="check" size={14} />}

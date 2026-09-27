@@ -12,8 +12,8 @@ export default function SocialRow({ tone = 'light' }) {
   if (tone === 'dark') cls = 'social-dark';
   else if (tone === 'contact') cls = 'social-contact';
   return SOCIALS.map(([icon, label]) => (
-    <a key={icon} href="#" className={`social-btn ${cls}`} aria-label={label} onClick={(e) => e.preventDefault()}>
+    <button key={icon} type="button" className={`social-btn ${cls}`} aria-label={label}>
       <Icon name={icon} size={16} />
-    </a>
+    </button>
   ));
 }

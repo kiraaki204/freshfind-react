@@ -17,6 +17,7 @@ export default function MarketCard({ market, compact = false, selected = false, 
 
   return (
     <article
+      role="button"
       className={`m-card${selected ? ' selected' : ''}${onSelect ? ' selectable' : ''}`}
       onClick={(e) => { if (!e.target.closest('button, a')) cardAction(); }}
       onKeyDown={(e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target === e.currentTarget) { e.preventDefault(); cardAction(); } }}

@@ -288,7 +288,7 @@ export default function HomePage({ visitorCount }) {
                   <span className="season-hand">{s.hand}</span>
                   <h3>{s.name}</h3>
                   <p className="season-description">{s.desc}</p>
-                  <ul className="season-produce" role="list">
+                  <ul className="season-produce">
                     {s.items.map((it) => (
                       <li key={it}>{it}</li>
                     ))}

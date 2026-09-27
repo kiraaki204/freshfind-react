@@ -262,9 +262,6 @@ export default function MarketMap({ markets, popupRequest = null, onPopupConsume
     <div
       className="ffmap"
       id="ffmap"
-      onKeyDown={(e) => {
-        if (e.key === 'Escape' && mapRef.current) mapRef.current.closePopup();
-      }}
     >
       <div ref={containerRef} className="ffmap-canvas" role="application" aria-label="Map of farmers' markets" />
 

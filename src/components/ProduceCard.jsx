@@ -19,6 +19,9 @@ export default function ProduceCard({ produce, onSelect, variant = 'default' }) 
 
   return (
     <article
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleSelect(); } }}
       className={`ff-produce-card${variant === 'browse' ? ' browse' : ''}`}
       data-cat={p.category}
       onClick={(e) => { if (!e.target.closest('button, a')) handleSelect(); }}

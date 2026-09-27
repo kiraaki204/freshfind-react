@@ -557,7 +557,7 @@ export default function HomeJournalSection() {
   const lastPage = isMobile ? PAGE_COUNT - 1 : PAGE_COUNT - 2;
 
   return (
-    <section id="journal" className="home-journal band" aria-labelledby="journal-heading" ref={sectionRef} onKeyDown={onSectionKey}>
+    <section id="journal" className="home-journal band" aria-labelledby="journal-heading" ref={sectionRef}>
       <span className="visually-hidden fj-live" aria-live="polite" />
       <div className="fj-deco fj-deco--sprig" aria-hidden="true"><Sprig width={58} height={58} /></div>
       <div className="fj-deco fj-deco--swirl" aria-hidden="true"><SwirlDoodle width={70} height={70} color="#B8CBB2" /></div>

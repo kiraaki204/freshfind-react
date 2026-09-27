@@ -58,7 +58,7 @@ export default function ProductBrowseModal({ open, onClose, search, setSearch, c
   };
 
   return (
-    <div className="mm-backdrop product-browse-backdrop" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <div className="mm-backdrop product-browse-backdrop" role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div
         className="mm-dialog product-browse-dialog"
         role="dialog"

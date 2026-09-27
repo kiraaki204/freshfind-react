@@ -54,7 +54,7 @@ export default function SupportModal({ open, title, icon, intro, wide = false, l
   const handleBackdrop = (e) => { if (e.target === e.currentTarget) onClose(); };
 
   return (
-    <div className="mm-backdrop support-backdrop" onMouseDown={handleBackdrop}>
+    <div className="mm-backdrop support-backdrop" role="presentation" onMouseDown={handleBackdrop}>
       <div
         className={`support-dialog${wide ? ' support-dialog--wide' : ''}`}
         role="dialog"

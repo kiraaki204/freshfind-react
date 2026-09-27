@@ -167,12 +167,6 @@ export default function Header() {
             role="search"
             aria-label="Site search"
             onSubmit={submitSearch}
-            onKeyDown={(e) => {
-              if (e.key === 'Escape' && searchOpen) {
-                setSearchOpen(false);
-                searchToggleRef.current?.focus();
-              }
-            }}
           >
             <div className="search-wrap flex-grow-1">
               <span className="s-ico"><Icon name="search" size={18} /></span>
@@ -184,6 +178,12 @@ export default function Header() {
                 aria-label="Search markets, locations or produce"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Escape' && searchOpen) {
+                    setSearchOpen(false);
+                    searchToggleRef.current?.focus();
+                  }
+                }}
               />
             </div>
           </form>

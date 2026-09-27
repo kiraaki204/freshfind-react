@@ -50,7 +50,7 @@ export default function ProduceDetailModal({ produce, onClose }) {
   const showImage = p.image && !imgError;
 
   return (
-    <div className="mm-backdrop produce-detail-backdrop" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <div className="mm-backdrop produce-detail-backdrop" role="presentation" onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="mm-dialog produce-detail-dialog" role="dialog" aria-modal="true" aria-labelledby={titleId} ref={dialogRef}>
         <header className="mm-head produce-detail-head">
           <div>

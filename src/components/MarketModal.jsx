@@ -73,6 +73,7 @@ export default function MarketModal({ marketId, onClose }) {
   return (
     <div
       className="mm-backdrop"
+      role="presentation"
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="mm-dialog" role="dialog" aria-modal="true" aria-labelledby="mm-title" ref={dialogRef}>
@@ -268,7 +269,7 @@ export default function MarketModal({ marketId, onClose }) {
       </div>
 
       {lightboxSrc && (
-        <div className="lightbox" onClick={() => setLightboxSrc(null)}>
+        <div className="lightbox" role="dialog" aria-modal="true" aria-label="Image gallery">
           <img src={lightboxSrc} alt="" />
           <button
             className="icon-btn position-absolute top-0 end-0 m-3 text-white"
