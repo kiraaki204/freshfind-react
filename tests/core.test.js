@@ -78,8 +78,19 @@ test('header stacks above leaflet maps so contact map cannot cover the nav', () 
 
 test('hero search resets its desktop flex height when stacked on phones', () => {
   const css = readFileSync(new URL('../src/index.css', import.meta.url), 'utf8');
-  const phoneRules = css.match(/@media \(max-width: 575\.98px\) \{[\s\S]*?\.site-header/);
-  assert.ok(phoneRules, 'phone-specific hero rules are present');
+  const phoneRules = css.match(/@media \(max-width: 575\.98px\) \{[\s\S]*?\/\* ---------- boot loader/);
+  assert.ok(phoneRules, 'phone-specific search rules are present');
   assert.match(phoneRules[0], /\.hero-search \.search-wrap\s*\{[\s\S]*?flex:\s*0 0 auto/);
   assert.match(phoneRules[0], /\.hero-search \.btn-green\s*\{[\s\S]*?width:\s*100%/);
+});
+
+test('navbar search expands to the full header width only on phones', () => {
+  const css = readFileSync(new URL('../src/index.css', import.meta.url), 'utf8');
+  const phoneRules = css.match(/@media \(max-width: 575\.98px\) \{[\s\S]*?\/\* ---------- boot loader/);
+  assert.ok(phoneRules, 'phone-specific navbar search rules are present');
+  assert.match(phoneRules[0], /\.site-header \.search-slot\s*\{\s*position:\s*static/);
+  assert.match(phoneRules[0], /\.site-header \.header-search\s*\{[\s\S]*?left:\s*0;[\s\S]*?right:\s*0;[\s\S]*?width:\s*100%;[\s\S]*?max-width:\s*none/);
+
+  const desktopRules = css.slice(0, css.indexOf('@media (max-width: 575.98px)'));
+  assert.match(desktopRules, /\.header-search\s*\{[\s\S]*?width:\s*min\(268px,[^;]+\);[\s\S]*?max-width:\s*268px/);
 });
