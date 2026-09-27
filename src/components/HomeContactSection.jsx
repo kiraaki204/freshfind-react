@@ -53,16 +53,9 @@ export default function HomeContactSection() {
         </div>
 
         <div className="row g-4 align-items-stretch">
-          {/* Area A — contact information */}
+          {/* Area A — contact details + map */}
           <div className="col-lg-5 d-flex">
             <div className="contact-info-wrap w-100">
-              <div className="contact-intro">
-                <h3 className="h5 mb-2" style={{ color: '#2a4a36' }}>Reach out to FreshFind</h3>
-                <p className="small text-muted mb-0" style={{ lineHeight: 1.6 }}>
-                  Whether you&apos;re a shopper, a grower, or just curious about what&apos;s in season — drop us a line. We read every message.
-                </p>
-              </div>
-
               <ul className="contact-list" aria-label="Contact details">
                 <li className="contact-item">
                   <span className="contact-ico" aria-hidden="true"><Icon name="mail" size={18} /></span>
@@ -111,9 +104,15 @@ export default function HomeContactSection() {
             </div>
           </div>
 
-          {/* Area B — contact form */}
-          <div className="col-lg-7 d-flex">
-            <div className="contact-form-card w-100">
+          {/* Area B — introduction + contact form */}
+          <div className="col-lg-7 d-flex flex-column gap-3">
+            <div className="contact-intro">
+              <h3 className="h5 mb-2">Reach out to FreshFind</h3>
+              <p className="small mb-0" style={{ lineHeight: 1.6 }}>
+                Whether you&apos;re a shopper, a grower, or just curious about what&apos;s in season — drop us a line. We read every message.
+              </p>
+            </div>
+            <div className="contact-form-card flex-grow-1">
               <div className="contact-form-head">
                 <div className="contact-form-icon"><Icon name="send" size={18} /></div>
                 <div>
